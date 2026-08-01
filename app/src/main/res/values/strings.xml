@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BlackOut</string>
+
+    <!-- Welcome -->
+    <string name="welcome_slogan">52 cartes. 4 règles. 0 pitié.</string>
+    <string name="welcome_subtitle">Inscris les joueurs de ta table.</string>
+    <string name="welcome_player_hint">Nom du joueur</string>
+    <string name="welcome_add_player">Ajouter</string>
+    <string name="welcome_remove_player">Retirer %1$s</string>
+    <string name="welcome_min_players">Ajoute au moins 2 joueurs pour commencer.</string>
+    <string name="welcome_start">Entrer dans l\'arène</string>
+    <string name="welcome_disclaimer">18 ans et plus. Jouez responsable.</string>
+
+    <!-- Hub -->
+    <string name="hub_title">Choisis ton mode</string>
+    <string name="hub_premium_badge">PREMIUM</string>
+    <string name="hub_locked">Verrouillé</string>
+    <string name="hub_min_players">%1$d joueurs min.</string>
+
+    <!-- Borderland (card game) -->
+    <string name="borderland_title">Le Borderland</string>
+    <string name="borderland_draw_card">Piocher une carte</string>
+    <string name="borderland_reveal">Révéler</string>
+    <string name="borderland_cards_remaining">%1$d cartes restantes</string>
+    <string name="borderland_current_player">Au tour de %1$s</string>
+    <string name="borderland_contest">Contester</string>
+    <string name="borderland_escalate">Monter la mise</string>
+    <string name="borderland_resolve">Résoudre</string>
+    <string name="borderland_cancel_contest">Annuler la contestation</string>
+    <string name="borderland_next_turn">Tour suivant</string>
+    <string name="borderland_game_over">Partie terminée</string>
+    <string name="borderland_rule_clubs_title">Le Guess</string>
+    <string name="borderland_rule_clubs_desc">La carte est face cachée. Fais deviner sa valeur exacte. Bonne réponse : tu distribues. Mauvaise réponse : il prend une pénalité.</string>
+    <string name="borderland_rule_diamonds_title">L\'Action</string>
+    <string name="borderland_rule_diamonds_desc">Donne une action au joueur de ton choix.</string>
+    <string name="borderland_rule_hearts_title">La Question</string>
+    <string name="borderland_rule_hearts_desc">Pose une question au joueur de ton choix.</string>
+    <string name="borderland_rule_spades_title">La Contrainte</string>
+    <string name="borderland_rule_spades_desc">Donne une contrainte à accomplir au joueur de ton choix.</string>
+
+    <!-- Prompt modes (picolo, action-verite, etc.) -->
+    <string name="prompt_next">Suivant</string>
+    <string name="prompt_active_rules">Règles en cours</string>
+    <string name="prompt_no_more_players">Ajoute des joueurs pour continuer.</string>
+
+    <!-- Recap -->
+    <string name="recap_title">Récap de la soirée</string>
+    <string name="recap_podium_1">1er</string>
+    <string name="recap_podium_2">2e</string>
+    <string name="recap_podium_3">3e</string>
+    <string name="recap_total_penalties">%1$d pénalités</string>
+    <string name="recap_replay">Rejouer</string>
+    <string name="recap_back_to_hub">Retour au hub</string>
+
+    <!-- Premium -->
+    <string name="premium_locked_title">Pack premium</string>
+    <string name="premium_locked_desc">Ce pack sera disponible via achat intégré prochainement.</string>
+    <string name="premium_coming_soon">Bientôt disponible</string>
+
+    <!-- Errors / empty states -->
+    <string name="error_generic">Une erreur est survenue. Réessaie.</string>
+    <string name="error_pack_load">Impossible de charger ce pack.</string>
+</resources>
