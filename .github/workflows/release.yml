@@ -37,6 +37,9 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+    env:
+      HAS_KEYSTORE: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' }}
+      HAS_PLAY_JSON: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON != '' }}
     steps:
       - uses: actions/checkout@v4
 
@@ -53,12 +56,12 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
 
       - name: Decode keystore from base64
-        if: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' }}
+        if: ${{ env.HAS_KEYSTORE == 'true' }}
         run: |
           echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > keystore.jks
 
       - name: Build signed release AAB
-        if: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' }}
+        if: ${{ env.HAS_KEYSTORE == 'true' }}
         run: ./gradlew :app:bundleRelease --console=plain
         env:
           KEYSTORE_PATH: ${{ github.workspace }}/keystore.jks
@@ -67,11 +70,11 @@ jobs:
           KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
 
       - name: Build unsigned debug AAB for inspection (no secrets)
-        if: ${{ secrets.ANDROID_KEYSTORE_BASE64 == '' }}
+        if: ${{ env.HAS_KEYSTORE != 'true' }}
         run: ./gradlew :app:bundleDebug --console=plain
 
       - name: Upload to Play Console internal test track
-        if: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' && secrets.PLAY_SERVICE_ACCOUNT_JSON != '' }}
+        if: ${{ env.HAS_KEYSTORE == 'true' && env.HAS_PLAY_JSON == 'true' }}
         uses: r0adkll/upload-google-play@v1
         with:
           serviceAccountJsonPlainText: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
