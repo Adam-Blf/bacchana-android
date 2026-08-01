@@ -21,16 +21,16 @@ android {
 
     signingConfigs {
         create("release") {
-            val keystorePath = System.getenv("KEYSTORE_PATH")
-            val keystorePassword = System.getenv("KEYSTORE_PASSWORD")
-            val keyAlias = System.getenv("KEY_ALIAS")
-            val keyPassword = System.getenv("KEY_PASSWORD")
+            val envKeystorePath = System.getenv("KEYSTORE_PATH")
+            val envKeystorePassword = System.getenv("KEYSTORE_PASSWORD")
+            val envKeyAlias = System.getenv("KEY_ALIAS")
+            val envKeyPassword = System.getenv("KEY_PASSWORD")
 
-            if (keystorePath != null && keystorePassword != null && keyAlias != null && keyPassword != null) {
-                storeFile = file(keystorePath)
-                storePassword = keystorePassword
-                keyAlias = keyAlias
-                keyPassword = keyPassword
+            if (envKeystorePath != null && envKeystorePassword != null && envKeyAlias != null && envKeyPassword != null) {
+                storeFile = file(envKeystorePath)
+                storePassword = envKeystorePassword
+                keyAlias = envKeyAlias
+                keyPassword = envKeyPassword
             }
         }
     }
