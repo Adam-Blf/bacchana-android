@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">BlackOut</string>
+    <string name="app_name">La Taverne</string>
 
     <!-- Welcome -->
     <string name="welcome_slogan">52 cartes. 4 règles. 0 pitié.</string>

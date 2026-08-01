@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Mirrors blackout-content/tokens/tokens.json. Source of truth for Android colors. -->
+<!-- Mirrors la-taverne-content/tokens/tokens.json. Source of truth for Android colors. -->
 <resources>
     <color name="bg">#FF09090B</color>
     <color name="surface">#FF15151A</color>

@@ -14,7 +14,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "blackout-android"
+rootProject.name = "la-taverne-android"
 
 include(":core")
 include(":app")
