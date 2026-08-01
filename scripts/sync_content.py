@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Syncs BlackOut content packs from ../blackout-content into the Android app.
+"""Syncs La Taverne content packs from ../la-taverne-content into the Android app.
 
 Free packs (premium=false) are copied verbatim into app/src/main/assets/packs/
 so the app works fully offline with zero network calls. Premium packs never
@@ -8,7 +8,7 @@ item count) lands in app/src/main/assets/premium-catalog.json, used to render
 locked tiles until Play Billing / RevenueCat is wired up.
 
 Usage: python scripts/sync_content.py
-Reproducible and idempotent - safe to re-run any time blackout-content changes.
+Reproducible and idempotent - safe to re-run any time la-taverne-content changes.
 """
 from __future__ import annotations
 
@@ -18,7 +18,7 @@ import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-CONTENT_ROOT = REPO_ROOT.parent / "blackout-content"
+CONTENT_ROOT = REPO_ROOT.parent / "la-taverne-content"
 PACKS_SRC = CONTENT_ROOT / "content" / "fr" / "packs"
 ASSETS_DIR = REPO_ROOT / "app" / "src" / "main" / "assets"
 PACKS_DEST = ASSETS_DIR / "packs"

@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to BlackOut Android are documented here.
+All notable changes to La Taverne Android are documented here.
 Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 versioning follows [SemVer](https://semver.org/).
 
@@ -14,14 +14,14 @@ versioning follows [SemVer](https://semver.org/).
 - `:app` module (Jetpack Compose, Material 3): Welcome (player check-in), Hub
   (mode grid), Borderland (card game screen), Prompt (generic turn screen),
   Recap (podium). Dark-only Neo-Tokyo Borderland theme from
-  `blackout-content/tokens/tokens.json`.
+  `la-taverne-content/tokens/tokens.json`.
 - Bundled 7 free content packs (picolo, action-verite, tu-preferes, never,
   qui-de-nous, c'est-un-10, 7-secondes) as offline assets; premium packs ship
   as metadata-only catalog entries pending Play Billing integration.
 - `EntitlementRepository` and `AnalyticsTracker` interfaces with safe no-op
   stub implementations, gated behind `BuildConfig.BILLING_ENABLED` /
   `BuildConfig.ANALYTICS_ENABLED` for future RevenueCat / PostHog wiring.
-- `scripts/sync_content.py`: reproducible content sync from `blackout-content`.
+- `scripts/sync_content.py`: reproducible content sync from `la-taverne-content`.
 - GitHub Actions CI: `:core:test`, `:app:assembleDebug`, `:app:lint`.
 
 ### Store safety

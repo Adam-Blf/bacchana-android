@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.beloucif.blackout"
+    namespace = "com.beloucif.lataverne"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.beloucif.blackout"
+        applicationId = "com.beloucif.lataverne"
         minSdk = 26
         targetSdk = 35
         versionCode = 1
