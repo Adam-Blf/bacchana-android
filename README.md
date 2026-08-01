@@ -3,6 +3,7 @@
 [![version](https://img.shields.io/badge/version-0.1.0-D4A437?style=flat-square)](CHANGELOG.md)
 [![platform](https://img.shields.io/badge/platform-Android%208.0%2B-001329?style=flat-square)](#)
 [![kotlin](https://img.shields.io/badge/kotlin-2.0.21-7F52FF?style=flat-square)](#)
+[![release](https://img.shields.io/github/actions/workflow/status/Adam-Blf/blackout-android/release.yml?label=release&style=flat-square)](RELEASING.md)
 [![license](https://img.shields.io/github/license/Adam-Blf/blackout-android?style=flat-square&color=D4A437)](LICENSE)
 <!-- adam-badges:end -->
 
