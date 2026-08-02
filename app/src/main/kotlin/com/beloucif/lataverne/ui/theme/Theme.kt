@@ -1,21 +1,20 @@
 package com.beloucif.lataverne.ui.theme
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 
 /**
- * La Taverne is nocturnal by nature: dark theme only in v1, no light scheme is exposed.
- * See docs/DESIGN.md - "A11y: dark only, l'app est nocturne par nature".
+ * Tavern neobrutalist theme: light by default (cream paper, ink text, orange accent).
+ * The candlelit dark variant from tokens.json v2 will land in a later version.
  */
-private val LaTaverneDarkColors = darkColorScheme(
+private val LaTaverneLightColors = lightColorScheme(
     primary = LaTaverneColors.Neon,
-    onPrimary = LaTaverneColors.Ink,
+    onPrimary = LaTaverneColors.CardFace,
     primaryContainer = LaTaverneColors.NeonDeep,
-    onPrimaryContainer = LaTaverneColors.Ink,
+    onPrimaryContainer = LaTaverneColors.CardFace,
     secondary = LaTaverneColors.Premium,
-    onSecondary = LaTaverneColors.CardInk,
+    onSecondary = LaTaverneColors.CardFace,
     background = LaTaverneColors.Bg,
     onBackground = LaTaverneColors.Ink,
     surface = LaTaverneColors.Surface,
@@ -23,17 +22,15 @@ private val LaTaverneDarkColors = darkColorScheme(
     surfaceVariant = LaTaverneColors.SurfaceElevated,
     onSurfaceVariant = LaTaverneColors.InkSecondary,
     error = LaTaverneColors.CardRed,
-    onError = LaTaverneColors.Ink,
+    onError = LaTaverneColors.CardFace,
     outline = LaTaverneColors.Border,
     outlineVariant = LaTaverneColors.BorderStrong,
 )
 
 @Composable
 fun LaTaverneTheme(content: @Composable () -> Unit) {
-    // isSystemInDarkTheme() is read for future-proofing only; v1 always renders dark.
-    isSystemInDarkTheme()
     MaterialTheme(
-        colorScheme = LaTaverneDarkColors,
+        colorScheme = LaTaverneLightColors,
         typography = LaTaverneTypography,
         content = content,
     )

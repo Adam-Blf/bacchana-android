@@ -26,7 +26,7 @@ data class BorderlandState(
 }
 
 /**
- * Pure, side-effect-free reducer for Le Borderland. Every transition returns a new
+ * Pure, side-effect-free reducer for Le Coupe-Gorge (technical name: Borderland). Every transition returns a new
  * [BorderlandState]; callers (ViewModel, tests) own the mutable holder.
  * Faithful port of the transition logic in src/stores/gameStore.ts.
  */

@@ -19,7 +19,7 @@
     <string name="hub_min_players">%1$d joueurs min.</string>
 
     <!-- Borderland (card game) -->
-    <string name="borderland_title">Le Borderland</string>
+    <string name="borderland_title">Le Coupe-Gorge</string>
     <string name="borderland_draw_card">Piocher une carte</string>
     <string name="borderland_reveal">Révéler</string>
     <string name="borderland_cards_remaining">%1$d cartes restantes</string>
