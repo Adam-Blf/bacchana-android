@@ -1,6 +1,6 @@
 <!-- adam-badges:start -->
 [![commits](https://img.shields.io/github/commit-activity/t/Adam-Blf/la-taverne-android?color=001329&label=commits&style=flat-square)](https://github.com/Adam-Blf/la-taverne-android/commits)
-[![version](https://img.shields.io/badge/version-0.1.0-D4A437?style=flat-square)](CHANGELOG.md)
+[![version](https://img.shields.io/badge/version-0.2.0-D4A437?style=flat-square)](CHANGELOG.md)
 [![platform](https://img.shields.io/badge/platform-Android%208.0%2B-001329?style=flat-square)](#)
 [![kotlin](https://img.shields.io/badge/kotlin-2.0.21-7F52FF?style=flat-square)](#)
 [![release](https://img.shields.io/github/actions/workflow/status/Adam-Blf/la-taverne-android/release.yml?label=release&style=flat-square)](RELEASING.md)
@@ -9,7 +9,9 @@
 
 # La Taverne - Android
 
-Jeu de soirée entre potes, natif Android, Neo-Tokyo Borderland. Le Borderland
+Jeu de soirée entre potes, natif Android, DA néobrutaliste taverne : papier
+crème, encre, accent orange #FF5C00, ombres dures noires, thème clair par
+défaut. Le Coupe-Gorge
 (jeu de cartes 52 cartes avec système de contestation escaladable) et une
 poignée de modes de prompts tour par tour (Le Meneur, Action ou Vérité,
 Tu préfères, Je n'ai jamais, Qui de nous, 7 secondes, C'est un 10 mais).
@@ -62,12 +64,13 @@ flowchart TD
 ```
 
 - **`:core`** est un module Kotlin JVM pur (aucune dépendance Android) : le
-  moteur du Borderland (deck, escalade de contestation, calcul de pénalité) et
+  moteur du Coupe-Gorge (deck, escalade de contestation, calcul de pénalité) et
   le moteur générique de prompts (`PromptSession`, tirage sans répétition,
   règles persistantes/rôles, interpolation `{player}`/`{player2}`). Testable
   avec `./gradlew :core:test`, sans SDK Android.
-- **`:app`** est le module Android (Jetpack Compose, Material 3, thème sombre
-  Neo-Tokyo Borderland calqué sur `la-taverne-content/tokens/tokens.json`).
+- **`:app`** est le module Android (Jetpack Compose, Material 3, thème clair
+  néobrutaliste taverne calqué sur `la-taverne-content/tokens/tokens.json` v2 :
+  fond crème #FFF9F0, encre #111111, accent orange #FF5C00, ombres dures).
 - Le contenu (packs de prompts FR) vit dans le repo séparé `la-taverne-content`
   et est synchronisé par `scripts/sync_content.py` : les packs gratuits sont
   copiés tels quels dans `assets/packs/`, les packs premium ne livrent que

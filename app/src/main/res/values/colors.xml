@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Mirrors la-taverne-content/tokens/tokens.json. Source of truth for Android colors. -->
+<!-- Mirrors la-taverne-content/tokens/tokens.json (v2, light theme). Source of truth for Android colors. -->
 <resources>
-    <color name="bg">#FF09090B</color>
-    <color name="surface">#FF15151A</color>
-    <color name="neon">#FFFF3B41</color>
-    <color name="neon_deep">#FFDC2626</color>
-    <color name="card_face">#FFF7F5F0</color>
-    <color name="card_ink">#FF111114</color>
+    <color name="bg">#FFFFF9F0</color>
+    <color name="surface">#FFFFFFFF</color>
+    <color name="neon">#FFFF5C00</color>
+    <color name="neon_deep">#FFE24E00</color>
+    <color name="card_face">#FFFFFFFF</color>
+    <color name="card_ink">#FF111111</color>
     <color name="card_red">#FFE5323E</color>
-    <color name="premium">#FFD4A437</color>
-    <color name="ink">#FFFAFAF7</color>
+    <color name="premium">#FFA87718</color>
+    <color name="ink">#FF111111</color>
 </resources>

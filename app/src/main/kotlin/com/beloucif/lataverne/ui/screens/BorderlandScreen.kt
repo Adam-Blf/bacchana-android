@@ -37,7 +37,7 @@ import com.beloucif.lataverne.core.Suit
 import com.beloucif.lataverne.ui.BorderlandViewModel
 import com.beloucif.lataverne.ui.theme.LaTaverneColors
 
-/** Le Borderland: the giant white card at the center, red neon halo, minimal HUD in Space Mono. */
+/** Le Coupe-Gorge: the giant white card at the center on cream paper, minimal HUD in Space Mono. */
 @Composable
 fun BorderlandScreen(
     players: List<Player>,
