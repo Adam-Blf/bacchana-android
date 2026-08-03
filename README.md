@@ -1,6 +1,6 @@
 <!-- adam-badges:start -->
 [![commits](https://img.shields.io/github/commit-activity/t/Adam-Blf/la-taverne-android?color=001329&label=commits&style=flat-square)](https://github.com/Adam-Blf/la-taverne-android/commits)
-[![version](https://img.shields.io/badge/version-0.11.1-D4A437?style=flat-square)](CHANGELOG.md)
+[![version](https://img.shields.io/badge/version-0.12.0-D4A437?style=flat-square)](CHANGELOG.md)
 [![platform](https://img.shields.io/badge/platform-Android%208.0%2B-001329?style=flat-square)](#)
 [![kotlin](https://img.shields.io/badge/kotlin-2.0.21-7F52FF?style=flat-square)](#)
 [![release](https://img.shields.io/github/actions/workflow/status/Adam-Blf/la-taverne-android/release.yml?label=release&style=flat-square)](RELEASING.md)
@@ -10,8 +10,14 @@
 # La Taverne - Android
 
 Jeu de soirée entre potes, natif Android, DA néobrutaliste taverne : papier
-crème, encre, accent orange #FF5C00, ombres dures noires, thème clair par
-défaut. Le Coupe-Gorge
+crème, encre, accent orange #FA5600, ombres dures noires, thème clair par
+défaut avec une variante sombre "pop" sur encre neutre (jamais de brun/bois,
+bascule discrète clair/sombre/système dans le hub). Chaque joueur peut
+préciser à l'inscription, de façon facultative et repliée par défaut, son
+genre et son statut relationnel (100 % local, jamais envoyé en analytics) -
+utilisés uniquement pour cibler certains contenus (ex. "c'est au tour d'un
+homme/d'une femme/d'un célibataire/d'un couple"), avec repli gracieux sur un
+joueur aléatoire si personne n'a rien renseigné. Le Coupe-Gorge
 (jeu de cartes 52 cartes avec système de contestation escaladable), une
 poignée de modes de prompts tour par tour (Le Taulier, Action ou Vérité,
 Je n'ai jamais, Qui de nous, 7 Secondes, C'est un 10 mais),
@@ -49,6 +55,7 @@ flowchart TD
         Quiz[QuizSession - reducer pur, 60 questions embarquees]
         Ranking[RankingSession - reducer pur, 40 questions embarquees]
         WYR[WouldYouRatherSession - reducer pur, vote, 84 dilemmes embarques]
+        Targeting[Targeting.kt - resolveTarget genre/statut/paire, Random injectable]
     end
 
     subgraph content["la-taverne-content (repo separe, source de verite)"]
@@ -67,6 +74,7 @@ flowchart TD
         UI[Welcome / Hub / Borderland / Prompt / Roulette / Tribunal / Auction / Quiz / Ranking / WouldYouRather / Recap]
         Store[PlayerStore - DataStore]
         Consent[ConsentStore - DataStore, opt-in RGPD]
+        ThemeStoreNode[ThemeStore - DataStore, clair/sombre/systeme]
         Billing[EntitlementRepository - Stub ou RevenueCatEntitlementRepository]
         Analytics[AnalyticsTracker - NoOp ou PostHogAnalyticsTracker]
         Paywall[PaywallScreen - 3 offres, restaurer les achats]
@@ -83,12 +91,13 @@ flowchart TD
     core --> VM
     VM --> UI
     Store --> UI
+    ThemeStoreNode --> UI
     Consent --> Analytics
     UI --> Paywall
     Paywall --> Billing
     Billing -.BuildConfig.BILLING_ENABLED = cle RevenueCat presente.-> RC
     Analytics -.BuildConfig.ANALYTICS_ENABLED = cle PostHog presente ET consentement.-> PH
-    Tokens -.source des couleurs Compose.-> UI
+    Tokens -.source des couleurs Compose, clair + sombre.-> UI
 ```
 
 - **`:core`** est un module Kotlin JVM pur (aucune dépendance Android) : le
@@ -103,11 +112,21 @@ flowchart TD
   secret, pénalités asymétriques juge/groupe, `Random` injectable), et le
   reducer `WouldYouRatherSession` de Tu préfères (file de dilemmes mélangée,
   vote `castVote`/`revealVotes`/`nextRound`, camp minoritaire pénalisé sauf
-  égalité ou unanimité, `Random` injectable). Testable avec
-  `./gradlew :core:test`, sans SDK Android.
-- **`:app`** est le module Android (Jetpack Compose, Material 3, thème clair
-  néobrutaliste taverne calqué sur `la-taverne-content/tokens/tokens.json` v2 :
-  fond crème #FFF9F0, encre #111111, accent orange #FF5C00, ombres dures).
+  égalité ou unanimité, `Random` injectable), et `Targeting.kt` qui résout la
+  cible d'un item de contenu (`Targets.GENDER_M/GENDER_F/SINGLE/COUPLE/PAIR`)
+  vers un ou deux `Player` concrets à partir de leurs attributs `gender`/
+  `relationship` optionnels, avec repli aléatoire gracieux si personne ne
+  correspond (`Random` injectable, déterministe par tour via `seededRandom`).
+  Testable avec `./gradlew :core:test`, sans SDK Android.
+- **`:app`** est le module Android (Jetpack Compose, Material 3, thème
+  néobrutaliste taverne calqué sur `src/styles/tokens.css` du web (source de
+  vérité) : clair par défaut (fond crème #FFF9F0, encre #111111, accent orange
+  #FA5600, ombres dures) avec une variante sombre "pop" sur encre neutre
+  #141216 (jamais de brun/bois), bascule clair/sombre/système persistée par
+  `ThemeStore` et exposée par un toggle discret dans le hub. Chaque écran lit
+  `LaTaverneColors.*` (propriétés `@Composable`, mêmes 300+ sites d'appel
+  qu'avant, aucun refactor visuel nécessaire) qui résout la palette courante
+  via un `CompositionLocal` fourni par `LaTaverneTheme`.
 - Le contenu (packs de prompts FR) vit dans le repo séparé `la-taverne-content`
   et est synchronisé par `scripts/sync_content.py` : les packs gratuits sont
   copiés tels quels dans `assets/packs/`, les packs premium ne livrent que
@@ -193,7 +212,7 @@ JetBrains Mono ni IBM Plex Mono.
 
 ## Tests
 
-`:core` embarque 100 tests JUnit couvrant le deck (52 cartes uniques, As =
+`:core` embarque 113 tests JUnit couvrant le deck (52 cartes uniques, As =
 pénalité majeure), les multiplicateurs de contestation `{0:1, 1:1, 2:2, 3:4}`,
 la rotation des joueurs actifs, le moteur `BorderlandEngine` (reducer pur,
 transitions de phase), l'interpolation `{player}`/`{player2}`,
@@ -203,6 +222,9 @@ du Tableau d'Honneur (invariant "tous classés" avant confirmation, pénalités
 asymétriques juge/groupe, rotation du juge avec wrap-around, déterminisme du
 `Random` injecté), `WouldYouRatherSession` de Tu préfères (camp minoritaire
 pénalisé, égalité et unanimité neutres, cumul multi-manches, unicité du vote
-par joueur, fin de file, déterminisme du `Random` injecté) et `PremiumPlan`
+par joueur, fin de file, déterminisme du `Random` injecté), `PremiumPlan`
 (mapping id produit RevenueCat -> offre, y compris les suffixes de base plan
-Play Store, et l'activation de l'entitlement `La Taverne Pro`).
+Play Store, et l'activation de l'entitlement `La Taverne Pro`) et
+`Targeting.kt` (cibles résolvables reconnues, correspondance genre/statut/
+paire, repli aléatoire gracieux quand personne ne correspond ou que le
+roster est vide, joueurs inactifs ignorés, déterminisme par seed de tour).

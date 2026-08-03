@@ -27,7 +27,7 @@ enum class Intensity { SOFT, MEDIUM, HOT, CHAOS }
 
 enum class RuleType { INSTANT, PERSISTENT, ROLE }
 
-enum class Targets { SELF, CHOSEN, ALL, GENDER_M, GENDER_F, PAIR }
+enum class Targets { SELF, CHOSEN, ALL, GENDER_M, GENDER_F, PAIR, SINGLE, COUPLE }
 
 data class Penalty(val sips: Int? = null, val shots: Int? = null)
 

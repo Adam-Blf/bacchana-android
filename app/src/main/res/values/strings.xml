@@ -11,12 +11,23 @@
     <string name="welcome_min_players">Ajoute au moins 2 joueurs pour commencer.</string>
     <string name="welcome_start">Entrer dans l\'arène</string>
     <string name="welcome_disclaimer">18 ans et plus. Jouez responsable.</string>
+    <string name="welcome_attributes_toggle">Genre et statut de %1$s, facultatif</string>
+    <string name="welcome_attributes_hint">Genre et statut sont facultatifs, juste pour des jeux plus personnalisés. Rien ne quitte ton téléphone.</string>
+    <string name="welcome_gender_group">Genre de %1$s</string>
+    <string name="welcome_relationship_group">Statut relationnel de %1$s</string>
+    <string name="gender_m">Homme</string>
+    <string name="gender_f">Femme</string>
+    <string name="gender_x">Autre</string>
+    <string name="relationship_single">Célibataire</string>
+    <string name="relationship_couple">En couple</string>
 
     <!-- Hub -->
     <string name="hub_title">Choisis ton mode</string>
     <string name="hub_premium_badge">PREMIUM</string>
     <string name="hub_locked">Verrouillé</string>
     <string name="hub_min_players">%1$d joueurs min.</string>
+    <string name="hub_theme_toggle_to_dark">Passer en thème sombre</string>
+    <string name="hub_theme_toggle_to_light">Passer en thème clair</string>
 
     <!-- Borderland (card game) -->
     <string name="borderland_title">Le Coupe-Gorge</string>
@@ -43,6 +54,8 @@
     <string name="prompt_next">Suivant</string>
     <string name="prompt_active_rules">Règles en cours</string>
     <string name="prompt_no_more_players">Ajoute des joueurs pour continuer.</string>
+    <string name="prompt_target_single">C\'est à %1$s de jouer</string>
+    <string name="prompt_target_pair">C\'est à %1$s et %2$s de jouer</string>
 
     <!-- Roulette -->
     <string name="roulette_title">La Roue du Destin</string>

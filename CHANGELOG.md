@@ -1,5 +1,30 @@
 # Changelog
 
+## [0.12.0] - 2026-08-03
+
+- Refonte DA : theme sombre "pop" ajoute sur encre neutre (jamais de brun/
+  bois, fond #141216, accent orange eclairci #FF7A2E >= 7:1, aplats pop
+  vibrants), corrections a11y du theme clair (orange-texte assombri
+  #C74300, premium #855C12, card-red #C71F2D, tous >= AA 4.5:1). Palette
+  Compose (`ui/theme/Color.kt`) alignee au token par token sur
+  `src/styles/tokens.css` du web (source unique). `LaTaverneColors`
+  reste un `object` a l'usage identique (300+ sites d'appel `LaTaverneColors.X`
+  inchanges) mais lit desormais un `CompositionLocal` fourni par
+  `LaTaverneTheme`, qui accepte une preference clair/sombre/systeme
+  persistee par le nouveau `ThemeStore` (DataStore) et exposee par un
+  toggle discret dans le hub.
+- Genre et statut relationnel par joueur (feature #54, parite avec
+  `feat/player-attributes` sur le web) : `Player.gender`/`Player.relationship`
+  optionnels dans `:core`, panneau facultatif et replie par defaut sur
+  l'ecran d'inscription (chips 44dp, contentDescription explicites),
+  100 % local - zero attribut envoye a PostHog (verifie dans
+  `analytics/`, aucun event ne les inclut). Nouveau `Targeting.kt` dans
+  `:core` (`resolveTarget`, `Random` injectable, deterministe par tour)
+  resout `Targets.GENDER_M/GENDER_F/SINGLE/COUPLE/PAIR` vers un ou deux
+  joueurs concrets avec repli aleatoire gracieux, branche sur
+  `PromptScreen` ("C'est a X de jouer"). 13 tests JUnit ajoutes
+  (`TargetingTest.kt`).
+
 ## [0.11.1] - 2026-08-03
 
 - Ajout de `docs/ARCHITECTURE.md` : diagramme Mermaid a jour de l'app (modules

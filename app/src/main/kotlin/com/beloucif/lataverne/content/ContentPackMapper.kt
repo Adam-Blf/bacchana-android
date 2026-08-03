@@ -43,6 +43,8 @@ fun TargetsDto.toCore(): Targets = when (this) {
     TargetsDto.GENDER_M -> Targets.GENDER_M
     TargetsDto.GENDER_F -> Targets.GENDER_F
     TargetsDto.PAIR -> Targets.PAIR
+    TargetsDto.SINGLE -> Targets.SINGLE
+    TargetsDto.COUPLE -> Targets.COUPLE
 }
 
 fun PenaltyDto.toCore(): Penalty = Penalty(sips, shots)

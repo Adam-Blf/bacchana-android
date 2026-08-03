@@ -62,9 +62,6 @@ import kotlin.math.ceil
 import kotlin.random.Random
 import kotlinx.coroutines.launch
 
-// Aplats orange / jaune alternés, texte encre - palette néobrutaliste (mirrors WHEEL_COLORS
-// in la-taverne/src/components/screens/RouletteScreen.tsx).
-private val WHEEL_COLORS = listOf(LaTaverneColors.NeonSoft, Color(0xFFFFD029))
 private const val SPIN_DURATION_MS = 3200
 private val SPIN_EASING = CubicBezierEasing(0.17f, 0.67f, 0.12f, 0.99f)
 
@@ -238,6 +235,10 @@ private fun RouletteWheel(
     segmentAngle: Float,
     modifier: Modifier = Modifier,
 ) {
+    // Aplats orange / jaune alternés, texte encre - palette néobrutaliste (mirrors
+    // WHEEL_COLORS in la-taverne/src/components/screens/RouletteScreen.tsx). Recomputed
+    // here (not a top-level val) since LaTaverneColors reads the current clair/sombre theme.
+    val wheelColors = listOf(LaTaverneColors.NeonSoft, LaTaverneColors.PopYellow)
     Box(
         modifier = modifier
             .graphicsLayer { rotationZ = rotationDegrees }
@@ -254,7 +255,7 @@ private fun RouletteWheel(
             segments.forEachIndexed { index, _ ->
                 val startAngle = index * segmentAngle - 90f
                 drawArc(
-                    color = WHEEL_COLORS[index % WHEEL_COLORS.size],
+                    color = wheelColors[index % wheelColors.size],
                     startAngle = startAngle,
                     sweepAngle = segmentAngle,
                     useCenter = true,
