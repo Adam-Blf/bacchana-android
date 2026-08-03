@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Monochrome layer for Android 13+ themed icons: a single flat spade silhouette.
+     The system recolors this at runtime, so the shape is drawn in one opaque tone. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M54,30 C45,42 32,50 32,61 c0,8.8 7,15.5 15.5,15.5 c2.6,0 5,-0.6 7.1,-1.8 c-0.7,4.4 -3,8.3 -6.6,11.3 h12 c-3.6,-3 -5.9,-6.9 -6.6,-11.3 c2.1,1.2 4.5,1.8 7.1,1.8 C69,76.5 76,69.8 76,61 C76,50 63,42 54,30 Z" />
+</vector>
