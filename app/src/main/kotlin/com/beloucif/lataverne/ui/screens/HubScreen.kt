@@ -239,7 +239,7 @@ private fun modeDisplayName(mode: GameMode): String = when (mode) {
     GameMode.WHO_AMONG -> "Qui de nous"
     GameMode.WOULD_YOU_RATHER -> "Tu préfères"
     GameMode.ITS_A_10_BUT -> "C'est un 10 mais"
-    GameMode.SEVEN_SECONDS -> "7 secondes"
+    GameMode.SEVEN_SECONDS -> "7 Secondes"
     GameMode.TRIBUNAL -> "Le Pilori"
     GameMode.ROULETTE -> "La Roue du Destin"
     GameMode.AUCTION -> "La Criée"
