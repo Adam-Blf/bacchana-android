@@ -4,6 +4,23 @@ All notable changes to La Taverne Android are documented here.
 Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 versioning follows [SemVer](https://semver.org/).
 
+## [0.5.0] - 2026-08-03
+
+### Added
+- Mode "La Criée" (auction) : un thème est tiré (`core/AuctionContent.kt`,
+  mirroir de `la-taverne/src/content/auction.ts`, 50 thèmes), la table
+  surenchérit à voix haute jusqu'à ce que quelqu'un crie « tu mens ! ».
+  Le dernier enchérisseur a alors 60 secondes (`CHALLENGE_SECONDS`) pour
+  citer son compte, décompte porté par une coroutine `LaunchedEffect`
+  annulée proprement à chaque changement de phase - échec automatique si
+  le temps expire. Réussite (autant de citations que l'enchère) : c'est
+  l'accusateur qui prend les pénalités ; échec : c'est l'enchérisseur.
+  Aucun récap, aucun joueur nommé, `Player` jamais muté - seul le nombre
+  de manches (`roundsPlayed`) est suivi pour clôturer la session. Tuile
+  "La Criée" ajoutée au hub (2 joueurs min.), route `auction` dans le
+  NavHost, `session_completed { mode: "auction", turns }` tracké à la
+  sortie.
+
 ## [0.4.0] - 2026-08-03
 
 ### Added
