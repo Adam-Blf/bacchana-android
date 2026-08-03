@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.10.0] - 2026-08-03
+
+- Contenu des packs gratuits porte a 80 items chacun (sync depuis la-taverne-content 1.10.0), soirees plus longues sans repetition.
+
 All notable changes to La Taverne Android are documented here.
 Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 versioning follows [SemVer](https://semver.org/).
