@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.11.0] - 2026-08-03
+
+- Contenu roulette et pilori porte a parite avec le web (la-taverne) : 40
+  segments dans `RouletteContent.kt` (8 penalites abstraites d'origine +
+  32 defis d'ambiance soft - mimes, votes, gages), 40 chefs d'accusation
+  dans `TribunalContent.kt` (contre 10 avant). Zero alcool nomme, zero
+  tiret long.
+- Sous-titres des 4 modes de prompts classiques alignes sur le web
+  (`modeRegistry.ts`) : "Action ou Verite" -> "Aveu au comptoir ou gage,
+  choisis", "C'est un 10 mais" -> "Le defaut qui gache tout", "7
+  Secondes" -> "Reponds avant le dernier grain". Android n'affiche
+  aujourd'hui aucun sous-titre de mode dans les tuiles du hub
+  (`ModeTile` ne rend que titre + joueurs min., le champ `subtitle` des
+  packs JSON n'est jamais lu) - alignement documente pour une future
+  UI, aucun rendu a corriger dans l'immediat.
+- Fautes FR corrigees dans les chaines visibles : "7 secondes" (minuscule)
+  et residu "Le Meneur" dans le README remplaces par "7 Secondes" et
+  "Le Taulier" (nom actuel du mode Picolo).
+
 ## [0.10.0] - 2026-08-03
 
 - Contenu des packs gratuits porte a 80 items chacun (sync depuis la-taverne-content 1.10.0), soirees plus longues sans repetition.
