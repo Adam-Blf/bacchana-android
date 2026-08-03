@@ -170,6 +170,24 @@
     <string name="premium_locked_desc">Ce pack sera disponible via achat intégré prochainement.</string>
     <string name="premium_coming_soon">Bientôt disponible</string>
 
+    <!-- Paywall -->
+    <string name="paywall_close">Fermer</string>
+    <string name="paywall_title">La Taverne Premium</string>
+    <string name="paywall_subtitle">Débloque tous les packs premium de la collection, directement dans l\'app.</string>
+    <string name="paywall_included_title">Contenu inclus</string>
+    <string name="paywall_item_count">%1$d cartes</string>
+    <string name="paywall_best_value_badge">Meilleure offre</string>
+    <string name="paywall_transparency">Abonnements : renouvellement automatique, résiliable à tout moment. À vie : paiement unique, sans abonnement, sans essai gratuit.</string>
+    <string name="paywall_purchase_cta">Débloquer - %1$s</string>
+    <string name="paywall_restore">Restaurer mes achats</string>
+    <string name="paywall_restoring">Restauration…</string>
+
+    <!-- Consent (RGPD) -->
+    <string name="consent_title">Mesure d\'audience</string>
+    <string name="consent_body">Avec ton accord, on mesure les modes joués pour améliorer l\'app. Aucune donnée n\'est partagée avec des tiers. Tu peux revenir sur ce choix à tout moment.</string>
+    <string name="consent_accept">Accepter</string>
+    <string name="consent_decline">Refuser</string>
+
     <!-- Errors / empty states -->
     <string name="error_generic">Une erreur est survenue. Réessaie.</string>
     <string name="error_pack_load">Impossible de charger ce pack.</string>
