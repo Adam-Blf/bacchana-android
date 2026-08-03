@@ -102,6 +102,24 @@
     <string name="auction_finish">Terminer la partie</string>
     <string name="auction_quit_description">Quitter la Criée et revenir à l\'accueil</string>
 
+    <!-- Quiz (Quitte ou Trinque) -->
+    <string name="quiz_title">Quitte ou Trinque</string>
+    <string name="quiz_cagnotte">Cagnotte : %1$d</string>
+    <string name="quiz_progress">%1$d/%2$d</string>
+    <string name="quiz_points_at_stake">%1$d point(s) en jeu</string>
+    <string name="quiz_reveal_answer">Voir la réponse</string>
+    <string name="quiz_choice_title">Bien joué !</string>
+    <string name="quiz_choice_body">Ta cagnotte monte à %1$d. Tu la laisses grossir… ou tu la distribues maintenant ?</string>
+    <string name="quiz_wrong">Raté</string>
+    <string name="quiz_correct">Bonne réponse</string>
+    <string name="quiz_distribute">Je distribue mes %1$d point(s)</string>
+    <string name="quiz_keep">Je cumule (quitte ou trinque)</string>
+    <string name="quiz_outcome_busted">%1$s a craqué : %2$d pénalité(s) !</string>
+    <string name="quiz_outcome_banked">%1$s distribue %2$d pénalité(s) à la table !</string>
+    <string name="quiz_quit_description">Quitter le quiz et revenir à l\'accueil</string>
+    <string name="quiz_recap_title">L\'addition du quiz</string>
+    <string name="quiz_recap_none">Personne n\'a pris de pénalité ce soir.</string>
+
     <!-- Recap -->
     <string name="recap_title">Récap de la soirée</string>
     <string name="recap_podium_1">1er</string>

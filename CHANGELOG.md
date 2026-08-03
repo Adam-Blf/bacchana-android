@@ -4,6 +4,28 @@ All notable changes to La Taverne Android are documented here.
 Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 versioning follows [SemVer](https://semver.org/).
 
+## [0.6.0] - 2026-08-03
+
+### Added
+- Mode "Quitte ou Trinque" (quiz) : 60 questions de culture générale
+  embarquées (`core/QuizContent.kt`, mirroir de
+  `la-taverne/src/content/quiz.ts`, 6 catégories), la file est mélangée à
+  la création puis chaque question vaut 1 à 3 points tirés au hasard. Bonne
+  réponse : les points rejoignent la cagnotte du joueur, qui choisit
+  ensuite - cumuler (quitte ou double au tour suivant) ou distribuer (la
+  cagnotte part en pénalités pour la table, gloire pour le distributeur,
+  jamais comptée dans ses propres pénalités). Mauvaise réponse : le joueur
+  prend sa cagnotte + les points de la question. Moteur pur et testable
+  `core/QuizSession.kt` (`QuizSessionState` immuable + fonctions réductrices
+  `answerCorrect`/`answerWrong`/`distributePot`/`keepPot`, 18 tests
+  unitaires couvrant les 4 transitions, le re-tirage des points à chaque
+  tour, la fin de file et le déterminisme du `Random` injecté), aucune
+  mutation directe de `Player.penaltiesStandard` - le tally de la session
+  vit dans un récap interne au mode (`QuizRecap` dans `QuizScreen.kt`), pas
+  dans `RecapScreen`. Tuile "Quitte ou Trinque" ajoutée au hub (2 joueurs
+  min.), route `quiz` dans le NavHost, `session_completed { mode: "quiz",
+  turns }` tracké à la sortie.
+
 ## [0.5.0] - 2026-08-03
 
 ### Added

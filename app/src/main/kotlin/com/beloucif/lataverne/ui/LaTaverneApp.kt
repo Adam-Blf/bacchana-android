@@ -19,6 +19,7 @@ import com.beloucif.lataverne.ui.screens.AuctionScreen
 import com.beloucif.lataverne.ui.screens.BorderlandScreen
 import com.beloucif.lataverne.ui.screens.HubScreen
 import com.beloucif.lataverne.ui.screens.PromptScreen
+import com.beloucif.lataverne.ui.screens.QuizScreen
 import com.beloucif.lataverne.ui.screens.RecapScreen
 import com.beloucif.lataverne.ui.screens.RouletteScreen
 import com.beloucif.lataverne.ui.screens.TribunalScreen
@@ -63,6 +64,7 @@ fun LaTaverneApp(
                 onSelectRoulette = { navController.navigate(LaTaverneRoutes.ROULETTE) },
                 onSelectTribunal = { navController.navigate(LaTaverneRoutes.TRIBUNAL) },
                 onSelectAuction = { navController.navigate(LaTaverneRoutes.AUCTION) },
+                onSelectQuiz = { navController.navigate(LaTaverneRoutes.QUIZ) },
             )
         }
 
@@ -100,6 +102,20 @@ fun LaTaverneApp(
                     analyticsTracker.trackEvent(
                         "session_completed",
                         mapOf("mode" to "auction", "turns" to roundsPlayed),
+                    )
+                    navController.popBackStack()
+                },
+            )
+        }
+
+        composable(LaTaverneRoutes.QUIZ) {
+            LaunchedEffect(Unit) { analyticsTracker.trackScreen("quiz") }
+            QuizScreen(
+                players = players,
+                onQuit = { turnsPlayed ->
+                    analyticsTracker.trackEvent(
+                        "session_completed",
+                        mapOf("mode" to "quiz", "turns" to turnsPlayed),
                     )
                     navController.popBackStack()
                 },

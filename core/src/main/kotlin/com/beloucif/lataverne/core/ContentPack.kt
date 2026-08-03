@@ -19,6 +19,7 @@ enum class GameMode {
     TRIBUNAL,
     ROULETTE,
     AUCTION,
+    QUIZ,
 }
 
 enum class Intensity { SOFT, MEDIUM, HOT, CHAOS }

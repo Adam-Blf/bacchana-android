@@ -1,6 +1,6 @@
 <!-- adam-badges:start -->
 [![commits](https://img.shields.io/github/commit-activity/t/Adam-Blf/la-taverne-android?color=001329&label=commits&style=flat-square)](https://github.com/Adam-Blf/la-taverne-android/commits)
-[![version](https://img.shields.io/badge/version-0.5.0-D4A437?style=flat-square)](CHANGELOG.md)
+[![version](https://img.shields.io/badge/version-0.6.0-D4A437?style=flat-square)](CHANGELOG.md)
 [![platform](https://img.shields.io/badge/platform-Android%208.0%2B-001329?style=flat-square)](#)
 [![kotlin](https://img.shields.io/badge/kotlin-2.0.21-7F52FF?style=flat-square)](#)
 [![release](https://img.shields.io/github/actions/workflow/status/Adam-Blf/la-taverne-android/release.yml?label=release&style=flat-square)](RELEASING.md)
@@ -17,8 +17,10 @@ poignée de modes de prompts tour par tour (Le Meneur, Action ou Vérité,
 Tu préfères, Je n'ai jamais, Qui de nous, 7 secondes, C'est un 10 mais)
 La Roue du Destin (roulette à 8 segments, sans joueur nommé, sans récap),
 Le Pilori (tribunal : accusations écrites par la table ou tirées de l'app,
-procès aléatoire, verdict à la majorité, récap interne au mode) et La Criée
-(enchère à voix haute, défi chronométré 60s, sans joueur nommé, sans récap).
+procès aléatoire, verdict à la majorité, récap interne au mode), La Criée
+(enchère à voix haute, défi chronométré 60s, sans joueur nommé, sans récap)
+et Quitte ou Trinque (quiz de 60 questions, cagnotte à 1-3 points, choix
+cumuler/distribuer après chaque bonne réponse, récap interne au mode).
 
 Store-safe par construction : zéro référence à l'alcool dans le code, les
 chaînes ou le contenu. L'unité de jeu est la "pénalité", l'As déclenche une
@@ -37,6 +39,7 @@ flowchart TD
         Interp[interpolate - player / player2]
         Tribunal[TribunalEngine - reducer pur, penaltyCounts local]
         Auction[AuctionContent - 50 themes embarques]
+        Quiz[QuizSession - reducer pur, 60 questions embarquees]
     end
 
     subgraph content["la-taverne-content (repo separe, source de verite)"]
@@ -52,7 +55,7 @@ flowchart TD
         Assets[assets/packs/*.json]
         Repo[PackRepository]
         VM[ViewModels: Borderland / Prompt / PlayerSession]
-        UI[Welcome / Hub / Borderland / Prompt / Roulette / Tribunal / Auction / Recap]
+        UI[Welcome / Hub / Borderland / Prompt / Roulette / Tribunal / Auction / Quiz / Recap]
         Store[PlayerStore - DataStore]
         Billing[EntitlementRepository - stub, RevenueCat TODO]
         Analytics[AnalyticsTracker - stub, PostHog TODO]
@@ -74,8 +77,10 @@ flowchart TD
   le moteur générique de prompts (`PromptSession`, tirage sans répétition,
   règles persistantes/rôles, interpolation `{player}`/`{player2}`), et le
   reducer immuable `TribunalEngine`/`TribunalState` du Pilori (accusations,
-  tirage de l'accusé en excluant l'auteur, verdict à la majorité). Testable
-  avec `./gradlew :core:test`, sans SDK Android.
+  tirage de l'accusé en excluant l'auteur, verdict à la majorité), et les
+  fonctions réductrices `QuizSession` de Quitte ou Trinque (cagnotte à 1-3
+  points, choix cumuler/distribuer, `Random` injectable). Testable avec
+  `./gradlew :core:test`, sans SDK Android.
 - **`:app`** est le module Android (Jetpack Compose, Material 3, thème clair
   néobrutaliste taverne calqué sur `la-taverne-content/tokens/tokens.json` v2 :
   fond crème #FFF9F0, encre #111111, accent orange #FF5C00, ombres dures).
