@@ -1,21 +1,26 @@
 package com.beloucif.lataverne.ui.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -28,6 +33,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.beloucif.lataverne.R
@@ -35,6 +43,8 @@ import com.beloucif.lataverne.content.PackRepository
 import com.beloucif.lataverne.content.PremiumCatalogEntry
 import com.beloucif.lataverne.core.GameMode
 import com.beloucif.lataverne.ui.theme.LaTaverneColors
+import com.beloucif.lataverne.ui.theme.ThemePreference
+import com.beloucif.lataverne.ui.theme.resolve
 
 /**
  * Bento grid of game modes. Free prompt packs are resolved at runtime from [PackRepository].
@@ -57,6 +67,8 @@ fun HubScreen(
     onSelectRanking: () -> Unit,
     onSelectWouldYouRather: () -> Unit,
     onOpenPaywall: () -> Unit,
+    themePreference: ThemePreference,
+    onToggleTheme: () -> Unit,
 ) {
     var freeModes by remember { mutableStateOf<List<GameMode>>(emptyList()) }
 
@@ -75,12 +87,18 @@ fun HubScreen(
             .windowInsetsPadding(WindowInsets.safeDrawing)
             .padding(horizontal = 20.dp),
     ) {
-        Text(
-            text = stringResource(R.string.hub_title),
-            style = MaterialTheme.typography.headlineMedium,
-            color = LaTaverneColors.Ink,
-            modifier = Modifier.padding(vertical = 24.dp),
-        )
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(vertical = 24.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                text = stringResource(R.string.hub_title),
+                style = MaterialTheme.typography.headlineMedium,
+                color = LaTaverneColors.Ink,
+            )
+            ThemeToggle(themePreference = themePreference, onToggle = onToggleTheme)
+        }
 
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
@@ -228,6 +246,39 @@ private fun ModeTile(
                 modifier = Modifier.align(Alignment.BottomStart),
             )
         }
+    }
+}
+
+/**
+ * Discreet clair/sombre toggle - drawn as a plain circle (no icon library dependency, no
+ * emoji) whose fill flips between the two accent tones, with the action fully spelled out
+ * for TalkBack via [contentDescription]. Mirrors the ghost toggle button in HubScreen.tsx on
+ * the web (themeStore.toggle()).
+ */
+@Composable
+private fun ThemeToggle(themePreference: ThemePreference, onToggle: () -> Unit) {
+    val isDark = themePreference.resolve()
+    val description = stringResource(
+        if (isDark) R.string.hub_theme_toggle_to_light else R.string.hub_theme_toggle_to_dark,
+    )
+    Box(
+        modifier = Modifier
+            .defaultMinSize(minWidth = 44.dp, minHeight = 44.dp)
+            .border(1.dp, LaTaverneColors.BorderStrong, RoundedCornerShape(percent = 50))
+            .background(LaTaverneColors.Surface, RoundedCornerShape(percent = 50))
+            .selectable(selected = isDark, onClick = onToggle, role = Role.Switch)
+            .semantics(mergeDescendants = true) { contentDescription = description }
+            .padding(10.dp),
+        contentAlignment = Alignment.Center,
+    ) {
+        Box(
+            modifier = Modifier
+                .size(16.dp)
+                .background(
+                    if (isDark) LaTaverneColors.PopBlue else LaTaverneColors.PopYellow,
+                    RoundedCornerShape(percent = 50),
+                ),
+        )
     }
 }
 

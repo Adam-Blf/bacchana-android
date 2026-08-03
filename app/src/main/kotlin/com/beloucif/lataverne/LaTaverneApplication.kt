@@ -10,6 +10,7 @@ import com.beloucif.lataverne.billing.RevenueCatEntitlementRepository
 import com.beloucif.lataverne.billing.StubEntitlementRepository
 import com.beloucif.lataverne.content.PackRepository
 import com.beloucif.lataverne.data.PlayerStore
+import com.beloucif.lataverne.data.ThemeStore
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 
@@ -27,6 +28,8 @@ class LaTaverneApplication : Application() {
         private set
     lateinit var consentStore: ConsentStore
         private set
+    lateinit var themeStore: ThemeStore
+        private set
     lateinit var entitlementRepository: EntitlementRepository
         private set
     lateinit var analyticsTracker: AnalyticsTracker
@@ -37,6 +40,7 @@ class LaTaverneApplication : Application() {
         packRepository = PackRepository(this)
         playerStore = PlayerStore(this)
         consentStore = ConsentStore(this)
+        themeStore = ThemeStore(this)
 
         entitlementRepository = if (BuildConfig.BILLING_ENABLED) {
             RevenueCatEntitlementRepository(this, BuildConfig.REVENUECAT_API_KEY)

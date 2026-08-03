@@ -43,6 +43,7 @@ import com.beloucif.lataverne.ui.screens.RouletteScreen
 import com.beloucif.lataverne.ui.screens.TribunalScreen
 import com.beloucif.lataverne.ui.screens.WelcomeScreen
 import com.beloucif.lataverne.ui.screens.WouldYouRatherScreen
+import com.beloucif.lataverne.ui.theme.ThemePreference
 import kotlinx.coroutines.launch
 
 /** Root composable: owns the NavHost and the shared player session. */
@@ -53,6 +54,8 @@ fun LaTaverneApp(
     consentStore: ConsentStore,
     entitlementRepository: EntitlementRepository,
     analyticsTracker: AnalyticsTracker,
+    themePreference: ThemePreference,
+    onToggleTheme: () -> Unit,
 ) {
     val navController = rememberNavController()
     val playerSessionViewModel: PlayerSessionViewModel =
@@ -75,6 +78,7 @@ fun LaTaverneApp(
                 players = players,
                 onAddPlayer = playerSessionViewModel::addPlayer,
                 onRemovePlayer = playerSessionViewModel::removePlayer,
+                onSetPlayerAttributes = playerSessionViewModel::setPlayerAttributes,
                 onStart = {
                     playerSessionViewModel.reactivateAll()
                     navController.navigate(LaTaverneRoutes.HUB)
@@ -99,6 +103,8 @@ fun LaTaverneApp(
                 onSelectRanking = { navController.navigate(LaTaverneRoutes.RANKING) },
                 onSelectWouldYouRather = { navController.navigate(LaTaverneRoutes.WOULD_YOU_RATHER) },
                 onOpenPaywall = { navController.navigate(LaTaverneRoutes.PAYWALL) },
+                themePreference = themePreference,
+                onToggleTheme = onToggleTheme,
             )
         }
 
