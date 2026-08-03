@@ -138,7 +138,7 @@ private fun ModeTile(
 
 private fun modeDisplayName(mode: GameMode): String = when (mode) {
     GameMode.BORDERLAND -> "Le Coupe-Gorge"
-    GameMode.PICOLO -> "Le Meneur"
+    GameMode.PICOLO -> "Le Taulier"
     GameMode.TRUTH_OR_DARE -> "Action ou Vérité"
     GameMode.NEVER_HAVE_I_EVER -> "Je n'ai jamais"
     GameMode.WHO_AMONG -> "Qui de nous"
