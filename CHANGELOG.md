@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.11.1] - 2026-08-03
+
+- Ajout de `docs/ARCHITECTURE.md` : diagramme Mermaid a jour de l'app (modules
+  `:core` / `:app`, couches transverses billing et analytics gated, flux de
+  contenu synchronise depuis la-taverne-content et contenu embarque natif),
+  plus une explication de chaque couche et du pattern moteur pur teste. Lien
+  ajoute depuis la section Architecture du README. Documentation seule, aucun
+  changement de code.
+
 ## [0.11.0] - 2026-08-03
 
 - Contenu roulette et pilori porte a parite avec le web (la-taverne) : 40

@@ -1,6 +1,6 @@
 <!-- adam-badges:start -->
 [![commits](https://img.shields.io/github/commit-activity/t/Adam-Blf/la-taverne-android?color=001329&label=commits&style=flat-square)](https://github.com/Adam-Blf/la-taverne-android/commits)
-[![version](https://img.shields.io/badge/version-0.11.0-D4A437?style=flat-square)](CHANGELOG.md)
+[![version](https://img.shields.io/badge/version-0.11.1-D4A437?style=flat-square)](CHANGELOG.md)
 [![platform](https://img.shields.io/badge/platform-Android%208.0%2B-001329?style=flat-square)](#)
 [![kotlin](https://img.shields.io/badge/kotlin-2.0.21-7F52FF?style=flat-square)](#)
 [![release](https://img.shields.io/github/actions/workflow/status/Adam-Blf/la-taverne-android/release.yml?label=release&style=flat-square)](RELEASING.md)
@@ -113,6 +113,9 @@ flowchart TD
   copiés tels quels dans `assets/packs/`, les packs premium ne livrent que
   leurs métadonnées (`assets/premium-catalog.json`), jamais le texte des
   prompts, en attendant l'intégration Play Billing / RevenueCat.
+
+Détail complet des couches, du flux de contenu et du principe gated dans
+[`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 
 ## Build
 
