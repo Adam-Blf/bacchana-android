@@ -51,6 +51,35 @@
     <string name="roulette_spinning">Ça tourne…</string>
     <string name="roulette_quit_description">Quitter la roulette et revenir à l\'accueil</string>
 
+    <!-- Tribunal (Le Pilori) -->
+    <string name="tribunal_title">Le Pilori</string>
+    <string name="tribunal_appears_before_court">comparaît devant la cour</string>
+    <string name="tribunal_intro_title">La cour est ouverte</string>
+    <string name="tribunal_intro_desc">Chacun écrit une accusation secrète contre la table… ou vous laissez l\'app fournir les chefs d\'accusation.</string>
+    <string name="tribunal_intro_write_own">On écrit nos accusations</string>
+    <string name="tribunal_intro_app_charges">Accusations de l\'app</string>
+    <string name="tribunal_handoff_progress">Accusation secrète %1$d/%2$d</string>
+    <string name="tribunal_handoff_pass">Passe le téléphone à %1$s</string>
+    <string name="tribunal_confirm_writer">C\'est moi, %1$s</string>
+    <string name="tribunal_write_hint">%1$s, accuse qui tu veux - ton accusation restera anonyme.</string>
+    <string name="tribunal_write_placeholder">Ex. : quelqu\'un ici a déjà quitté une soirée sans dire au revoir…</string>
+    <string name="tribunal_write_counter">%1$d/200</string>
+    <string name="tribunal_write_submit">Accusation déposée</string>
+    <string name="tribunal_anonymous_note">accusation anonyme de la table</string>
+    <string name="tribunal_defense_hint">%1$s a 30 secondes pour se défendre. Écoutez… puis votez.</string>
+    <string name="tribunal_pass_to_vote">Passer au vote</string>
+    <string name="tribunal_vote_guilty">Coupable</string>
+    <string name="tribunal_vote_innocent">Non coupable</string>
+    <string name="tribunal_verdict_button">Verdict</string>
+    <string name="tribunal_verdict_guilty">Coupable - 1 pénalité</string>
+    <string name="tribunal_verdict_innocent">Non coupable - libéré</string>
+    <string name="tribunal_next_trial">Procès suivant</string>
+    <string name="tribunal_new_trial">Nouveau procès</string>
+    <string name="tribunal_finish">Terminer et voir l\'addition</string>
+    <string name="tribunal_quit_description">Quitter le procès et revenir à l\'accueil</string>
+    <string name="tribunal_recap_title">Le verdict de la soirée</string>
+    <string name="tribunal_recap_none">Personne n\'a été reconnu coupable ce soir.</string>
+
     <!-- Recap -->
     <string name="recap_title">Récap de la soirée</string>
     <string name="recap_podium_1">1er</string>

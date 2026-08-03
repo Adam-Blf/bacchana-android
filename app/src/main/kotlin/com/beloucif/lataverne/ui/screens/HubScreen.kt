@@ -44,6 +44,7 @@ fun HubScreen(
     onSelectBorderland: () -> Unit,
     onSelectPromptMode: (GameMode) -> Unit,
     onSelectRoulette: () -> Unit,
+    onSelectTribunal: () -> Unit,
 ) {
     var freeModes by remember { mutableStateOf<List<GameMode>>(emptyList()) }
 
@@ -102,6 +103,17 @@ fun HubScreen(
                     onClick = onSelectRoulette,
                 )
             }
+            item {
+                // Le Pilori (Tribunal) is embedded too - each trial needs at least one accuser,
+                // one accused and one voter left over, hence the higher player floor.
+                ModeTile(
+                    title = modeDisplayName(GameMode.TRIBUNAL),
+                    locked = false,
+                    minPlayers = 3,
+                    playerCount = playerCount,
+                    onClick = onSelectTribunal,
+                )
+            }
         }
     }
 }
@@ -157,6 +169,6 @@ private fun modeDisplayName(mode: GameMode): String = when (mode) {
     GameMode.WOULD_YOU_RATHER -> "Tu préfères"
     GameMode.ITS_A_10_BUT -> "C'est un 10 mais"
     GameMode.SEVEN_SECONDS -> "7 secondes"
-    GameMode.TRIBUNAL -> "Le Tribunal"
+    GameMode.TRIBUNAL -> "Le Pilori"
     GameMode.ROULETTE -> "La Roue du Destin"
 }
