@@ -1,6 +1,6 @@
 <!-- adam-badges:start -->
 [![commits](https://img.shields.io/github/commit-activity/t/Adam-Blf/la-taverne-android?color=001329&label=commits&style=flat-square)](https://github.com/Adam-Blf/la-taverne-android/commits)
-[![version](https://img.shields.io/badge/version-0.7.0-D4A437?style=flat-square)](CHANGELOG.md)
+[![version](https://img.shields.io/badge/version-0.8.0-D4A437?style=flat-square)](CHANGELOG.md)
 [![platform](https://img.shields.io/badge/platform-Android%208.0%2B-001329?style=flat-square)](#)
 [![kotlin](https://img.shields.io/badge/kotlin-2.0.21-7F52FF?style=flat-square)](#)
 [![release](https://img.shields.io/github/actions/workflow/status/Adam-Blf/la-taverne-android/release.yml?label=release&style=flat-square)](RELEASING.md)
@@ -14,17 +14,20 @@ crème, encre, accent orange #FF5C00, ombres dures noires, thème clair par
 défaut. Le Coupe-Gorge
 (jeu de cartes 52 cartes avec système de contestation escaladable), une
 poignée de modes de prompts tour par tour (Le Meneur, Action ou Vérité,
-Tu préfères, Je n'ai jamais, Qui de nous, 7 secondes, C'est un 10 mais)
+Je n'ai jamais, Qui de nous, 7 secondes, C'est un 10 mais)
 La Roue du Destin (roulette à 8 segments, sans joueur nommé, sans récap),
 Le Pilori (tribunal : accusations écrites par la table ou tirées de l'app,
 procès aléatoire, verdict à la majorité, récap interne au mode), La Criée
 (enchère à voix haute, défi chronométré 60s, sans joueur nommé, sans récap)
 Quitte ou Trinque (quiz de 60 questions, cagnotte à 1-3 points, choix
-cumuler/distribuer après chaque bonne réponse, récap interne au mode) et
+cumuler/distribuer après chaque bonne réponse, récap interne au mode),
 Le Tableau d'Honneur (un juge classe la table sur une question secrète de
 40, la table devine la question parmi 4 propositions sans jamais la voir,
 pénalités asymétriques 3 pour le juge / 1 pour le groupe, récap interne au
-mode).
+mode) et Tu préfères (84 dilemmes A ou B embarqués, chaque joueur actif
+vote son camp le téléphone au centre de la table, le camp minoritaire au
+reveal prend 1 pénalité chacun, égalité parfaite ou vote unanime = personne
+ne trinque, récap interne au mode).
 
 Store-safe par construction : zéro référence à l'alcool dans le code, les
 chaînes ou le contenu. L'unité de jeu est la "pénalité", l'As déclenche une
@@ -45,6 +48,7 @@ flowchart TD
         Auction[AuctionContent - 50 themes embarques]
         Quiz[QuizSession - reducer pur, 60 questions embarquees]
         Ranking[RankingSession - reducer pur, 40 questions embarquees]
+        WYR[WouldYouRatherSession - reducer pur, vote, 84 dilemmes embarques]
     end
 
     subgraph content["la-taverne-content (repo separe, source de verite)"]
@@ -60,7 +64,7 @@ flowchart TD
         Assets[assets/packs/*.json]
         Repo[PackRepository]
         VM[ViewModels: Borderland / Prompt / PlayerSession]
-        UI[Welcome / Hub / Borderland / Prompt / Roulette / Tribunal / Auction / Quiz / Ranking / Recap]
+        UI[Welcome / Hub / Borderland / Prompt / Roulette / Tribunal / Auction / Quiz / Ranking / WouldYouRather / Recap]
         Store[PlayerStore - DataStore]
         Billing[EntitlementRepository - stub, RevenueCat TODO]
         Analytics[AnalyticsTracker - stub, PostHog TODO]
@@ -84,10 +88,13 @@ flowchart TD
   reducer immuable `TribunalEngine`/`TribunalState` du Pilori (accusations,
   tirage de l'accusé en excluant l'auteur, verdict à la majorité), et les
   fonctions réductrices `QuizSession` de Quitte ou Trinque (cagnotte à 1-3
-  points, choix cumuler/distribuer, `Random` injectable), et le reducer
+  points, choix cumuler/distribuer, `Random` injectable), le reducer
   `RankingSession` du Tableau d'Honneur (rotation du juge, classement en
-  secret, pénalités asymétriques juge/groupe, `Random` injectable). Testable
-  avec `./gradlew :core:test`, sans SDK Android.
+  secret, pénalités asymétriques juge/groupe, `Random` injectable), et le
+  reducer `WouldYouRatherSession` de Tu préfères (file de dilemmes mélangée,
+  vote `castVote`/`revealVotes`/`nextRound`, camp minoritaire pénalisé sauf
+  égalité ou unanimité, `Random` injectable). Testable avec
+  `./gradlew :core:test`, sans SDK Android.
 - **`:app`** est le module Android (Jetpack Compose, Material 3, thème clair
   néobrutaliste taverne calqué sur `la-taverne-content/tokens/tokens.json` v2 :
   fond crème #FFF9F0, encre #111111, accent orange #FF5C00, ombres dures).
@@ -156,7 +163,9 @@ pénalité majeure), les multiplicateurs de contestation `{0:1, 1:1, 2:2, 3:4}`,
 la rotation des joueurs actifs, le moteur `BorderlandEngine` (reducer pur,
 transitions de phase), l'interpolation `{player}`/`{player2}`,
 `PromptSession` (tirage sans répétition, règles persistantes avec expiration,
-rôles, ciblage `chosen`), `TribunalEngine`, `QuizSession` et `RankingSession`
+rôles, ciblage `chosen`), `TribunalEngine`, `QuizSession`, `RankingSession`
 du Tableau d'Honneur (invariant "tous classés" avant confirmation, pénalités
 asymétriques juge/groupe, rotation du juge avec wrap-around, déterminisme du
-`Random` injecté).
+`Random` injecté) et `WouldYouRatherSession` de Tu préfères (camp minoritaire
+pénalisé, égalité et unanimité neutres, cumul multi-manches, unicité du vote
+par joueur, fin de file, déterminisme du `Random` injecté).
