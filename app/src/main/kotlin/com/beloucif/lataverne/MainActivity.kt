@@ -18,6 +18,7 @@ class MainActivity : ComponentActivity() {
                 LaTaverneApp(
                     packRepository = app.packRepository,
                     playerStore = app.playerStore,
+                    consentStore = app.consentStore,
                     entitlementRepository = app.entitlementRepository,
                     analyticsTracker = app.analyticsTracker,
                 )

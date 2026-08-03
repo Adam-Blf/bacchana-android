@@ -1,23 +1,40 @@
 package com.beloucif.lataverne.ui
 
+import android.app.Activity
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.beloucif.lataverne.BuildConfig
 import com.beloucif.lataverne.analytics.AnalyticsTracker
+import com.beloucif.lataverne.analytics.ConsentStore
 import com.beloucif.lataverne.billing.EntitlementRepository
 import com.beloucif.lataverne.content.PackRepository
+import com.beloucif.lataverne.content.PremiumCatalogEntry
 import com.beloucif.lataverne.core.GameMode
 import com.beloucif.lataverne.data.PlayerStore
 import com.beloucif.lataverne.ui.screens.AuctionScreen
 import com.beloucif.lataverne.ui.screens.BorderlandScreen
+import com.beloucif.lataverne.ui.screens.ConsentBanner
 import com.beloucif.lataverne.ui.screens.HubScreen
+import com.beloucif.lataverne.ui.screens.PaywallScreen
 import com.beloucif.lataverne.ui.screens.PromptScreen
 import com.beloucif.lataverne.ui.screens.QuizScreen
 import com.beloucif.lataverne.ui.screens.RankingScreen
@@ -26,12 +43,14 @@ import com.beloucif.lataverne.ui.screens.RouletteScreen
 import com.beloucif.lataverne.ui.screens.TribunalScreen
 import com.beloucif.lataverne.ui.screens.WelcomeScreen
 import com.beloucif.lataverne.ui.screens.WouldYouRatherScreen
+import kotlinx.coroutines.launch
 
 /** Root composable: owns the NavHost and the shared player session. */
 @Composable
 fun LaTaverneApp(
     packRepository: PackRepository,
     playerStore: PlayerStore,
+    consentStore: ConsentStore,
     entitlementRepository: EntitlementRepository,
     analyticsTracker: AnalyticsTracker,
 ) {
@@ -40,7 +59,16 @@ fun LaTaverneApp(
         viewModel(factory = PlayerSessionViewModel.Factory(playerStore))
     val players by playerSessionViewModel.players.collectAsState()
 
-    NavHost(navController = navController, startDestination = LaTaverneRoutes.WELCOME) {
+    var premiumCatalog by remember { mutableStateOf<List<PremiumCatalogEntry>>(emptyList()) }
+    LaunchedEffect(Unit) { premiumCatalog = packRepository.loadPremiumCatalog() }
+
+    // Defaults to true (banner hidden) until the first DataStore emission arrives, avoiding a
+    // one-frame flash of the banner for players who already decided in a previous session.
+    val hasDecidedConsent by consentStore.hasDecided.collectAsState(initial = true)
+    val scope = rememberCoroutineScope()
+
+    Box(modifier = Modifier.fillMaxSize()) {
+        NavHost(navController = navController, startDestination = LaTaverneRoutes.WELCOME) {
         composable(LaTaverneRoutes.WELCOME) {
             LaunchedEffect(Unit) { analyticsTracker.trackScreen("welcome") }
             WelcomeScreen(
@@ -61,6 +89,7 @@ fun LaTaverneApp(
                 playerCount = players.size,
                 isPremium = isPremium,
                 packRepository = packRepository,
+                premiumCatalog = premiumCatalog,
                 onSelectBorderland = { navController.navigate(LaTaverneRoutes.BORDERLAND) },
                 onSelectPromptMode = { mode -> navController.navigate(LaTaverneRoutes.prompt(mode.name)) },
                 onSelectRoulette = { navController.navigate(LaTaverneRoutes.ROULETTE) },
@@ -69,6 +98,20 @@ fun LaTaverneApp(
                 onSelectQuiz = { navController.navigate(LaTaverneRoutes.QUIZ) },
                 onSelectRanking = { navController.navigate(LaTaverneRoutes.RANKING) },
                 onSelectWouldYouRather = { navController.navigate(LaTaverneRoutes.WOULD_YOU_RATHER) },
+                onOpenPaywall = { navController.navigate(LaTaverneRoutes.PAYWALL) },
+            )
+        }
+
+        composable(LaTaverneRoutes.PAYWALL) {
+            LaunchedEffect(Unit) { analyticsTracker.trackScreen("paywall") }
+            val context = LocalContext.current
+            PaywallScreen(
+                billingEnabled = BuildConfig.BILLING_ENABLED,
+                premiumCatalog = premiumCatalog,
+                analyticsTracker = analyticsTracker,
+                onPurchase = { plan -> entitlementRepository.purchasePremium(context as Activity, plan) },
+                onRestore = entitlementRepository::restorePurchases,
+                onClose = { navController.popBackStack() },
             )
         }
 
@@ -187,6 +230,27 @@ fun LaTaverneApp(
                 players = players,
                 onReplay = { navController.popBackStack(LaTaverneRoutes.HUB, inclusive = false) },
                 onBackToHub = { navController.popBackStack(LaTaverneRoutes.HUB, inclusive = false) },
+            )
+        }
+        }
+
+        if (!hasDecidedConsent) {
+            ConsentBanner(
+                onAccept = {
+                    scope.launch {
+                        consentStore.setConsent(true)
+                        analyticsTracker.setConsent(true)
+                    }
+                },
+                onDecline = {
+                    scope.launch {
+                        consentStore.setConsent(false)
+                        analyticsTracker.setConsent(false)
+                    }
+                },
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(16.dp),
             )
         }
     }

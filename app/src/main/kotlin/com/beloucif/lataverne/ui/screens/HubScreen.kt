@@ -32,15 +32,22 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.beloucif.lataverne.R
 import com.beloucif.lataverne.content.PackRepository
+import com.beloucif.lataverne.content.PremiumCatalogEntry
 import com.beloucif.lataverne.core.GameMode
 import com.beloucif.lataverne.ui.theme.LaTaverneColors
 
-/** Bento grid of game modes. Free prompt packs are resolved at runtime from [PackRepository]. */
+/**
+ * Bento grid of game modes. Free prompt packs are resolved at runtime from [PackRepository].
+ * Premium packs ([premiumCatalog], metadata only - see [PackRepository]) render as locked
+ * tiles that open the paywall; unlocking is entitlement-based (one purchase unlocks the whole
+ * catalog), not a per-tile in-app purchase.
+ */
 @Composable
 fun HubScreen(
     playerCount: Int,
     isPremium: Boolean,
     packRepository: PackRepository,
+    premiumCatalog: List<PremiumCatalogEntry>,
     onSelectBorderland: () -> Unit,
     onSelectPromptMode: (GameMode) -> Unit,
     onSelectRoulette: () -> Unit,
@@ -49,6 +56,7 @@ fun HubScreen(
     onSelectQuiz: () -> Unit,
     onSelectRanking: () -> Unit,
     onSelectWouldYouRather: () -> Unit,
+    onOpenPaywall: () -> Unit,
 ) {
     var freeModes by remember { mutableStateOf<List<GameMode>>(emptyList()) }
 
@@ -164,6 +172,17 @@ fun HubScreen(
                     onClick = onSelectWouldYouRather,
                 )
             }
+            if (!isPremium) {
+                items(premiumCatalog, key = { it.id }) { entry ->
+                    ModeTile(
+                        title = entry.title,
+                        locked = true,
+                        minPlayers = 0,
+                        playerCount = playerCount,
+                        onClick = onOpenPaywall,
+                    )
+                }
+            }
         }
     }
 }
@@ -176,13 +195,13 @@ private fun ModeTile(
     playerCount: Int,
     onClick: () -> Unit,
 ) {
-    val disabled = playerCount < minPlayers
+    val disabled = !locked && playerCount < minPlayers
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .aspectRatio(1f)
             .background(LaTaverneColors.Surface, RoundedCornerShape(24.dp))
-            .clickable(enabled = !locked && !disabled, onClick = onClick)
+            .clickable(enabled = !disabled, onClick = onClick)
             .padding(16.dp),
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
@@ -201,12 +220,14 @@ private fun ModeTile(
                 modifier = Modifier.align(Alignment.Start),
             )
         }
-        Text(
-            text = stringResource(R.string.hub_min_players, minPlayers),
-            style = MaterialTheme.typography.labelSmall,
-            color = LaTaverneColors.InkMuted,
-            modifier = Modifier.align(Alignment.BottomStart),
-        )
+        if (!locked) {
+            Text(
+                text = stringResource(R.string.hub_min_players, minPlayers),
+                style = MaterialTheme.typography.labelSmall,
+                color = LaTaverneColors.InkMuted,
+                modifier = Modifier.align(Alignment.BottomStart),
+            )
+        }
     }
 }
 
