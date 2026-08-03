@@ -3,7 +3,9 @@ package com.beloucif.lataverne.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.beloucif.lataverne.core.Gender
 import com.beloucif.lataverne.core.Player
+import com.beloucif.lataverne.core.Relationship
 import com.beloucif.lataverne.core.createPlayer
 import com.beloucif.lataverne.data.PlayerStore
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -38,6 +40,18 @@ class PlayerSessionViewModel(private val playerStore: PlayerStore) : ViewModel()
     fun removePlayer(playerId: String) {
         _players.value = _players.value.filterNot { it.id == playerId }
         persist()
+    }
+
+    /**
+     * Genre/statut declares facultativement a l'inscription - 100% local (jamais envoye en
+     * analytics, voir com.beloucif.lataverne.core.Player), non persistes dans [PlayerStore]
+     * (seuls les noms le sont) : comme sur le web, c'est un detail de session, redemande a
+     * chaque nouvelle inscription plutot que fige entre deux soirees.
+     */
+    fun setPlayerAttributes(playerId: String, gender: Gender?, relationship: Relationship?) {
+        _players.value = _players.value.map { player ->
+            if (player.id == playerId) player.copy(gender = gender, relationship = relationship) else player
+        }
     }
 
     fun reactivateAll() {

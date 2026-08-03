@@ -8,6 +8,9 @@ import com.beloucif.lataverne.core.GameMode
 import com.beloucif.lataverne.core.Player
 import com.beloucif.lataverne.core.PromptDraw
 import com.beloucif.lataverne.core.PromptSession
+import com.beloucif.lataverne.core.isResolvableTarget
+import com.beloucif.lataverne.core.resolveTarget
+import com.beloucif.lataverne.core.seededRandom
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,6 +23,12 @@ sealed interface PromptUiState {
         val draw: PromptDraw,
         val activeRules: List<com.beloucif.lataverne.core.ActiveRule>,
         val hasNext: Boolean,
+        /**
+         * Joueur(s) resolus par [com.beloucif.lataverne.core.resolveTarget] quand l'item
+         * cible un genre/statut/paire (genre-m, genre-f, single, couple, pair). Vide si
+         * l'item n'a pas de cible resolvable (auto/choisi/tous) - jamais bloquant.
+         */
+        val targetPlayers: List<Player> = emptyList(),
     ) : PromptUiState
     data object Finished : PromptUiState
 }
@@ -57,7 +66,15 @@ class PromptViewModel(private val packRepository: PackRepository) : ViewModel() 
             return
         }
         val draw = current.drawNext()
-        _uiState.value = PromptUiState.Ready(draw, current.activeRules, current.hasNext())
+        // Cible de contenu (genre / statut relationnel / paire) resolue de facon deterministe
+        // par tour (seed = item + numero de tour) pour ne jamais changer entre deux
+        // recompositions du meme tour - mirrors PromptGameScreen.tsx on the web.
+        val targetPlayers = if (isResolvableTarget(draw.item.targets)) {
+            resolveTarget(current.players, draw.item.targets!!, seededRandom("${draw.item.id}-${current.turnNumber}"))
+        } else {
+            emptyList()
+        }
+        _uiState.value = PromptUiState.Ready(draw, current.activeRules, current.hasNext(), targetPlayers)
     }
 
     class Factory(private val packRepository: PackRepository) : ViewModelProvider.Factory {

@@ -86,6 +86,14 @@ fun PromptScreen(
                         color = LaTaverneColors.Ink,
                         fontWeight = FontWeight.Bold,
                     )
+                    targetLabel(state.targetPlayers)?.let { label ->
+                        Text(
+                            text = label,
+                            style = MaterialTheme.typography.labelLarge,
+                            color = LaTaverneColors.OrangeInk,
+                            modifier = Modifier.padding(top = 12.dp),
+                        )
+                    }
                     if (state.activeRules.isNotEmpty()) {
                         Text(
                             text = stringResource(R.string.prompt_active_rules),
@@ -120,4 +128,16 @@ fun PromptScreen(
             }
         }
     }
+}
+
+/**
+ * Builds the "C'est à X de jouer" hint for a resolved target (genre-m/f, single, couple,
+ * pair). Returns null when nothing resolves - an item without a resolvable `targets` never
+ * shows this line.
+ */
+@Composable
+private fun targetLabel(targetPlayers: List<Player>): String? = when (targetPlayers.size) {
+    0 -> null
+    1 -> stringResource(R.string.prompt_target_single, targetPlayers[0].name)
+    else -> stringResource(R.string.prompt_target_pair, targetPlayers[0].name, targetPlayers[1].name)
 }
