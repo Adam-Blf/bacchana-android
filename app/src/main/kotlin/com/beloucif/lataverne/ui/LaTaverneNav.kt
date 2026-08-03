@@ -9,6 +9,7 @@ object LaTaverneRoutes {
     const val RECAP = "recap"
     const val ROULETTE = "roulette"
     const val TRIBUNAL = "tribunal"
+    const val AUCTION = "auction"
 
     fun prompt(mode: String) = "prompt/$mode"
 }

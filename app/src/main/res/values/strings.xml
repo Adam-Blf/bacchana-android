@@ -80,6 +80,28 @@
     <string name="tribunal_recap_title">Le verdict de la soirée</string>
     <string name="tribunal_recap_none">Personne n\'a été reconnu coupable ce soir.</string>
 
+    <!-- Auction (La Criée) -->
+    <string name="auction_title">La Criée</string>
+    <string name="auction_theme_label">Le thème</string>
+    <string name="auction_bidding_hint">Annoncez à voix haute combien vous pouvez en citer en 1 minute. Surenchérissez… ou criez « tu mens ! »</string>
+    <string name="auction_decrease_bid">Baisser l\'enchère</string>
+    <string name="auction_increase_bid">Monter l\'enchère</string>
+    <string name="auction_start_challenge">« Tu mens ! » - lancer le chrono</string>
+    <string name="auction_change_theme">Changer de thème</string>
+    <string name="auction_seconds_left">%1$ds</string>
+    <string name="auction_challenge_hint">Cite-les ! La table valide chaque bonne réponse.</string>
+    <string name="auction_decrease_cited">Retirer une bonne réponse</string>
+    <string name="auction_increase_cited">Compter une bonne réponse</string>
+    <string name="auction_cited_ratio">%1$d/%2$d</string>
+    <string name="auction_stop_challenge">Arrêter le défi</string>
+    <string name="auction_result_success_title">Pari tenu !</string>
+    <string name="auction_result_success_body">%1$d cité(s) sur %2$d. Celui qui a crié « tu mens » prend %3$d pénalité(s).</string>
+    <string name="auction_result_failure_title">Ça sentait le bluff…</string>
+    <string name="auction_result_failure_body">%1$d cité(s) sur %2$d annoncés. L\'enchérisseur prend %3$d pénalité(s).</string>
+    <string name="auction_new_theme">Nouveau thème</string>
+    <string name="auction_finish">Terminer la partie</string>
+    <string name="auction_quit_description">Quitter la Criée et revenir à l\'accueil</string>
+
     <!-- Recap -->
     <string name="recap_title">Récap de la soirée</string>
     <string name="recap_podium_1">1er</string>

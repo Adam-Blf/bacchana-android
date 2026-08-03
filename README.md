@@ -1,6 +1,6 @@
 <!-- adam-badges:start -->
 [![commits](https://img.shields.io/github/commit-activity/t/Adam-Blf/la-taverne-android?color=001329&label=commits&style=flat-square)](https://github.com/Adam-Blf/la-taverne-android/commits)
-[![version](https://img.shields.io/badge/version-0.4.0-D4A437?style=flat-square)](CHANGELOG.md)
+[![version](https://img.shields.io/badge/version-0.5.0-D4A437?style=flat-square)](CHANGELOG.md)
 [![platform](https://img.shields.io/badge/platform-Android%208.0%2B-001329?style=flat-square)](#)
 [![kotlin](https://img.shields.io/badge/kotlin-2.0.21-7F52FF?style=flat-square)](#)
 [![release](https://img.shields.io/github/actions/workflow/status/Adam-Blf/la-taverne-android/release.yml?label=release&style=flat-square)](RELEASING.md)
@@ -15,9 +15,10 @@ défaut. Le Coupe-Gorge
 (jeu de cartes 52 cartes avec système de contestation escaladable), une
 poignée de modes de prompts tour par tour (Le Meneur, Action ou Vérité,
 Tu préfères, Je n'ai jamais, Qui de nous, 7 secondes, C'est un 10 mais)
-La Roue du Destin (roulette à 8 segments, sans joueur nommé, sans récap) et
+La Roue du Destin (roulette à 8 segments, sans joueur nommé, sans récap),
 Le Pilori (tribunal : accusations écrites par la table ou tirées de l'app,
-procès aléatoire, verdict à la majorité, récap interne au mode).
+procès aléatoire, verdict à la majorité, récap interne au mode) et La Criée
+(enchère à voix haute, défi chronométré 60s, sans joueur nommé, sans récap).
 
 Store-safe par construction : zéro référence à l'alcool dans le code, les
 chaînes ou le contenu. L'unité de jeu est la "pénalité", l'As déclenche une
@@ -35,6 +36,7 @@ flowchart TD
         Prompt[PromptSession - pile sans repetition]
         Interp[interpolate - player / player2]
         Tribunal[TribunalEngine - reducer pur, penaltyCounts local]
+        Auction[AuctionContent - 50 themes embarques]
     end
 
     subgraph content["la-taverne-content (repo separe, source de verite)"]
@@ -50,7 +52,7 @@ flowchart TD
         Assets[assets/packs/*.json]
         Repo[PackRepository]
         VM[ViewModels: Borderland / Prompt / PlayerSession]
-        UI[Welcome / Hub / Borderland / Prompt / Roulette / Tribunal / Recap]
+        UI[Welcome / Hub / Borderland / Prompt / Roulette / Tribunal / Auction / Recap]
         Store[PlayerStore - DataStore]
         Billing[EntitlementRepository - stub, RevenueCat TODO]
         Analytics[AnalyticsTracker - stub, PostHog TODO]
