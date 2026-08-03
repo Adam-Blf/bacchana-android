@@ -47,6 +47,7 @@ fun HubScreen(
     onSelectTribunal: () -> Unit,
     onSelectAuction: () -> Unit,
     onSelectQuiz: () -> Unit,
+    onSelectRanking: () -> Unit,
 ) {
     var freeModes by remember { mutableStateOf<List<GameMode>>(emptyList()) }
 
@@ -138,6 +139,17 @@ fun HubScreen(
                     onClick = onSelectQuiz,
                 )
             }
+            item {
+                // Le Tableau d'Honneur (Ranking) is embedded too - a judge ranks the other
+                // players, so it needs at least 3 contestants on top of the judge: 4-player floor.
+                ModeTile(
+                    title = modeDisplayName(GameMode.RANKING),
+                    locked = false,
+                    minPlayers = 4,
+                    playerCount = playerCount,
+                    onClick = onSelectRanking,
+                )
+            }
         }
     }
 }
@@ -197,4 +209,5 @@ private fun modeDisplayName(mode: GameMode): String = when (mode) {
     GameMode.ROULETTE -> "La Roue du Destin"
     GameMode.AUCTION -> "La Criée"
     GameMode.QUIZ -> "Quitte ou Trinque"
+    GameMode.RANKING -> "Le Tableau d'Honneur"
 }

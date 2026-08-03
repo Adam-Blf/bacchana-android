@@ -4,6 +4,32 @@ All notable changes to La Taverne Android are documented here.
 Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 versioning follows [SemVer](https://semver.org/).
 
+## [0.7.0] - 2026-08-03
+
+### Added
+- Mode "Le Tableau d'Honneur" (ranking, 5e et dernier mode) : 40 questions de
+  classement embarquées (`core/RankingContent.kt`, mirroir de
+  `la-taverne/src/content/ranking.ts`), un juge tourne à chaque manche et
+  découvre en secret une question de classement (`RankingPhase.JUDGING`),
+  classe les autres joueurs dans l'ordre des taps (exclut le juge). La table
+  ne voit ensuite que le podium résultant, jamais la question, et doit
+  deviner laquelle des 4 propositions mélangées (3 leurres distincts + la
+  vraie) l'a produit. Bonne réponse : le juge prend `JUDGE_PENALTY` (3)
+  pénalités ; mauvaise réponse : chaque joueur non-juge prend
+  `GROUP_PENALTY` (1) chacun - pénalités asymétriques fidèles au moteur web.
+  Moteur pur et testable `core/RankingSession.kt`
+  (`RankingSessionState` immuable + fonctions réductrices
+  `startJudging`/`toggleRanked`/`confirmRanking`/`startGuessing`/
+  `guessQuestion`/`nextRound`, 19 tests unitaires couvrant l'invariant
+  "tous classés" avant confirmation, les deux branches de pénalité, la
+  rotation du juge avec wrap-around, la fin de file et le déterminisme du
+  `Random` injecté), aucune mutation directe de `Player.penaltiesStandard` -
+  le tally de la session vit dans un récap interne au mode (`RankingRecap`
+  dans `RankingScreen.kt`), pas dans `RecapScreen`. Tuile "Le Tableau
+  d'Honneur" ajoutée au hub (4 joueurs min. - juge + au moins 3 classés),
+  route `ranking` dans le NavHost, `session_completed { mode: "ranking",
+  turns }` tracké à la sortie.
+
 ## [0.6.0] - 2026-08-03
 
 ### Added
