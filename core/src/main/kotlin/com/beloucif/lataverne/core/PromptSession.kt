@@ -40,6 +40,13 @@ class PromptSession(
 
     val currentPlayer: Player get() = players[currentPlayerIndex]
 
+    /**
+     * Increments once per [drawNext], starting at 0. Combined with the drawn item's id it seeds
+     * [seededRandom] for a deterministic per-turn target resolution (see [resolveTarget]).
+     */
+    var turnNumber: Int = 0
+        private set
+
     /** True while a prompt can still be drawn (draw pile or discard pile is non-empty). */
     fun hasNext(): Boolean = drawPile.isNotEmpty() || discardPile.isNotEmpty()
 
@@ -49,6 +56,7 @@ class PromptSession(
      */
     fun drawNext(): PromptDraw {
         check(hasNext()) { "No prompt items left" }
+        turnNumber++
         if (drawPile.isEmpty()) {
             drawPile = discardPile.shuffled(random).toMutableList()
             discardPile = mutableListOf()

@@ -47,6 +47,8 @@ enum class TargetsDto {
     @SerialName("gender-m") GENDER_M,
     @SerialName("gender-f") GENDER_F,
     @SerialName("pair") PAIR,
+    @SerialName("single") SINGLE,
+    @SerialName("couple") COUPLE,
 }
 
 @Serializable
