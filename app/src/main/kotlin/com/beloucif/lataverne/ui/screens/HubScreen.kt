@@ -45,6 +45,7 @@ fun HubScreen(
     onSelectPromptMode: (GameMode) -> Unit,
     onSelectRoulette: () -> Unit,
     onSelectTribunal: () -> Unit,
+    onSelectAuction: () -> Unit,
 ) {
     var freeModes by remember { mutableStateOf<List<GameMode>>(emptyList()) }
 
@@ -114,6 +115,17 @@ fun HubScreen(
                     onClick = onSelectTribunal,
                 )
             }
+            item {
+                // La Criée (Auction) is embedded too - the bidding voice needs at least a
+                // bidder and a challenger, hence the 2-player floor like most prompt modes.
+                ModeTile(
+                    title = modeDisplayName(GameMode.AUCTION),
+                    locked = false,
+                    minPlayers = 2,
+                    playerCount = playerCount,
+                    onClick = onSelectAuction,
+                )
+            }
         }
     }
 }
@@ -171,4 +183,5 @@ private fun modeDisplayName(mode: GameMode): String = when (mode) {
     GameMode.SEVEN_SECONDS -> "7 secondes"
     GameMode.TRIBUNAL -> "Le Pilori"
     GameMode.ROULETTE -> "La Roue du Destin"
+    GameMode.AUCTION -> "La Criée"
 }
