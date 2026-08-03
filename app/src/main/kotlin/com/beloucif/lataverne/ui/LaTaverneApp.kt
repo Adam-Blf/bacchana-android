@@ -19,6 +19,7 @@ import com.beloucif.lataverne.ui.screens.BorderlandScreen
 import com.beloucif.lataverne.ui.screens.HubScreen
 import com.beloucif.lataverne.ui.screens.PromptScreen
 import com.beloucif.lataverne.ui.screens.RecapScreen
+import com.beloucif.lataverne.ui.screens.RouletteScreen
 import com.beloucif.lataverne.ui.screens.WelcomeScreen
 
 /** Root composable: owns the NavHost and the shared player session. */
@@ -57,6 +58,20 @@ fun LaTaverneApp(
                 packRepository = packRepository,
                 onSelectBorderland = { navController.navigate(LaTaverneRoutes.BORDERLAND) },
                 onSelectPromptMode = { mode -> navController.navigate(LaTaverneRoutes.prompt(mode.name)) },
+                onSelectRoulette = { navController.navigate(LaTaverneRoutes.ROULETTE) },
+            )
+        }
+
+        composable(LaTaverneRoutes.ROULETTE) {
+            LaunchedEffect(Unit) { analyticsTracker.trackScreen("roulette") }
+            RouletteScreen(
+                onQuit = { spinsPlayed ->
+                    analyticsTracker.trackEvent(
+                        "session_completed",
+                        mapOf("mode" to "roulette", "turns" to spinsPlayed),
+                    )
+                    navController.popBackStack()
+                },
             )
         }
 

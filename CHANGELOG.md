@@ -4,6 +4,19 @@ All notable changes to La Taverne Android are documented here.
 Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 versioning follows [SemVer](https://semver.org/).
 
+## [0.3.0] - 2026-08-03
+
+### Added
+- Mode "La Roue du Destin" (roulette) : roue à 8 segments (pénalités
+  abstraites, jamais d'alcool nommé), sans joueur nommé et sans récap.
+  Animation de rotation ~3.2s (easing casino, ~5 tours + offset vers le
+  centre du segment tiré), dégradée en position figée si l'utilisateur a
+  désactivé les animations système (`ANIMATOR_DURATION_SCALE`).
+  `core/RouletteContent.kt` mirrore `la-taverne/src/content/roulette.ts`.
+  Tuile "La Roue du Destin" ajoutée au hub, route `roulette` dans le
+  NavHost, `session_completed { mode: "roulette", turns }` tracké à la
+  sortie.
+
 ## [0.2.0] - 2026-08-02
 
 ### Changed

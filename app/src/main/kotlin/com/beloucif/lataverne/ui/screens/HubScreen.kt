@@ -43,6 +43,7 @@ fun HubScreen(
     packRepository: PackRepository,
     onSelectBorderland: () -> Unit,
     onSelectPromptMode: (GameMode) -> Unit,
+    onSelectRoulette: () -> Unit,
 ) {
     var freeModes by remember { mutableStateOf<List<GameMode>>(emptyList()) }
 
@@ -88,6 +89,17 @@ fun HubScreen(
                     minPlayers = 2,
                     playerCount = playerCount,
                     onClick = { onSelectPromptMode(mode) },
+                )
+            }
+            item {
+                // La Roulette is embedded (no content pack in la-taverne-content), so it
+                // never appears in `freeModes` - wired here directly, like Le Coupe-Gorge.
+                ModeTile(
+                    title = modeDisplayName(GameMode.ROULETTE),
+                    locked = false,
+                    minPlayers = 1,
+                    playerCount = playerCount,
+                    onClick = onSelectRoulette,
                 )
             }
         }
@@ -146,5 +158,5 @@ private fun modeDisplayName(mode: GameMode): String = when (mode) {
     GameMode.ITS_A_10_BUT -> "C'est un 10 mais"
     GameMode.SEVEN_SECONDS -> "7 secondes"
     GameMode.TRIBUNAL -> "Le Tribunal"
-    GameMode.ROULETTE -> "La Roulette"
+    GameMode.ROULETTE -> "La Roue du Destin"
 }

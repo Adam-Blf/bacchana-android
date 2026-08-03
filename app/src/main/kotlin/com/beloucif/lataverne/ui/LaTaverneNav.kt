@@ -7,6 +7,7 @@ object LaTaverneRoutes {
     const val BORDERLAND = "borderland"
     const val PROMPT = "prompt/{mode}"
     const val RECAP = "recap"
+    const val ROULETTE = "roulette"
 
     fun prompt(mode: String) = "prompt/$mode"
 }
