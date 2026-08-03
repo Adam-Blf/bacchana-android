@@ -33,6 +33,7 @@ flowchart TD
         Roulette["RouletteContent - 40 segments natifs"]
         Plan["PremiumPlan - mapping produit RevenueCat vers offre"]
         Model["ContentPack / GameMode - modele de contenu, sans serialisation"]
+        Targeting["Targeting.kt - resolveTarget genre/statut/paire, Random injectable"]
     end
 
     subgraph app[":app - Jetpack Compose, Material 3, DI manuel"]
@@ -45,8 +46,9 @@ flowchart TD
         Modes["Ecrans de mode : Borderland / Prompt / Roulette / Tribunal / Auction / Quiz / Ranking / WouldYouRather / Recap"]
         Welcome["WelcomeScreen - disclaimer 18+"]
         Paywall["PaywallScreen - 3 offres, restaurer les achats"]
-        Theme["ui/theme - couleurs / polices auto-hebergees"]
+        Theme["ui/theme - clair/sombre neobrutaliste, polices auto-hebergees"]
         Store["PlayerStore - DataStore"]
+        ThemeStore["ThemeStore - DataStore, clair/sombre/systeme"]
         Consent["ConsentStore + ConsentBanner - opt-in RGPD"]
         Billing["EntitlementRepository (interface)"]
         Analytics["AnalyticsTracker (interface)"]
@@ -61,6 +63,7 @@ flowchart TD
     PremiumCatalog --> Repo
     AppRoot --> Repo
     AppRoot --> Store
+    AppRoot --> ThemeStore
     AppRoot --> Consent
     AppRoot --> Billing
     AppRoot --> Analytics
@@ -72,12 +75,13 @@ flowchart TD
     Hub --> Paywall
     Welcome --> Hub
     Store --> Hub
+    ThemeStore --> Hub
     Theme --> Modes
     Consent --> Analytics
     Paywall --> Billing
     Billing -.->|"BuildConfig.BILLING_ENABLED = cle RevenueCat presente"| RC
     Analytics -.->|"BuildConfig.ANALYTICS_ENABLED = cle PostHog presente ET consentement accorde"| PH
-    Tokens -.->|"source des couleurs Compose"| Theme
+    Tokens -.->|"source des couleurs Compose, clair + sombre"| Theme
 
     app -->|":app depend de :core, jamais l'inverse"| core
 ```
@@ -88,14 +92,19 @@ flowchart TD
   contient les moteurs de jeu sous forme de reducers purs et testables
   (`BorderlandEngine`, `PromptSession`, `TribunalSession`, `QuizSession`,
   `RankingSession`, `WouldYouRatherSession`), le modele de contenu
-  (`ContentPack`, `GameMode`) et le mapping des offres (`PremiumPlan`). Tourne
-  avec `./gradlew :core:test` sans SDK Android.
-- **`:app` (Jetpack Compose, Material 3).** L'UI : `WelcomeScreen`,
-  `HubScreen` (bento grid qui route vers chaque ecran de mode), les ecrans de
-  mode, `PaywallScreen`, et le theme neobrutaliste taverne
-  (`ui/theme`). `LaTaverneApplication` sert de conteneur de DI manuel et cable
-  chaque dependance comme une interface. La dependance va toujours de `:app`
-  vers `:core`, jamais l'inverse.
+  (`ContentPack`, `GameMode`), le mapping des offres (`PremiumPlan`) et
+  `Targeting.kt` qui resout `Targets.GENDER_M/GENDER_F/SINGLE/COUPLE/PAIR`
+  vers un ou deux `Player` a partir de leurs attributs optionnels
+  `gender`/`relationship`, avec repli aleatoire gracieux. Tourne avec
+  `./gradlew :core:test` sans SDK Android.
+- **`:app` (Jetpack Compose, Material 3).** L'UI : `WelcomeScreen` (genre et
+  statut facultatifs par joueur, panneau replie par defaut), `HubScreen`
+  (bento grid qui route vers chaque ecran de mode, toggle clair/sombre
+  discret), les ecrans de mode, `PaywallScreen`, et le theme neobrutaliste
+  taverne (`ui/theme`) : clair par defaut, variante sombre "pop" sur encre
+  neutre, preference persistee par `ThemeStore`. `LaTaverneApplication` sert
+  de conteneur de DI manuel et cable chaque dependance comme une interface.
+  La dependance va toujours de `:app` vers `:core`, jamais l'inverse.
 - **Billing (transverse, gated).** `EntitlementRepository` est une interface :
   `RevenueCatEntitlementRepository` n'est branche que si
   `BuildConfig.BILLING_ENABLED` est vrai (cle `REVENUECAT_API_KEY` presente),
@@ -132,7 +141,7 @@ deterministe dans `:core` (un `Random` injectable pour les tests), et son
 contenu embarque a cote sous forme de constantes Kotlin. Ce contenu natif est
 tenu a parite avec la version web (`la-taverne`), ce qui garantit qu'un meme
 mode se joue identiquement sur mobile et sur le web. La logique etant separee
-de Compose, elle se teste sans SDK Android (100 tests JUnit dans `:core`).
+de Compose, elle se teste sans SDK Android (113 tests JUnit dans `:core`).
 
 ## Principe gated
 
