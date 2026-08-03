@@ -1,6 +1,6 @@
 <!-- adam-badges:start -->
 [![commits](https://img.shields.io/github/commit-activity/t/Adam-Blf/la-taverne-android?color=001329&label=commits&style=flat-square)](https://github.com/Adam-Blf/la-taverne-android/commits)
-[![version](https://img.shields.io/badge/version-0.8.0-D4A437?style=flat-square)](CHANGELOG.md)
+[![version](https://img.shields.io/badge/version-0.9.0-D4A437?style=flat-square)](CHANGELOG.md)
 [![platform](https://img.shields.io/badge/platform-Android%208.0%2B-001329?style=flat-square)](#)
 [![kotlin](https://img.shields.io/badge/kotlin-2.0.21-7F52FF?style=flat-square)](#)
 [![release](https://img.shields.io/github/actions/workflow/status/Adam-Blf/la-taverne-android/release.yml?label=release&style=flat-square)](RELEASING.md)
@@ -66,8 +66,15 @@ flowchart TD
         VM[ViewModels: Borderland / Prompt / PlayerSession]
         UI[Welcome / Hub / Borderland / Prompt / Roulette / Tribunal / Auction / Quiz / Ranking / WouldYouRather / Recap]
         Store[PlayerStore - DataStore]
-        Billing[EntitlementRepository - stub, RevenueCat TODO]
-        Analytics[AnalyticsTracker - stub, PostHog TODO]
+        Consent[ConsentStore - DataStore, opt-in RGPD]
+        Billing[EntitlementRepository - Stub ou RevenueCatEntitlementRepository]
+        Analytics[AnalyticsTracker - NoOp ou PostHogAnalyticsTracker]
+        Paywall[PaywallScreen - 3 offres, restaurer les achats]
+    end
+
+    subgraph external["Services externes (gated par cle API)"]
+        RC[RevenueCat - entitlement "La Taverne Pro"]
+        PH[PostHog EU - eu.i.posthog.com]
     end
 
     Assets --> Repo
@@ -76,8 +83,11 @@ flowchart TD
     core --> VM
     VM --> UI
     Store --> UI
-    Billing -.gated by BuildConfig.BILLING_ENABLED.-> UI
-    Analytics -.gated by BuildConfig.ANALYTICS_ENABLED + consentement.-> UI
+    Consent --> Analytics
+    UI --> Paywall
+    Paywall --> Billing
+    Billing -.BuildConfig.BILLING_ENABLED = cle RevenueCat presente.-> RC
+    Analytics -.BuildConfig.ANALYTICS_ENABLED = cle PostHog presente ET consentement.-> PH
     Tokens -.source des couleurs Compose.-> UI
 ```
 
@@ -123,7 +133,10 @@ python scripts/sync_content.py
 ```
 
 `local.properties` (non versionné) doit pointer `sdk.dir` vers ton
-installation du SDK Android.
+installation du SDK Android. Copie `local.properties.example` vers
+`local.properties` pour renseigner en plus `REVENUECAT_API_KEY` et
+`POSTHOG_API_KEY` en local - les deux sont optionnelles, l'app tourne en
+mode invité sans elles (build, tests et CI ne les ont jamais).
 
 ## Conformité Play Store
 
@@ -134,27 +147,46 @@ installation du SDK Android.
   Play sur le contenu lié à l'alcool.
 - **Disclaimer** "18 ans et plus. Jouez responsable." affiché dès l'écran
   d'accueil.
-- **Paiement in-app (à venir)** : `EntitlementRepository` est prêt côté
-  architecture (interface + stub `isPremium = false`), l'intégration réelle
-  RevenueCat/Play Billing est gated derrière `BuildConfig.BILLING_ENABLED` et
-  sera livrée dans une version ultérieure avec CGV/mentions légales à jour
-  (voir CLAUDE.md section 18 - conformité droit français, retractation 14j
-  B2C, facturation conforme).
-- **Analytics (à venir)** : `AnalyticsTracker` est un no-op tant qu'aucun
-  consentement RGPD explicite (non pré-coché) n'est recueilli.
+- **Paiement in-app** : `RevenueCatEntitlementRepository` encapsule le SDK
+  Purchases (entitlement `La Taverne Pro`, 3 offres - mensuel 4,99 €, annuel
+  19,99 €, à vie 34,99 € mis en avant - transparence tarifaire totale, aucun
+  essai gratuit trompeur). Actif uniquement si `BuildConfig.BILLING_ENABLED`
+  est vrai, c'est-à-dire si une clé RevenueCat (`REVENUECAT_API_KEY`) est
+  configurée dans `local.properties` ou en variable d'env - sinon
+  `StubEntitlementRepository` prend le relais (mode invité, bouton d'achat
+  désactivé "Bientôt disponible"). CI sans clé = toujours en mode invité,
+  jamais de crash. CGV/mentions légales à jour restent à publier avant mise
+  en vente réelle (voir CLAUDE.md section 18 - conformité droit français,
+  rétractation 14j B2C, facturation conforme).
+- **Analytics** : `PostHogAnalyticsTracker` (instance EU,
+  `eu.i.posthog.com`) n'est sélectionné que si `BuildConfig.ANALYTICS_ENABLED`
+  est vrai (`POSTHOG_API_KEY` configurée) ; sinon `NoOpAnalyticsTracker`.
+  Même avec une clé, le SDK PostHog n'est jamais initialisé - donc aucun
+  appel réseau - tant que le joueur n'a pas explicitement accepté la bannière
+  de consentement (`ConsentBanner` + `ConsentStore`, boutons accepter/refuser
+  à égalité visuelle, refus jamais pré-coché).
+- **Contenu premium livré après achat** : reste un chantier séparé - le
+  catalogue premium n'expose aujourd'hui que ses métadonnées
+  (`assets/premium-catalog.json`), jamais le texte des prompts. Les tuiles
+  premium du hub ouvrent le paywall ; la synchronisation du contenu réel
+  après achat (`scripts/sync_content.py`) n'est pas dans ce lot.
 - **Restes avant soumission** : icône monochrome adaptative (Android 13+
   themed icons, actuellement non fournie - lint `MonochromeLauncherIcon`),
   fiche Play Console (captures d'écran, description longue/courte, politique
   de confidentialité publiée), signature de release (keystore, jamais commité
-  - voir `.gitignore`), tests sur device physique.
+  - voir `.gitignore`), tests sur device physique, provisioning réel des
+  produits RevenueCat (`premium_monthly`/`premium_yearly`/`premium_lifetime`)
+  et de l'entitlement `La Taverne Pro` côté dashboard.
 
 ## Stack
 
 Kotlin 2.0.21, Jetpack Compose (BOM 2024.10.01), Material 3, Navigation
-Compose, kotlinx.serialization, DataStore Preferences, coroutines. Min SDK 26,
-target SDK 35. Polices auto-hébergées (aucun CDN) : Anton (display), Space
-Grotesk (corps), Space Mono (chiffres/HUD) - jamais JetBrains Mono ni IBM
-Plex Mono.
+Compose, kotlinx.serialization, DataStore Preferences, coroutines. RevenueCat
+Purchases SDK (Android, `8.+`) et PostHog Android (`3.+`) pour la
+monétisation/analytics, tous deux gated derrière une clé API absente en CI.
+Min SDK 26, target SDK 35. Polices auto-hébergées (aucun CDN) : Anton
+(display), Space Grotesk (corps), Space Mono (chiffres/HUD) - jamais
+JetBrains Mono ni IBM Plex Mono.
 
 ## Tests
 
@@ -166,6 +198,8 @@ transitions de phase), l'interpolation `{player}`/`{player2}`,
 rôles, ciblage `chosen`), `TribunalEngine`, `QuizSession`, `RankingSession`
 du Tableau d'Honneur (invariant "tous classés" avant confirmation, pénalités
 asymétriques juge/groupe, rotation du juge avec wrap-around, déterminisme du
-`Random` injecté) et `WouldYouRatherSession` de Tu préfères (camp minoritaire
+`Random` injecté), `WouldYouRatherSession` de Tu préfères (camp minoritaire
 pénalisé, égalité et unanimité neutres, cumul multi-manches, unicité du vote
-par joueur, fin de file, déterminisme du `Random` injecté).
+par joueur, fin de file, déterminisme du `Random` injecté) et `PremiumPlan`
+(mapping id produit RevenueCat -> offre, y compris les suffixes de base plan
+Play Store, et l'activation de l'entitlement `La Taverne Pro`).

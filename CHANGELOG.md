@@ -4,6 +4,41 @@ All notable changes to La Taverne Android are documented here.
 Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 versioning follows [SemVer](https://semver.org/).
 
+## [0.9.0] - 2026-08-03
+
+### Added
+- Monetisation native (RevenueCat) et analytics natives (PostHog), toutes
+  deux gated : l'app compile et tourne en mode invite sans aucune cle API,
+  ce qui reste toujours le cas en CI. `RevenueCatEntitlementRepository`
+  encapsule le SDK Purchases (entitlement `La Taverne Pro`, 3 offres
+  mensuel/annuel/a vie mappees par `core/PremiumPlan.kt`), selectionne par
+  `LaTaverneApplication` uniquement quand `BuildConfig.BILLING_ENABLED` est
+  vrai (cle `REVENUECAT_API_KEY` presente dans `local.properties` ou en env),
+  sinon `StubEntitlementRepository` (mode invite existant, inchange).
+  `PostHogAnalyticsTracker` (instance EU, `eu.i.posthog.com`) n'initialise
+  jamais le SDK - donc aucun appel reseau - avant un consentement explicite
+  et non pre-coche (`ConsentBanner` + `ConsentStore`, DataStore local,
+  boutons accepter/refuser a egalite visuelle), selectionne uniquement quand
+  `BuildConfig.ANALYTICS_ENABLED` est vrai (cle `POSTHOG_API_KEY` presente).
+- Nouvel ecran `PaywallScreen` : 3 offres (mensuel 4,99 €, annuel 19,99 €, a
+  vie 34,99 € mis en avant comme meilleure offre - notre differenciant face
+  au tout-abonnement), bouton restaurer les achats, transparence tarifaire
+  totale (aucun essai gratuit mentionne). Sans cle RevenueCat, le bouton
+  d'achat est desactive ("Bientot disponible"), jamais de checkout casse.
+  Evenements traques : `paywall_shown`, `paywall_dismissed`,
+  `purchase_started`, `purchase_completed`, `restore_completed`.
+- Tuiles premium au hub : le catalogue premium (metadonnees seules, voir
+  `PackRepository.loadPremiumCatalog()`) s'affiche desormais en tuiles
+  verrouillees qui ouvrent le paywall (une seule offre debloque tout le
+  catalogue - modele par entitlement, pas d'achat par pack).
+- `core/PremiumPlan.kt` : mapping id produit RevenueCat (avec suffixes de
+  base plan Play Store) -> offre, et activation de l'entitlement `La
+  Taverne Pro`, teste par `PremiumPlanTest` (4 tests unitaires JVM purs,
+  aucun SDK Android requis).
+- Dependances ajoutees : `com.revenuecat.purchases:purchases` et
+  `com.posthog:posthog-android` (versions dynamiques `8.+`/`3.+` - toujours
+  resolubles sans cle, jamais initialisees sans cle).
+
 ## [0.8.0] - 2026-08-03
 
 ### Added

@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- Required by RevenueCat and PostHog when a key is configured (BuildConfig gating,
+         see billing/RevenueCatEntitlementRepository.kt and analytics/PostHogAnalyticsTracker.kt).
+         Both SDKs stay entirely inert without a key, so this permission grants no reach without
+         one. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:name=".LaTaverneApplication"
         android:allowBackup="false"
