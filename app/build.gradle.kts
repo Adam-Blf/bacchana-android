@@ -1,9 +1,25 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.kotlin.compose)
 }
+
+// RevenueCat / PostHog API keys: read from local.properties (gitignored, see
+// local.properties.example) or env vars, never hardcoded. Both stay blank in CI, which is
+// exactly what keeps the app buildable and running in guest mode with zero secrets.
+val secretsProperties = Properties().apply {
+    val file = rootProject.file("local.properties")
+    if (file.exists()) FileInputStream(file).use { load(it) }
+}
+
+fun secret(key: String): String = secretsProperties.getProperty(key) ?: System.getenv(key) ?: ""
+
+val revenueCatApiKey = secret("REVENUECAT_API_KEY")
+val postHogApiKey = secret("POSTHOG_API_KEY")
 
 android {
     namespace = "com.beloucif.lataverne"
@@ -13,8 +29,8 @@ android {
         applicationId = "com.beloucif.lataverne"
         minSdk = 26
         targetSdk = 35
-        versionCode = 8
-        versionName = "0.8.0"
+        versionCode = 9
+        versionName = "0.9.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -48,15 +64,19 @@ android {
         }
     }
 
-    // BuildConfig flag gating RevenueCat/Play Billing: off until entitlements are wired up.
+    // BuildConfig flags gating RevenueCat/PostHog: true only when the matching API key is
+    // present (local.properties or env), so CI - which never has these keys - always builds
+    // and runs in guest mode, and no real network call is ever attempted without a key.
     buildFeatures {
         compose = true
         buildConfig = true
     }
 
     defaultConfig {
-        buildConfigField("boolean", "BILLING_ENABLED", "false")
-        buildConfigField("boolean", "ANALYTICS_ENABLED", "false")
+        buildConfigField("boolean", "BILLING_ENABLED", "${revenueCatApiKey.isNotBlank()}")
+        buildConfigField("boolean", "ANALYTICS_ENABLED", "${postHogApiKey.isNotBlank()}")
+        buildConfigField("String", "REVENUECAT_API_KEY", "\"$revenueCatApiKey\"")
+        buildConfigField("String", "POSTHOG_API_KEY", "\"$postHogApiKey\"")
     }
 
     compileOptions {
@@ -102,8 +122,8 @@ dependencies {
     implementation(libs.compose.material.icons.core)
     debugImplementation(libs.compose.ui.tooling)
 
-    // TODO(RevenueCat): uncomment once BuildConfig.BILLING_ENABLED flips to true and the
-    // API key is provisioned. implementation("com.revenuecat.purchases:purchases:8.+")
+    implementation(libs.revenuecat.purchases)
+    implementation(libs.posthog.android)
 
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)
