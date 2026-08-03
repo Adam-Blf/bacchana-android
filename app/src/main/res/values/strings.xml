@@ -44,6 +44,13 @@
     <string name="prompt_active_rules">Règles en cours</string>
     <string name="prompt_no_more_players">Ajoute des joueurs pour continuer.</string>
 
+    <!-- Roulette -->
+    <string name="roulette_title">La Roue du Destin</string>
+    <string name="roulette_wheel_description">Roue de la fortune, %1$d segments</string>
+    <string name="roulette_spin">Lancer la roue</string>
+    <string name="roulette_spinning">Ça tourne…</string>
+    <string name="roulette_quit_description">Quitter la roulette et revenir à l\'accueil</string>
+
     <!-- Recap -->
     <string name="recap_title">Récap de la soirée</string>
     <string name="recap_podium_1">1er</string>

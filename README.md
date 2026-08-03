@@ -1,6 +1,6 @@
 <!-- adam-badges:start -->
 [![commits](https://img.shields.io/github/commit-activity/t/Adam-Blf/la-taverne-android?color=001329&label=commits&style=flat-square)](https://github.com/Adam-Blf/la-taverne-android/commits)
-[![version](https://img.shields.io/badge/version-0.2.0-D4A437?style=flat-square)](CHANGELOG.md)
+[![version](https://img.shields.io/badge/version-0.3.0-D4A437?style=flat-square)](CHANGELOG.md)
 [![platform](https://img.shields.io/badge/platform-Android%208.0%2B-001329?style=flat-square)](#)
 [![kotlin](https://img.shields.io/badge/kotlin-2.0.21-7F52FF?style=flat-square)](#)
 [![release](https://img.shields.io/github/actions/workflow/status/Adam-Blf/la-taverne-android/release.yml?label=release&style=flat-square)](RELEASING.md)
@@ -12,9 +12,10 @@
 Jeu de soirée entre potes, natif Android, DA néobrutaliste taverne : papier
 crème, encre, accent orange #FF5C00, ombres dures noires, thème clair par
 défaut. Le Coupe-Gorge
-(jeu de cartes 52 cartes avec système de contestation escaladable) et une
+(jeu de cartes 52 cartes avec système de contestation escaladable), une
 poignée de modes de prompts tour par tour (Le Meneur, Action ou Vérité,
-Tu préfères, Je n'ai jamais, Qui de nous, 7 secondes, C'est un 10 mais).
+Tu préfères, Je n'ai jamais, Qui de nous, 7 secondes, C'est un 10 mais)
+et La Roue du Destin (roulette à 8 segments, sans joueur nommé, sans récap).
 
 Store-safe par construction : zéro référence à l'alcool dans le code, les
 chaînes ou le contenu. L'unité de jeu est la "pénalité", l'As déclenche une
