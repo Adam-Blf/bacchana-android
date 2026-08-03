@@ -4,6 +4,25 @@ All notable changes to La Taverne Android are documented here.
 Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 versioning follows [SemVer](https://semver.org/).
 
+## [0.4.0] - 2026-08-03
+
+### Added
+- Mode "Le Pilori" (tribunal) : chaque joueur actif écrit une accusation
+  secrète contre la table (ou la table joue avec les 10 chefs
+  d'accusation embarqués de `core/TribunalContent.kt`, mirroir de
+  `la-taverne/src/content/tribunal.ts`). Un procès tire une accusation au
+  hasard, désigne un accusé au hasard en excluant l'auteur, puis passe
+  par une phase de défense informative avant le vote coupable/non
+  coupable. Une majorité de votes coupables ajoute une pénalité (+1
+  plat, pas de `calculatePenalty` Borderland) à l'accusé. Moteur pur et
+  testable `core/TribunalSession.kt` (`TribunalState` immuable +
+  `TribunalEngine` reducer, 15 tests unitaires), aucune mutation directe
+  de `Player.penaltiesStandard` - le tally de la session vit dans un
+  récap interne au mode (`TribunalRecap` dans `TribunalScreen.kt`), pas
+  dans `RecapScreen`. Tuile "Le Pilori" ajoutée au hub (3 joueurs min.),
+  route `tribunal` dans le NavHost, `session_completed { mode:
+  "tribunal", turns }` tracké à la sortie.
+
 ## [0.3.0] - 2026-08-03
 
 ### Added
