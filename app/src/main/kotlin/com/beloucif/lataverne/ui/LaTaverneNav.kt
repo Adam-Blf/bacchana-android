@@ -12,6 +12,7 @@ object LaTaverneRoutes {
     const val AUCTION = "auction"
     const val QUIZ = "quiz"
     const val RANKING = "ranking"
+    const val WOULD_YOU_RATHER = "would-you-rather"
 
     fun prompt(mode: String) = "prompt/$mode"
 }

@@ -25,6 +25,7 @@ import com.beloucif.lataverne.ui.screens.RecapScreen
 import com.beloucif.lataverne.ui.screens.RouletteScreen
 import com.beloucif.lataverne.ui.screens.TribunalScreen
 import com.beloucif.lataverne.ui.screens.WelcomeScreen
+import com.beloucif.lataverne.ui.screens.WouldYouRatherScreen
 
 /** Root composable: owns the NavHost and the shared player session. */
 @Composable
@@ -67,6 +68,7 @@ fun LaTaverneApp(
                 onSelectAuction = { navController.navigate(LaTaverneRoutes.AUCTION) },
                 onSelectQuiz = { navController.navigate(LaTaverneRoutes.QUIZ) },
                 onSelectRanking = { navController.navigate(LaTaverneRoutes.RANKING) },
+                onSelectWouldYouRather = { navController.navigate(LaTaverneRoutes.WOULD_YOU_RATHER) },
             )
         }
 
@@ -132,6 +134,20 @@ fun LaTaverneApp(
                     analyticsTracker.trackEvent(
                         "session_completed",
                         mapOf("mode" to "ranking", "turns" to roundsPlayed),
+                    )
+                    navController.popBackStack()
+                },
+            )
+        }
+
+        composable(LaTaverneRoutes.WOULD_YOU_RATHER) {
+            LaunchedEffect(Unit) { analyticsTracker.trackScreen("would_you_rather") }
+            WouldYouRatherScreen(
+                players = players,
+                onQuit = { roundsPlayed ->
+                    analyticsTracker.trackEvent(
+                        "session_completed",
+                        mapOf("mode" to "would_you_rather", "turns" to roundsPlayed),
                     )
                     navController.popBackStack()
                 },

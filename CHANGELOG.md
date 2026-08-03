@@ -4,6 +4,28 @@ All notable changes to La Taverne Android are documented here.
 Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 versioning follows [SemVer](https://semver.org/).
 
+## [0.8.0] - 2026-08-03
+
+### Added
+- Mode "Tu préfères" transformé en vraie mécanique de vote (parité avec la
+  version web) : un dilemme A ou B s'affiche, le téléphone reste au centre de
+  la table, chaque joueur actif tape son camp à son tour
+  (`core/WouldYouRatherSession.kt`, `WouldYouRatherSessionState` immuable +
+  fonctions réductrices `castVote`/`revealVotes`/`nextRound`, `Random`
+  injectable pour la file mélangée). Au reveal, le camp minoritaire prend
+  `MINORITY_PENALTY` (1) chacun ; une égalité parfaite ou un vote unanime ne
+  coûte rien à personne. 84 dilemmes embarqués
+  (`core/WouldYouRatherContent.kt`), 17 tests unitaires couvrant minorité qui
+  trinque, égalité, unanimité, cumul multi-manches, fin de file et unicité du
+  vote par joueur. Aucune mutation de `Player.penaltiesStandard` - le tally
+  vit dans un récap interne au mode (`WouldYouRatherRecap` dans
+  `WouldYouRatherScreen.kt`). Le mode passe de la voie prompt (pack de
+  contenu `tu-preferes-classique.json`, retiré des assets) à un mode
+  embarqué au même titre que Quitte ou Trinque ou Le Tableau d'Honneur :
+  tuile dédiée au hub (2 joueurs min.), route `would-you-rather` dans le
+  NavHost, `session_completed { mode: "would_you_rather", turns }` tracké à
+  la sortie.
+
 ## [0.7.0] - 2026-08-03
 
 ### Added

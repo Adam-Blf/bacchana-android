@@ -141,6 +141,21 @@
     <string name="ranking_recap_title">L\'addition du Tableau d\'Honneur</string>
     <string name="ranking_recap_none">Personne n\'a pris de pénalité ce soir.</string>
 
+    <!-- Would You Rather (Tu préfères) -->
+    <string name="wyr_title">Tu préfères</string>
+    <string name="wyr_round_progress">Dilemme %1$d/%2$d</string>
+    <string name="wyr_option_a_label">Option A</string>
+    <string name="wyr_option_b_label">Option B</string>
+    <string name="wyr_current_voter">Au tour de %1$s de voter</string>
+    <string name="wyr_votes_progress">%1$d/%2$d ont voté</string>
+    <string name="wyr_reveal_button">Voir qui trinque</string>
+    <string name="wyr_next_round">Dilemme suivant</string>
+    <string name="wyr_outcome_no_penalty">Égalité ou vote unanime : personne ne trinque !</string>
+    <string name="wyr_outcome_minority">%1$s trinque(nt) : %2$d pénalité(s) chacun !</string>
+    <string name="wyr_quit_description">Quitter Tu préfères et revenir à l\'accueil</string>
+    <string name="wyr_recap_title">L\'addition de Tu préfères</string>
+    <string name="wyr_recap_none">Personne n\'a pris de pénalité ce soir.</string>
+
     <!-- Recap -->
     <string name="recap_title">Récap de la soirée</string>
     <string name="recap_podium_1">1er</string>

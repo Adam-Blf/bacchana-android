@@ -48,13 +48,16 @@ fun HubScreen(
     onSelectAuction: () -> Unit,
     onSelectQuiz: () -> Unit,
     onSelectRanking: () -> Unit,
+    onSelectWouldYouRather: () -> Unit,
 ) {
     var freeModes by remember { mutableStateOf<List<GameMode>>(emptyList()) }
 
     LaunchedEffect(Unit) {
         val ids = packRepository.listFreePackIds()
         val modes = ids.mapNotNull { id -> packRepository.loadPack(id).getOrNull()?.pack?.mode }.distinct()
-        freeModes = modes
+        // Tu preferes is embedded (voting engine, no content pack) - never rendered through the
+        // prompt route even if a stale pack still ships it, wired here directly instead.
+        freeModes = modes.filterNot { it == GameMode.WOULD_YOU_RATHER }
     }
 
     Column(
@@ -148,6 +151,17 @@ fun HubScreen(
                     minPlayers = 4,
                     playerCount = playerCount,
                     onClick = onSelectRanking,
+                )
+            }
+            item {
+                // Tu preferes is embedded too - a real vote needs at least two camps to split,
+                // same 2-player floor as most turn-based modes.
+                ModeTile(
+                    title = modeDisplayName(GameMode.WOULD_YOU_RATHER),
+                    locked = false,
+                    minPlayers = 2,
+                    playerCount = playerCount,
+                    onClick = onSelectWouldYouRather,
                 )
             }
         }
