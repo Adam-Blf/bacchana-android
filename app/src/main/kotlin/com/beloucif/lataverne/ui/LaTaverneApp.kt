@@ -20,6 +20,7 @@ import com.beloucif.lataverne.ui.screens.HubScreen
 import com.beloucif.lataverne.ui.screens.PromptScreen
 import com.beloucif.lataverne.ui.screens.RecapScreen
 import com.beloucif.lataverne.ui.screens.RouletteScreen
+import com.beloucif.lataverne.ui.screens.TribunalScreen
 import com.beloucif.lataverne.ui.screens.WelcomeScreen
 
 /** Root composable: owns the NavHost and the shared player session. */
@@ -59,6 +60,7 @@ fun LaTaverneApp(
                 onSelectBorderland = { navController.navigate(LaTaverneRoutes.BORDERLAND) },
                 onSelectPromptMode = { mode -> navController.navigate(LaTaverneRoutes.prompt(mode.name)) },
                 onSelectRoulette = { navController.navigate(LaTaverneRoutes.ROULETTE) },
+                onSelectTribunal = { navController.navigate(LaTaverneRoutes.TRIBUNAL) },
             )
         }
 
@@ -69,6 +71,20 @@ fun LaTaverneApp(
                     analyticsTracker.trackEvent(
                         "session_completed",
                         mapOf("mode" to "roulette", "turns" to spinsPlayed),
+                    )
+                    navController.popBackStack()
+                },
+            )
+        }
+
+        composable(LaTaverneRoutes.TRIBUNAL) {
+            LaunchedEffect(Unit) { analyticsTracker.trackScreen("tribunal") }
+            TribunalScreen(
+                players = players,
+                onQuit = { trialsPlayed ->
+                    analyticsTracker.trackEvent(
+                        "session_completed",
+                        mapOf("mode" to "tribunal", "turns" to trialsPlayed),
                     )
                     navController.popBackStack()
                 },

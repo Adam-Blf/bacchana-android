@@ -8,6 +8,7 @@ object LaTaverneRoutes {
     const val PROMPT = "prompt/{mode}"
     const val RECAP = "recap"
     const val ROULETTE = "roulette"
+    const val TRIBUNAL = "tribunal"
 
     fun prompt(mode: String) = "prompt/$mode"
 }
