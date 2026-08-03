@@ -120,6 +120,27 @@
     <string name="quiz_recap_title">L\'addition du quiz</string>
     <string name="quiz_recap_none">Personne n\'a pris de pénalité ce soir.</string>
 
+    <!-- Ranking (Le Tableau d'Honneur) -->
+    <string name="ranking_title">Le Tableau d\'Honneur - manche %1$d</string>
+    <string name="ranking_quit_description">Quitter le Tableau d\'Honneur et revenir à l\'accueil</string>
+    <string name="ranking_handoff_hint">Personne d\'autre ne regarde !</string>
+    <string name="ranking_handoff_pass">Passe le téléphone à %1$s</string>
+    <string name="ranking_handoff_body">%1$s est le juge de cette manche : une question secrète l\'attend.</string>
+    <string name="ranking_handoff_button">Je suis %1$s, j\'ai le téléphone</string>
+    <string name="ranking_judging_secret_label">Question secrète - chut !</string>
+    <string name="ranking_judging_hint">Tape tes potes dans l\'ordre, du haut du podium vers le bas :</string>
+    <string name="ranking_confirm_button">Valider mon podium</string>
+    <string name="ranking_return_title">Podium verrouillé !</string>
+    <string name="ranking_return_body">%1$s, repose le téléphone au centre de la table.</string>
+    <string name="ranking_return_button">Le téléphone est au centre</string>
+    <string name="ranking_podium_label">Le podium de %1$s</string>
+    <string name="ranking_guessing_hint">Quelle question secrète a produit ce classement ? Mettez-vous d\'accord :</string>
+    <string name="ranking_reveal_correct">Trouvé ! %1$s prend %2$d pénalité(s).</string>
+    <string name="ranking_reveal_wrong">Raté, c\'était : « %1$s ». Tout le groupe prend %2$d pénalité.</string>
+    <string name="ranking_next_round">Manche suivante</string>
+    <string name="ranking_recap_title">L\'addition du Tableau d\'Honneur</string>
+    <string name="ranking_recap_none">Personne n\'a pris de pénalité ce soir.</string>
+
     <!-- Recap -->
     <string name="recap_title">Récap de la soirée</string>
     <string name="recap_podium_1">1er</string>
