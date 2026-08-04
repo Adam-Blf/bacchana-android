@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Syncs La Taverne content packs from ../la-taverne-content into the Android app.
+"""Syncs Meskova content packs from ../la-taverne-content into the Android app.
 
 Free packs (premium=false) are copied verbatim into app/src/main/assets/packs/
 so the app works fully offline with zero network calls. Premium packs never

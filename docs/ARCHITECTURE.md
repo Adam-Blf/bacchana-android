@@ -1,6 +1,6 @@
-# Architecture - La Taverne Android
+# Architecture - Meskova Android
 
-Ce document decrit l'architecture reelle de l'application Android La Taverne :
+Ce document decrit l'architecture reelle de l'application Android Meskova :
 les deux modules Gradle, les couches transverses de monetisation et
 d'analytics, et le flux de contenu depuis le repo `la-taverne-content`. Le
 diagramme est tenu a jour avec le code, ce n'est pas une decoration.
@@ -40,7 +40,7 @@ flowchart TD
         Assets["assets/packs/*.json"]
         PremiumCatalog["assets/premium-catalog.json (metadonnees)"]
         Repo["PackRepository - lit les assets, mappe DTO vers :core"]
-        AppRoot["LaTaverneApplication - conteneur DI manuel"]
+        AppRoot["MeskovaApplication - conteneur DI manuel"]
         VM["ViewModels : Borderland / Prompt / PlayerSession"]
         Hub["HubScreen - bento grid des modes"]
         Modes["Ecrans de mode : Borderland / Prompt / Roulette / Tribunal / Auction / Quiz / Ranking / WouldYouRather / Recap"]
@@ -102,7 +102,7 @@ flowchart TD
   (bento grid qui route vers chaque ecran de mode, toggle clair/sombre
   discret), les ecrans de mode, `PaywallScreen`, et le theme neobrutaliste
   taverne (`ui/theme`) : clair par defaut, variante sombre "pop" sur encre
-  neutre, preference persistee par `ThemeStore`. `LaTaverneApplication` sert
+  neutre, preference persistee par `ThemeStore`. `MeskovaApplication` sert
   de conteneur de DI manuel et cable chaque dependance comme une interface.
   La dependance va toujours de `:app` vers `:core`, jamais l'inverse.
 - **Billing (transverse, gated).** `EntitlementRepository` est une interface :

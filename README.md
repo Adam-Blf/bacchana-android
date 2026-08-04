@@ -1,13 +1,13 @@
 <!-- adam-badges:start -->
 [![commits](https://img.shields.io/github/commit-activity/t/Adam-Blf/la-taverne-android?color=001329&label=commits&style=flat-square)](https://github.com/Adam-Blf/la-taverne-android/commits)
-[![version](https://img.shields.io/badge/version-0.13.0-D4A437?style=flat-square)](CHANGELOG.md)
+[![version](https://img.shields.io/badge/version-0.14.0-D4A437?style=flat-square)](CHANGELOG.md)
 [![platform](https://img.shields.io/badge/platform-Android%208.0%2B-001329?style=flat-square)](#)
 [![kotlin](https://img.shields.io/badge/kotlin-2.0.21-7F52FF?style=flat-square)](#)
 [![release](https://img.shields.io/github/actions/workflow/status/Adam-Blf/la-taverne-android/release.yml?label=release&style=flat-square)](RELEASING.md)
 [![license](https://img.shields.io/github/license/Adam-Blf/la-taverne-android?style=flat-square&color=D4A437)](LICENSE)
 <!-- adam-badges:end -->
 
-# La Taverne - Android
+# Meskova - Android
 
 Jeu de soirée entre potes, natif Android, DA néobrutaliste taverne : papier
 crème, encre, accent orange #FA5600, ombres dures noires, thème clair par
@@ -129,9 +129,9 @@ flowchart TD
   #FA5600, ombres dures) avec une variante sombre "pop" sur encre neutre
   #141216 (jamais de brun/bois), bascule clair/sombre/système persistée par
   `ThemeStore` et exposée par un toggle discret dans le hub. Chaque écran lit
-  `LaTaverneColors.*` (propriétés `@Composable`, mêmes 300+ sites d'appel
+  `MeskovaColors.*` (propriétés `@Composable`, mêmes 300+ sites d'appel
   qu'avant, aucun refactor visuel nécessaire) qui résout la palette courante
-  via un `CompositionLocal` fourni par `LaTaverneTheme`.
+  via un `CompositionLocal` fourni par `MeskovaTheme`.
 - Le contenu (packs de prompts FR) vit dans le repo séparé `la-taverne-content`
   et est synchronisé par `scripts/sync_content.py` : les packs gratuits sont
   copiés tels quels dans `assets/packs/`, les packs premium ne livrent que
