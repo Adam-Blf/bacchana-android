@@ -60,6 +60,16 @@ class PlayerSessionViewModel(private val playerStore: PlayerStore) : ViewModel()
 
     fun hasEnoughPlayers(): Boolean = _players.value.size >= 2
 
+    /**
+     * Reglages > Reinitialiser la tablee : efface les joueurs (memoire + [PlayerStore]) sans
+     * jamais toucher au premium (autre store, [com.beloucif.lataverne.billing.EntitlementRepository]).
+     * Mirrors clearPlayers()+resetGame() de useGameStore sur le web.
+     */
+    fun resetAll() {
+        _players.value = emptyList()
+        viewModelScope.launch { playerStore.clear() }
+    }
+
     private fun persist() {
         viewModelScope.launch { playerStore.savePlayers(_players.value.map { it.name }) }
     }

@@ -40,6 +40,7 @@ import com.beloucif.lataverne.ui.screens.QuizScreen
 import com.beloucif.lataverne.ui.screens.RankingScreen
 import com.beloucif.lataverne.ui.screens.RecapScreen
 import com.beloucif.lataverne.ui.screens.RouletteScreen
+import com.beloucif.lataverne.ui.screens.SettingsScreen
 import com.beloucif.lataverne.ui.screens.TribunalScreen
 import com.beloucif.lataverne.ui.screens.WelcomeScreen
 import com.beloucif.lataverne.ui.screens.WouldYouRatherScreen
@@ -103,8 +104,33 @@ fun LaTaverneApp(
                 onSelectRanking = { navController.navigate(LaTaverneRoutes.RANKING) },
                 onSelectWouldYouRather = { navController.navigate(LaTaverneRoutes.WOULD_YOU_RATHER) },
                 onOpenPaywall = { navController.navigate(LaTaverneRoutes.PAYWALL) },
+                onOpenSettings = { navController.navigate(LaTaverneRoutes.SETTINGS) },
                 themePreference = themePreference,
                 onToggleTheme = onToggleTheme,
+            )
+        }
+
+        composable(LaTaverneRoutes.SETTINGS) {
+            LaunchedEffect(Unit) { analyticsTracker.trackScreen("settings") }
+            val isPremium by entitlementRepository.isPremium.collectAsState()
+            val analyticsEnabled by consentStore.analyticsGranted.collectAsState(initial = false)
+            SettingsScreen(
+                themePreference = themePreference,
+                onToggleTheme = onToggleTheme,
+                isPremium = isPremium,
+                billingEnabled = BuildConfig.BILLING_ENABLED,
+                onOpenPaywall = { navController.navigate(LaTaverneRoutes.PAYWALL) },
+                onRestorePurchases = entitlementRepository::restorePurchases,
+                analyticsEnabled = analyticsEnabled,
+                onSetAnalyticsConsent = { granted ->
+                    scope.launch {
+                        consentStore.setConsent(granted)
+                        analyticsTracker.setConsent(granted)
+                    }
+                },
+                appVersionName = BuildConfig.VERSION_NAME,
+                onResetTablee = playerSessionViewModel::resetAll,
+                onBack = { navController.popBackStack() },
             )
         }
 

@@ -1,5 +1,30 @@
 # Changelog
 
+## [0.13.0] - 2026-08-04
+
+- Ecran Reglages natif (`ui/screens/SettingsScreen.kt`, route `settings`,
+  parite avec `SettingsScreen.tsx` sur le web) : apparence (bascule
+  clair/sombre reutilisant `ThemeStore`), premium (statut, ouverture du
+  paywall, "Restaurer mes achats" via `EntitlementRepository.restorePurchases()`),
+  confidentialite (interrupteur consentement PostHog reutilisant
+  `ConsentStore`, lien politique de confidentialite), legal (lien vers les
+  pages web - pas de mentions/CGU/confidentialite natives sur Android pour
+  le moment), a propos (`BuildConfig.VERSION_NAME`, editeur Adam Beloucif /
+  BLF Labs), reinitialisation de la tablee (`PlayerSessionViewModel.resetAll()`,
+  confirmation obligatoire, ne touche jamais au premium). Accessible depuis
+  une icone engrenage discrete dans le hub (44dp, contentDescription).
+  Zero duplication : chaque section delegue a un store ou repository
+  existant, zero attribut perso ajoute a PostHog.
+- Paywall (`PaywallScreen.kt`) : titre "La Taverne Premium" repasse en
+  orange accent (`LaTaverneColors.Neon`) au lieu de l'encre - en encre le
+  titre devenait noir sur bordure noire en clair et blanc sur fond
+  quasi-blanc en sombre, illisible dans les deux cas. Notes et compteurs
+  de la modale (libelle "Contenu inclus", nombre de cartes par pack,
+  paragraphe de transparence abonnements) recolores en `InkSecondary` au
+  lieu de `InkMuted`, insuffisamment contraste sur `SurfaceElevated` en
+  sombre - alignement sur `PremiumPaywallModal.tsx` (`text-ink-secondary`)
+  qui utilisait deja ce ton.
+
 ## [0.12.0] - 2026-08-03
 
 - Refonte DA : theme sombre "pop" ajoute sur encre neutre (jamais de brun/

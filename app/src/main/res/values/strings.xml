@@ -28,6 +28,7 @@
     <string name="hub_min_players">%1$d joueurs min.</string>
     <string name="hub_theme_toggle_to_dark">Passer en thème sombre</string>
     <string name="hub_theme_toggle_to_light">Passer en thème clair</string>
+    <string name="hub_settings_description">Ouvrir les réglages</string>
 
     <!-- Borderland (card game) -->
     <string name="borderland_title">Le Coupe-Gorge</string>
@@ -200,6 +201,37 @@
     <string name="consent_body">Avec ton accord, on mesure les modes joués pour améliorer l\'app. Aucune donnée n\'est partagée avec des tiers. Tu peux revenir sur ce choix à tout moment.</string>
     <string name="consent_accept">Accepter</string>
     <string name="consent_decline">Refuser</string>
+
+    <!-- Settings (Reglages) -->
+    <string name="settings_title">Réglages</string>
+    <string name="settings_back_description">Revenir à l\'accueil</string>
+    <string name="settings_section_appearance">Apparence</string>
+    <string name="settings_theme_dark_label">Thème sombre</string>
+    <string name="settings_theme_light_label">Thème clair</string>
+    <string name="settings_theme_change">Changer</string>
+    <string name="settings_section_premium">Premium</string>
+    <string name="settings_premium_status_label">Statut</string>
+    <string name="settings_premium_status_active">Premium actif</string>
+    <string name="settings_premium_status_guest">Invité</string>
+    <string name="settings_premium_unlock">Débloquer le premium</string>
+    <string name="settings_restore_success">Premium restauré avec succès.</string>
+    <string name="settings_restore_none">Aucun achat actif trouvé pour cet appareil.</string>
+    <string name="settings_section_privacy">Confidentialité</string>
+    <string name="settings_analytics_label">Mesure d\'audience</string>
+    <string name="settings_analytics_desc">PostHog (instance UE), 13 mois maximum.</string>
+    <string name="settings_privacy_policy">Politique de confidentialité</string>
+    <string name="settings_section_legal">Légal</string>
+    <string name="settings_legal_link">Mentions légales et CGU</string>
+    <string name="settings_section_about">À propos</string>
+    <string name="settings_about_version">Version %1$s</string>
+    <string name="settings_about_publisher">Éditeur : Adam Beloucif, nom commercial BLF Labs</string>
+    <string name="settings_section_reset">Réinitialiser</string>
+    <string name="settings_reset_cta">Réinitialiser la tablée</string>
+    <string name="settings_reset_desc">Efface les joueurs et la partie en cours sur cet appareil. Le statut premium et les achats ne sont jamais touchés.</string>
+    <string name="settings_reset_dialog_title">Réinitialiser la tablée ?</string>
+    <string name="settings_reset_dialog_message">Les joueurs et la partie en cours seront effacés sur cet appareil. Cette action est irréversible.</string>
+    <string name="settings_reset_dialog_confirm">Réinitialiser</string>
+    <string name="settings_reset_dialog_cancel">Annuler</string>
 
     <!-- Errors / empty states -->
     <string name="error_generic">Une erreur est survenue. Réessaie.</string>

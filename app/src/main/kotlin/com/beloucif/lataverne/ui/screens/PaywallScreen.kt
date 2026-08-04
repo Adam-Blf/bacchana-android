@@ -102,7 +102,10 @@ fun PaywallScreen(
         Text(
             text = stringResource(R.string.paywall_title),
             style = MaterialTheme.typography.displayMedium,
-            color = LaTaverneColors.Ink,
+            // Orange accent, jamais l'encre : en clair l'encre finit noir sur bordure noire,
+            // en sombre blanc sur fond quasi blanc - illisible dans les deux cas. Neon est
+            // recalcule par theme et reste AA sur SurfaceElevated (voir Color.kt).
+            color = LaTaverneColors.Neon,
             modifier = Modifier.padding(top = 8.dp),
         )
         Text(
@@ -121,7 +124,9 @@ fun PaywallScreen(
                 Text(
                     text = stringResource(R.string.paywall_included_title),
                     style = MaterialTheme.typography.labelLarge,
-                    color = LaTaverneColors.InkMuted,
+                    // InkSecondary, pas InkMuted : sur SurfaceElevated en sombre InkMuted tombe
+                    // sous l'AA pour du texte petit. Mirrors PremiumPaywallModal.tsx (text-ink-secondary).
+                    color = LaTaverneColors.InkSecondary,
                 )
             }
             items(premiumCatalog, key = { it.id }) { entry ->
@@ -133,7 +138,7 @@ fun PaywallScreen(
                     Text(
                         stringResource(R.string.paywall_item_count, entry.itemCount),
                         style = MaterialTheme.typography.labelSmall,
-                        color = LaTaverneColors.InkMuted,
+                        color = LaTaverneColors.InkSecondary,
                     )
                 }
             }
@@ -152,7 +157,7 @@ fun PaywallScreen(
                 Text(
                     text = stringResource(R.string.paywall_transparency),
                     style = MaterialTheme.typography.labelSmall,
-                    color = LaTaverneColors.InkMuted,
+                    color = LaTaverneColors.InkSecondary,
                     modifier = Modifier.padding(top = 8.dp),
                 )
             }
