@@ -224,7 +224,7 @@
     <string name="settings_legal_link">Mentions légales et CGU</string>
     <string name="settings_section_about">À propos</string>
     <string name="settings_about_version">Version %1$s</string>
-    <string name="settings_about_publisher">Éditeur : Adam Beloucif, nom commercial BLF Lab's</string>
+    <string name="settings_about_publisher">Éditeur : Adam Beloucif, nom commercial BLF Lab\'s</string>
     <string name="settings_section_reset">Réinitialiser</string>
     <string name="settings_reset_cta">Réinitialiser la tablée</string>
     <string name="settings_reset_desc">Efface les joueurs et la partie en cours sur cet appareil. Le statut premium et les achats ne sont jamais touchés.</string>
