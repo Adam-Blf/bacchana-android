@@ -1,6 +1,6 @@
 <!-- adam-badges:start -->
 [![commits](https://img.shields.io/github/commit-activity/t/Adam-Blf/la-taverne-android?color=001329&label=commits&style=flat-square)](https://github.com/Adam-Blf/la-taverne-android/commits)
-[![version](https://img.shields.io/badge/version-0.12.0-D4A437?style=flat-square)](CHANGELOG.md)
+[![version](https://img.shields.io/badge/version-0.13.0-D4A437?style=flat-square)](CHANGELOG.md)
 [![platform](https://img.shields.io/badge/platform-Android%208.0%2B-001329?style=flat-square)](#)
 [![kotlin](https://img.shields.io/badge/kotlin-2.0.21-7F52FF?style=flat-square)](#)
 [![release](https://img.shields.io/github/actions/workflow/status/Adam-Blf/la-taverne-android/release.yml?label=release&style=flat-square)](RELEASING.md)
@@ -72,6 +72,7 @@ flowchart TD
         Repo[PackRepository]
         VM[ViewModels: Borderland / Prompt / PlayerSession]
         UI[Welcome / Hub / Borderland / Prompt / Roulette / Tribunal / Auction / Quiz / Ranking / WouldYouRather / Recap]
+        Settings[SettingsScreen - apparence, premium, confidentialite, legal, a propos, reset]
         Store[PlayerStore - DataStore]
         Consent[ConsentStore - DataStore, opt-in RGPD]
         ThemeStoreNode[ThemeStore - DataStore, clair/sombre/systeme]
@@ -94,6 +95,10 @@ flowchart TD
     ThemeStoreNode --> UI
     Consent --> Analytics
     UI --> Paywall
+    UI --> Settings
+    Settings --> Billing
+    Settings --> Consent
+    Settings --> ThemeStoreNode
     Paywall --> Billing
     Billing -.BuildConfig.BILLING_ENABLED = cle RevenueCat presente.-> RC
     Analytics -.BuildConfig.ANALYTICS_ENABLED = cle PostHog presente ET consentement.-> PH

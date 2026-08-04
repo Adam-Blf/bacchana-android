@@ -22,6 +22,10 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -67,6 +71,7 @@ fun HubScreen(
     onSelectRanking: () -> Unit,
     onSelectWouldYouRather: () -> Unit,
     onOpenPaywall: () -> Unit,
+    onOpenSettings: () -> Unit,
     themePreference: ThemePreference,
     onToggleTheme: () -> Unit,
 ) {
@@ -97,7 +102,19 @@ fun HubScreen(
                 style = MaterialTheme.typography.headlineMedium,
                 color = LaTaverneColors.Ink,
             )
-            ThemeToggle(themePreference = themePreference, onToggle = onToggleTheme)
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                ThemeToggle(themePreference = themePreference, onToggle = onToggleTheme)
+                IconButton(
+                    onClick = onOpenSettings,
+                    modifier = Modifier.defaultMinSize(minWidth = 44.dp, minHeight = 44.dp),
+                ) {
+                    Icon(
+                        Icons.Filled.Settings,
+                        contentDescription = stringResource(R.string.hub_settings_description),
+                        tint = LaTaverneColors.Ink,
+                    )
+                }
+            }
         }
 
         LazyVerticalGrid(
