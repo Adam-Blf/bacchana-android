@@ -1,5 +1,31 @@
 # Changelog
 
+## [0.14.0] - 2026-08-04
+
+- Rebranding produit : "La Taverne" devient "Meskova" comme nom d'application
+  (`app_name`, titre du paywall "Meskova Premium", texte au dos des cartes du
+  Coupe-Gorge, README, docs, ProGuard rules). L'univers interne du jeu reste
+  intact - aucun nom de mode, aucun texte de contenu, aucune règle ne change
+  (Le Taulier, Le Pilori, La Criée, etc. gardent leurs libellés).
+  `applicationId`/`namespace` passent de `com.beloucif.lataverne` à
+  `com.beloucif.meskova` (arborescence de packages Kotlin et imports
+  renommés en conséquence) - l'app n'étant pas encore publiée sur le Play
+  Store, ce changement ne casse aucun utilisateur existant. Les noms de
+  fichiers DataStore locaux (`lataverne_consent`/`lataverne_theme`/
+  `lataverne_players`) sont renommés en `meskova_*` sans script de
+  migration : l'app n'ayant jamais été publiée, il n'existe aucune
+  installation avec des données à préserver.
+  L'identifiant d'entitlement RevenueCat `"La Taverne Pro"`
+  (`core/PremiumPlan.kt`) est volontairement **conservé à l'identique** -
+  un identifiant d'entitlement RevenueCat n'est pas renommable côté
+  dashboard sans migration, voir le commentaire dans le code. Le nom du
+  repo GitHub (`la-taverne-android`), le nom du module Gradle
+  (`rootProject.name`) et les références au repo de contenu séparé
+  (`la-taverne-content`) restent inchangés - hors périmètre de ce lot.
+  Les URLs `PRIVACY_POLICY_URL`/`LEGAL_URL` de `SettingsScreen.kt`
+  continuent de pointer vers `lataverne.beloucif.com` en attendant la
+  coordination avec le rebrand du site web/domaine (chantier séparé).
+
 ## [0.13.0] - 2026-08-04
 
 - Ecran Reglages natif (`ui/screens/SettingsScreen.kt`, route `settings`,
@@ -16,7 +42,7 @@
   Zero duplication : chaque section delegue a un store ou repository
   existant, zero attribut perso ajoute a PostHog.
 - Paywall (`PaywallScreen.kt`) : titre "La Taverne Premium" repasse en
-  orange accent (`LaTaverneColors.Neon`) au lieu de l'encre - en encre le
+  orange accent (`MeskovaColors.Neon`) au lieu de l'encre - en encre le
   titre devenait noir sur bordure noire en clair et blanc sur fond
   quasi-blanc en sombre, illisible dans les deux cas. Notes et compteurs
   de la modale (libelle "Contenu inclus", nombre de cartes par pack,
@@ -32,10 +58,10 @@
   vibrants), corrections a11y du theme clair (orange-texte assombri
   #C74300, premium #855C12, card-red #C71F2D, tous >= AA 4.5:1). Palette
   Compose (`ui/theme/Color.kt`) alignee au token par token sur
-  `src/styles/tokens.css` du web (source unique). `LaTaverneColors`
-  reste un `object` a l'usage identique (300+ sites d'appel `LaTaverneColors.X`
+  `src/styles/tokens.css` du web (source unique). `MeskovaColors`
+  reste un `object` a l'usage identique (300+ sites d'appel `MeskovaColors.X`
   inchanges) mais lit desormais un `CompositionLocal` fourni par
-  `LaTaverneTheme`, qui accepte une preference clair/sombre/systeme
+  `MeskovaTheme`, qui accepte une preference clair/sombre/systeme
   persistee par le nouveau `ThemeStore` (DataStore) et exposee par un
   toggle discret dans le hub.
 - Genre et statut relationnel par joueur (feature #54, parite avec
@@ -82,7 +108,7 @@
 
 - Contenu des packs gratuits porte a 80 items chacun (sync depuis la-taverne-content 1.10.0), soirees plus longues sans repetition.
 
-All notable changes to La Taverne Android are documented here.
+All notable changes to Meskova Android are documented here.
 Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 versioning follows [SemVer](https://semver.org/).
 
@@ -94,7 +120,7 @@ versioning follows [SemVer](https://semver.org/).
   ce qui reste toujours le cas en CI. `RevenueCatEntitlementRepository`
   encapsule le SDK Purchases (entitlement `La Taverne Pro`, 3 offres
   mensuel/annuel/a vie mappees par `core/PremiumPlan.kt`), selectionne par
-  `LaTaverneApplication` uniquement quand `BuildConfig.BILLING_ENABLED` est
+  `MeskovaApplication` uniquement quand `BuildConfig.BILLING_ENABLED` est
   vrai (cle `REVENUECAT_API_KEY` presente dans `local.properties` ou en env),
   sinon `StubEntitlementRepository` (mode invite existant, inchange).
   `PostHogAnalyticsTracker` (instance EU, `eu.i.posthog.com`) n'initialise
