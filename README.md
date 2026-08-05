@@ -1,10 +1,10 @@
 <!-- adam-badges:start -->
-[![commits](https://img.shields.io/github/commit-activity/t/Adam-Blf/la-tournee-android?color=001329&label=commits&style=flat-square)](https://github.com/Adam-Blf/la-tournee-android/commits)
-[![version](https://img.shields.io/badge/version-0.16.0-D4A437?style=flat-square)](CHANGELOG.md)
+[![commits](https://img.shields.io/github/commit-activity/t/Adam-Blf/bacchus-android?color=001329&label=commits&style=flat-square)](https://github.com/Adam-Blf/bacchus-android/commits)
+[![version](https://img.shields.io/badge/version-0.16.1-D4A437?style=flat-square)](CHANGELOG.md)
 [![platform](https://img.shields.io/badge/platform-Android%208.0%2B-001329?style=flat-square)](#)
 [![kotlin](https://img.shields.io/badge/kotlin-2.0.21-7F52FF?style=flat-square)](#)
-[![release](https://img.shields.io/github/actions/workflow/status/Adam-Blf/la-tournee-android/release.yml?label=release&style=flat-square)](RELEASING.md)
-[![license](https://img.shields.io/github/license/Adam-Blf/la-tournee-android?style=flat-square&color=D4A437)](LICENSE)
+[![release](https://img.shields.io/github/actions/workflow/status/Adam-Blf/bacchus-android/release.yml?label=release&style=flat-square)](RELEASING.md)
+[![license](https://img.shields.io/github/license/Adam-Blf/bacchus-android?style=flat-square&color=D4A437)](LICENSE)
 <!-- adam-badges:end -->
 
 # Bacchus - Android
@@ -61,7 +61,7 @@ flowchart TD
         ContrastTest[BacchusPaletteContrastTest - garde mecanique, gradlew :core:test]
     end
 
-    subgraph content["la-taverne-content (repo separe, source de verite)"]
+    subgraph content["bacchus-content (repo separe, source de verite)"]
         Packs[content/fr/packs/*.json]
         Tokens[tokens/tokens.json]
     end
@@ -150,7 +150,7 @@ flowchart TD
   `BacchusColors.*` (propriétés `@Composable`, mêmes 300+ sites d'appel
   qu'avant, aucun refactor visuel nécessaire) qui résout la palette courante
   via un `CompositionLocal` fourni par `BacchusTheme`.
-- Le contenu (packs de prompts FR) vit dans le repo séparé `la-taverne-content`
+- Le contenu (packs de prompts FR) vit dans le repo séparé `bacchus-content`
   et est synchronisé par `scripts/sync_content.py` : les packs gratuits sont
   copiés tels quels dans `assets/packs/`, les packs premium ne livrent que
   leurs métadonnées (`assets/premium-catalog.json`), jamais le texte des
@@ -164,7 +164,7 @@ Détail complet des couches, du flux de contenu et du principe gated dans
 Prérequis : JDK 21, Android SDK (platform 35, build-tools 35.0.0).
 
 ```bash
-# Resynchroniser le contenu depuis ../la-taverne-content (idempotent)
+# Resynchroniser le contenu depuis ../bacchus-content (idempotent)
 python scripts/sync_content.py
 
 # Tests du moteur de jeu (JVM pur, pas de SDK Android nécessaire)

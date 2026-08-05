@@ -14,7 +14,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "la-tournee-android"
+rootProject.name = "bacchus-android"
 
 include(":core")
 include(":app")

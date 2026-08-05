@@ -2,14 +2,14 @@
 
 Ce document decrit l'architecture reelle de l'application Android Bacchus :
 les deux modules Gradle, les couches transverses de monetisation et
-d'analytics, et le flux de contenu depuis le repo `la-taverne-content`. Le
+d'analytics, et le flux de contenu depuis le repo `bacchus-content`. Le
 diagramme est tenu a jour avec le code, ce n'est pas une decoration.
 
 ## Diagramme
 
 ```mermaid
 flowchart TD
-    subgraph content["la-taverne-content (repo separe, source de verite du contenu a prompts)"]
+    subgraph content["bacchus-content (repo separe, source de verite du contenu a prompts)"]
         Packs["content/fr/packs/*.json"]
         Tokens["tokens/tokens.json"]
     end
@@ -137,7 +137,7 @@ flowchart TD
 Deux sources coexistent :
 
 1. **Contenu a prompts synchronise.** Les packs FR vivent dans le repo separe
-   `la-taverne-content`. `scripts/sync_content.py` copie les packs gratuits
+   `bacchus-content`. `scripts/sync_content.py` copie les packs gratuits
    tels quels dans `assets/packs/*.json` et n'ecrit que les metadonnees des
    packs premium dans `assets/premium-catalog.json` (jamais le texte des
    prompts). `PackRepository` lit ces assets, decode les DTO

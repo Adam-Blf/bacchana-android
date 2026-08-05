@@ -1,5 +1,30 @@
 # Changelog
 
+## [0.16.1] - 2026-08-05
+
+- Residus de renommage : les depots GitHub ayant ete renommes, les references
+  au depot Android passent de `Adam-Blf/la-tournee-android` a
+  `Adam-Blf/bacchus-android` (les trois badges du README, l'en-tete de
+  `scripts/release.py`) et `rootProject.name` passe de `la-tournee-android` a
+  `bacchus-android` dans `settings.gradle.kts`.
+- **Correctif reel, pas cosmetique** : `scripts/sync_content.py` resolvait le
+  depot de contenu sur `../la-taverne-content`, dossier qui n'existe plus
+  depuis son renommage en `bacchus-content`. Le script echouait donc sur
+  `ERROR: content source not found`. `CONTENT_ROOT` pointe desormais sur
+  `../bacchus-content`, verifie par une execution reelle (6 packs gratuits
+  copies, 5 entrees de catalogue premium ecrites, sortie identique a la
+  precedente donc aucun asset modifie).
+- Documentation alignee sur le nouveau nom du depot de contenu
+  (`bacchus-content`) : README (diagramme Mermaid, section contenu, commande
+  de resynchronisation), `docs/ARCHITECTURE.md`, et les commentaires de
+  `ContentPackDto.kt`, `PackRepository.kt`, `PremiumCatalogEntry.kt`,
+  `HubScreen.kt`, `ContentPack.kt`, `colors.xml`.
+- Non touche volontairement : les cles DataStore historiques
+  (`latournee_*`, `meskova_*`, `lataverne_*`, `blackout_*`) qui servent la
+  migration des donnees locales, les entrees de changelog anterieures, et les
+  references au depot web `la-taverne` dont le dossier local porte toujours ce
+  nom (le renommer casserait les chemins).
+
 ## [0.16.0] - 2026-08-05
 
 - Rebranding produit : "La Tournée" devient "Bacchus", nom commercial
