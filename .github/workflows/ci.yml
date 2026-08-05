@@ -53,6 +53,12 @@ jobs:
   # gitleaks walks the whole history, not just the tip commit.
   secrets:
     runs-on: ubuntu-latest
+    # On a pull_request event gitleaks lists the PR commits before scanning,
+    # so it needs pull-requests: read on top of the workflow default. Without
+    # it the step dies on a 403 in ScanPullRequest without scanning anything.
+    permissions:
+      contents: read
+      pull-requests: read
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
