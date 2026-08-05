@@ -208,10 +208,14 @@ fun RouletteScreen(onQuit: (spinsPlayed: Int) -> Unit) {
         Button(
             onClick = ::spin,
             enabled = !spinning,
+            // TileInk, not CardFace: Neon/NeonSoft stay light in both themes, white text on
+            // them drops to 3.28:1 (light) / 2.60:1 (dark), below the 4.5:1 AA floor. See
+            // MeskovaColors.TileInk KDoc.
             colors = ButtonDefaults.buttonColors(
                 containerColor = MeskovaColors.Neon,
-                contentColor = MeskovaColors.CardFace,
+                contentColor = MeskovaColors.TileInk,
                 disabledContainerColor = MeskovaColors.NeonSoft,
+                disabledContentColor = MeskovaColors.TileInk,
             ),
             shape = RoundedCornerShape(16.dp),
             modifier = Modifier
@@ -285,7 +289,11 @@ private fun RouletteWheel(
                 Text(
                     text = segment.label,
                     style = MaterialTheme.typography.labelSmall,
-                    color = MeskovaColors.Ink,
+                    // TileInk, not Ink: this text sits on a wheelColors[] wedge (NeonSoft or
+                    // PopYellow), which stays light in both themes - Ink inverts to near-white
+                    // in dark theme and becomes illegible. Real bug reported by Adam ("la
+                    // roulette est illisible"), see MeskovaColors.TileInk KDoc.
+                    color = MeskovaColors.TileInk,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.width(64.dp).padding(top = 20.dp),
                 )

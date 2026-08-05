@@ -222,6 +222,8 @@ fun RankingScreen(players: List<Player>, onQuit: (roundsPlayed: Int) -> Unit) {
 
 @Composable
 private fun RankingHandoff(judgeName: String) {
+    // TileInk everywhere on this card, not Ink/InkSecondary: it sits on a NeonSoft fill, which
+    // stays light in both themes. See MeskovaColors.TileInk KDoc.
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -233,13 +235,13 @@ private fun RankingHandoff(judgeName: String) {
         Text(
             text = stringResource(R.string.ranking_handoff_hint),
             style = MaterialTheme.typography.bodyMedium,
-            color = MeskovaColors.Ink,
+            color = MeskovaColors.TileInk,
             textAlign = TextAlign.Center,
         )
         Text(
             text = stringResource(R.string.ranking_handoff_pass, judgeName),
             style = MaterialTheme.typography.headlineMedium,
-            color = MeskovaColors.Ink,
+            color = MeskovaColors.TileInk,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(top = 8.dp),
@@ -247,7 +249,7 @@ private fun RankingHandoff(judgeName: String) {
         Text(
             text = stringResource(R.string.ranking_handoff_body, judgeName),
             style = MaterialTheme.typography.bodySmall,
-            color = MeskovaColors.InkSecondary,
+            color = MeskovaColors.TileInk,
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(top = 12.dp),
         )
@@ -324,7 +326,10 @@ private fun RankingJudging(
                     Text(
                         text = player.name,
                         style = MaterialTheme.typography.titleSmall,
-                        color = MeskovaColors.Ink,
+                        // TileInk when picked (row background flips to NeonSoft, which stays
+                        // light in both themes), Ink otherwise (row stays on Surface, the
+                        // normal themed pair). See MeskovaColors.TileInk KDoc.
+                        color = if (picked) MeskovaColors.TileInk else MeskovaColors.Ink,
                         fontWeight = FontWeight.Bold,
                     )
                 }
@@ -343,17 +348,19 @@ private fun RankingReturn(judgeName: String) {
             .padding(32.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+        // TileInk, not CardFace: Neon stays light in both themes, white text on it drops to
+        // 3.28:1 (light) / 2.60:1 (dark), below AA. See MeskovaColors.TileInk KDoc.
         Text(
             text = stringResource(R.string.ranking_return_title),
             style = MaterialTheme.typography.headlineMedium,
-            color = MeskovaColors.CardFace,
+            color = MeskovaColors.TileInk,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center,
         )
         Text(
             text = stringResource(R.string.ranking_return_body, judgeName),
             style = MaterialTheme.typography.bodyMedium,
-            color = MeskovaColors.CardFace,
+            color = MeskovaColors.TileInk,
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(top = 12.dp),
         )
@@ -425,10 +432,12 @@ private fun RankingGuessing(
                     phase == RankingPhase.REVEAL && isPicked && !isReal -> MeskovaColors.CardRed
                     else -> MeskovaColors.Surface
                 }
-                val textColor = if (phase == RankingPhase.REVEAL && (isReal || isPicked)) {
-                    MeskovaColors.CardFace
-                } else {
-                    MeskovaColors.Ink
+                // OnStatus on Success (theme-correct, see MeskovaColors.OnStatus KDoc),
+                // CardFace on CardRed (fixed in both themes, white was already correct there).
+                val textColor = when {
+                    phase == RankingPhase.REVEAL && isReal -> MeskovaColors.OnStatus
+                    phase == RankingPhase.REVEAL && isPicked -> MeskovaColors.CardFace
+                    else -> MeskovaColors.Ink
                 }
                 Row(
                     modifier = Modifier
@@ -454,7 +463,7 @@ private fun RankingGuessing(
                         modifier = Modifier.weight(1f),
                     )
                     if (phase == RankingPhase.REVEAL && isReal) {
-                        Icon(Icons.Filled.Check, contentDescription = null, tint = MeskovaColors.CardFace)
+                        Icon(Icons.Filled.Check, contentDescription = null, tint = MeskovaColors.OnStatus)
                     }
                 }
             }
@@ -467,10 +476,14 @@ private fun RankingPrimaryButton(text: String, enabled: Boolean = true, onClick:
     Button(
         onClick = onClick,
         enabled = enabled,
+        // TileInk, not CardFace: Neon/NeonSoft stay light in both themes, white text on them
+        // drops to 3.28:1 (light) / 2.60:1 (dark), below the 4.5:1 AA floor. See
+        // MeskovaColors.TileInk KDoc.
         colors = ButtonDefaults.buttonColors(
             containerColor = MeskovaColors.Neon,
-            contentColor = MeskovaColors.CardFace,
+            contentColor = MeskovaColors.TileInk,
             disabledContainerColor = MeskovaColors.NeonSoft,
+            disabledContentColor = MeskovaColors.TileInk,
         ),
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
@@ -547,7 +560,8 @@ private fun RankingRecap(state: RankingSessionState, onReplay: () -> Unit, onBac
 
         Button(
             onClick = onReplay,
-            colors = ButtonDefaults.buttonColors(containerColor = MeskovaColors.Neon, contentColor = MeskovaColors.CardFace),
+            // TileInk, not CardFace: see MeskovaColors.TileInk KDoc.
+            colors = ButtonDefaults.buttonColors(containerColor = MeskovaColors.Neon, contentColor = MeskovaColors.TileInk),
             modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
         ) {
             Text(stringResource(R.string.recap_replay))

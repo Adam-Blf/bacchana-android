@@ -22,13 +22,19 @@ fun ThemePreference.resolve(): Boolean = when (this) {
     ThemePreference.DARK -> true
 }
 
+// onPrimary/onPrimaryContainer/onSecondary use TileInk, never CardFace: Neon/NeonDeep/Premium
+// are accent fills that stay readable-with-dark-text in both themes (see MeskovaColors.TileInk
+// and MeskovaColors.OnStatus KDoc) - CardFace (white) on Neon measured only 3.28:1 in light
+// theme and 2.60:1 in dark theme, both below the 4.5:1 AA floor. This is the Material default
+// every plain `Button(onClick = ...)` call site relies on (WelcomeScreen, SettingsScreen,
+// PaywallScreen, RecapScreen, ConsentBanner, BorderlandScreen).
 private val MeskovaLightMaterialColors = lightColorScheme(
     primary = LightMeskovaColors.Neon,
-    onPrimary = LightMeskovaColors.CardFace,
+    onPrimary = LightMeskovaColors.TileInk,
     primaryContainer = LightMeskovaColors.NeonDeep,
-    onPrimaryContainer = LightMeskovaColors.CardFace,
+    onPrimaryContainer = LightMeskovaColors.TileInk,
     secondary = LightMeskovaColors.Premium,
-    onSecondary = LightMeskovaColors.CardFace,
+    onSecondary = LightMeskovaColors.OnStatus,
     background = LightMeskovaColors.Bg,
     onBackground = LightMeskovaColors.Ink,
     surface = LightMeskovaColors.Surface,
@@ -43,11 +49,11 @@ private val MeskovaLightMaterialColors = lightColorScheme(
 
 private val MeskovaDarkMaterialColors = darkColorScheme(
     primary = DarkMeskovaColors.Neon,
-    onPrimary = DarkMeskovaColors.CardInk,
+    onPrimary = DarkMeskovaColors.TileInk,
     primaryContainer = DarkMeskovaColors.NeonDeep,
-    onPrimaryContainer = DarkMeskovaColors.Ink,
+    onPrimaryContainer = DarkMeskovaColors.TileInk,
     secondary = DarkMeskovaColors.Premium,
-    onSecondary = DarkMeskovaColors.CardInk,
+    onSecondary = DarkMeskovaColors.OnStatus,
     background = DarkMeskovaColors.Bg,
     onBackground = DarkMeskovaColors.Ink,
     surface = DarkMeskovaColors.Surface,

@@ -1,5 +1,44 @@
 # Changelog
 
+## [0.14.1] - 2026-08-05
+
+- Fix contraste WCAG texte-sur-aplat (theme sombre) : signale deux fois par
+  Adam en jouant ("du blanc sur du jaune c'est illisible, du blanc sur du
+  vert clair c'est illisible"), jamais porte depuis le fix web du
+  2026-08-04. Cause racine : `MeskovaColors.Ink` s'inverse avec le theme
+  (encre foncee en clair, quasi blanche en sombre) alors que les aplats
+  `Pop*`/`Neon*` restent CLAIRS dans les deux themes - du texte `Ink` pose
+  dessus tombait a ~1.2:1 en sombre (roue de la roulette, badges Quitte ou
+  Trinque, cartes Le Tableau d'Honneur/Le Pilori, icone d'ajout de joueur).
+  Deux nouveaux jetons theme-invariants portent la meme logique que sur le
+  web (`docs/DESIGN_TOKENS.md` du repo `la-taverne`) :
+  - `MeskovaColors.TileInk` (`#111111` fixe) pour tout texte/icone pose
+    sur `PopYellow`/`PopPink`/`PopBlue`/`PopLime`/`Neon`/`NeonDeep`/
+    `NeonSoft` - remplace aussi `CardFace` (blanc) comme couleur de texte
+    par defaut des boutons primaires (`Theme.kt` `onPrimary`), qui ne
+    passait que 3.28:1 en clair et 2.60:1 en sombre sur un fond `Neon`.
+  - `MeskovaColors.OnStatus` pour le texte pose sur `Premium`/`Success`/
+    `Warning`/`Danger` (direction inverse de `Bg` entre les deux themes :
+    blanc en clair, `TileInk` en sombre) - corrige les icones des
+    steppers de La Criee et le resultat d'enchere.
+  - `MeskovaColors.CardAccent` (`#C74300` fixe) pour le label orange de Tu
+    preferes, pose sur la face de carte blanche fixe (`Neon` y tombait a
+    2.60:1 en sombre).
+  Rampe d'elevation du theme sombre mise a jour vers la refonte 2026-08-04
+  (`BgRaised #221E28`, `Surface #2E2836`, `SurfaceElevated #3C3446`,
+  `InkMuted #958FA3`, alpha de bordure fine `0.20` -> `0.38`) - alignee
+  avec `docs/DESIGN_TOKENS.md` du repo web.
+  Nouveau module de tokens purs Kotlin dans `core` (`core/.../theme/`,
+  `PaletteColor`, `WcagContrast`, `MeskovaPalette`) : source de verite
+  unique consommee a la fois par le rendu Compose
+  (`app/.../ui/theme/Color.kt`) et par la garde mecanique
+  `MeskovaPaletteContrastTest` (`./gradlew :core:test`, 136 tests), qui
+  calcule le ratio de contraste WCAG 2.1 reel de chaque paire encre/fond
+  utilisee dans le theme et echoue si une paire tombe sous 4.5:1 (texte
+  normal) ou 3:1 (texte large/objets UI) - derive des memes objets
+  `MeskovaPalette.Light`/`MeskovaPalette.Dark` que le rendu, pas d'une
+  liste de hex recopies a la main.
+
 ## [0.14.0] - 2026-08-04
 
 - Rebranding produit : "La Taverne" devient "Meskova" comme nom d'application

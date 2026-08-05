@@ -1,6 +1,6 @@
 <!-- adam-badges:start -->
 [![commits](https://img.shields.io/github/commit-activity/t/Adam-Blf/la-taverne-android?color=001329&label=commits&style=flat-square)](https://github.com/Adam-Blf/la-taverne-android/commits)
-[![version](https://img.shields.io/badge/version-0.14.0-D4A437?style=flat-square)](CHANGELOG.md)
+[![version](https://img.shields.io/badge/version-0.14.1-D4A437?style=flat-square)](CHANGELOG.md)
 [![platform](https://img.shields.io/badge/platform-Android%208.0%2B-001329?style=flat-square)](#)
 [![kotlin](https://img.shields.io/badge/kotlin-2.0.21-7F52FF?style=flat-square)](#)
 [![release](https://img.shields.io/github/actions/workflow/status/Adam-Blf/la-taverne-android/release.yml?label=release&style=flat-square)](RELEASING.md)
@@ -56,6 +56,9 @@ flowchart TD
         Ranking[RankingSession - reducer pur, 40 questions embarquees]
         WYR[WouldYouRatherSession - reducer pur, vote, 84 dilemmes embarques]
         Targeting[Targeting.kt - resolveTarget genre/statut/paire, Random injectable]
+        Palette[theme/MeskovaPalette - tokens couleur purs, source unique clair+sombre]
+        Wcag[theme/WcagContrast - luminance relative, ratio WCAG 2.1]
+        ContrastTest[MeskovaPaletteContrastTest - garde mecanique, gradlew :core:test]
     end
 
     subgraph content["la-taverne-content (repo separe, source de verite)"]
@@ -103,6 +106,10 @@ flowchart TD
     Billing -.BuildConfig.BILLING_ENABLED = cle RevenueCat presente.-> RC
     Analytics -.BuildConfig.ANALYTICS_ENABLED = cle PostHog presente ET consentement.-> PH
     Tokens -.source des couleurs Compose, clair + sombre.-> UI
+    Palette -->|Color.kt construit Color depuis PaletteColor, jamais un hex recopie| UI
+    Palette --> Wcag
+    Wcag --> ContrastTest
+    Palette --> ContrastTest
 ```
 
 - **`:core`** est un module Kotlin JVM pur (aucune dépendance Android) : le
@@ -123,6 +130,17 @@ flowchart TD
   `relationship` optionnels, avec repli aléatoire gracieux si personne ne
   correspond (`Random` injectable, déterministe par tour via `seededRandom`).
   Testable avec `./gradlew :core:test`, sans SDK Android.
+  Le module porte aussi `theme/MeskovaPalette` (source unique des tokens
+  couleur, clair + sombre, mêmes rôles que `src/styles/tokens.css` sur le
+  web) et `theme/WcagContrast` (luminance relative, ratio WCAG 2.1, pur
+  Kotlin) : `app/.../ui/theme/Color.kt` construit chaque `Color` Compose
+  depuis ces mêmes objets plutôt que de recopier un hex, et
+  `MeskovaPaletteContrastTest` (136 tests, `./gradlew :core:test`) vérifie
+  mécaniquement que chaque paire encre/fond réellement utilisée dans l'UI
+  clear 4.5:1 (texte normal) ou 3:1 (texte large) dans les deux thèmes -
+  garde permanente contre la régression corrigée en 0.14.1 (texte `Ink`
+  posé sur un aplat `Pop*`/`Neon*`, qui reste clair dans les deux thèmes
+  alors qu'`Ink` s'inverse).
 - **`:app`** est le module Android (Jetpack Compose, Material 3, thème
   néobrutaliste taverne calqué sur `src/styles/tokens.css` du web (source de
   vérité) : clair par défaut (fond crème #FFF9F0, encre #111111, accent orange
@@ -217,7 +235,7 @@ JetBrains Mono ni IBM Plex Mono.
 
 ## Tests
 
-`:core` embarque 113 tests JUnit couvrant le deck (52 cartes uniques, As =
+`:core` embarque 136 tests JUnit couvrant le deck (52 cartes uniques, As =
 pénalité majeure), les multiplicateurs de contestation `{0:1, 1:1, 2:2, 3:4}`,
 la rotation des joueurs actifs, le moteur `BorderlandEngine` (reducer pur,
 transitions de phase), l'interpolation `{player}`/`{player2}`,
@@ -232,4 +250,8 @@ par joueur, fin de file, déterminisme du `Random` injecté), `PremiumPlan`
 Play Store, et l'activation de l'entitlement `La Taverne Pro`) et
 `Targeting.kt` (cibles résolvables reconnues, correspondance genre/statut/
 paire, repli aléatoire gracieux quand personne ne correspond ou que le
-roster est vide, joueurs inactifs ignorés, déterminisme par seed de tour).
+roster est vide, joueurs inactifs ignorés, déterminisme par seed de tour) et
+`MeskovaPaletteContrastTest` (garde de contraste WCAG 2.1 mécanique : chaque
+paire encre/fond réellement utilisée dans le thème, calculée depuis
+`MeskovaPalette.Light`/`MeskovaPalette.Dark`, doit clear 4.5:1 en texte
+normal ou 3:1 en texte large/objet UI, dans les deux thèmes).

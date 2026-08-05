@@ -331,6 +331,11 @@ private fun AuctionChallenge(secondsLeft: Int, cited: Int, bid: Int, onDecrease:
 
 @Composable
 private fun AuctionResult(success: Boolean, bid: Int, cited: Int) {
+    // OnStatus on Success (theme-correct: light ink in light theme, dark ink in dark theme -
+    // Success gets DARKER in light theme and LIGHTER in dark theme, the opposite direction from
+    // Ink/Bg). CardFace stays correct on CardRed, which is fixed in both themes. See
+    // MeskovaColors.OnStatus KDoc.
+    val textColor = if (success) MeskovaColors.OnStatus else MeskovaColors.CardFace
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -344,7 +349,7 @@ private fun AuctionResult(success: Boolean, bid: Int, cited: Int) {
         Text(
             text = stringResource(if (success) R.string.auction_result_success_title else R.string.auction_result_failure_title),
             style = MaterialTheme.typography.headlineSmall,
-            color = MeskovaColors.CardFace,
+            color = textColor,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center,
         )
@@ -355,7 +360,7 @@ private fun AuctionResult(success: Boolean, bid: Int, cited: Int) {
                 stringResource(R.string.auction_result_failure_body, cited, bid, bid)
             },
             style = MaterialTheme.typography.bodyMedium,
-            color = MeskovaColors.CardFace,
+            color = textColor,
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(top = 12.dp),
         )
@@ -377,6 +382,12 @@ private fun StepperButton(label: String, description: String, background: androi
     }
 }
 
+/**
+ * Both call sites pass a semantic status fill (Premium for the bid stepper, Success for the
+ * cite stepper) - [MeskovaColors.OnStatus] is always the right icon tint for those (theme-aware,
+ * see its KDoc), never the plain [MeskovaColors.Ink] this used before (Ink on Premium(light)
+ * measured 3.18:1, below AA).
+ */
 @Composable
 private fun StepperIconButton(
     icon: androidx.compose.ui.graphics.vector.ImageVector,
@@ -393,7 +404,7 @@ private fun StepperIconButton(
             .semantics { contentDescription = description },
         contentAlignment = Alignment.Center,
     ) {
-        Icon(icon, contentDescription = null, tint = MeskovaColors.Ink)
+        Icon(icon, contentDescription = null, tint = MeskovaColors.OnStatus)
     }
 }
 
@@ -402,10 +413,14 @@ private fun AuctionPrimaryButton(text: String, enabled: Boolean = true, onClick:
     Button(
         onClick = onClick,
         enabled = enabled,
+        // TileInk, not CardFace: Neon/NeonSoft stay light in both themes, white text on them
+        // drops to 3.28:1 (light) / 2.60:1 (dark), below the 4.5:1 AA floor. See
+        // MeskovaColors.TileInk KDoc.
         colors = ButtonDefaults.buttonColors(
             containerColor = MeskovaColors.Neon,
-            contentColor = MeskovaColors.CardFace,
+            contentColor = MeskovaColors.TileInk,
             disabledContainerColor = MeskovaColors.NeonSoft,
+            disabledContentColor = MeskovaColors.TileInk,
         ),
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier

@@ -34,6 +34,9 @@ flowchart TD
         Plan["PremiumPlan - mapping produit RevenueCat vers offre"]
         Model["ContentPack / GameMode - modele de contenu, sans serialisation"]
         Targeting["Targeting.kt - resolveTarget genre/statut/paire, Random injectable"]
+        Palette["theme/MeskovaPalette - tokens couleur purs, source unique clair+sombre"]
+        Wcag["theme/WcagContrast - luminance relative, ratio WCAG 2.1"]
+        ContrastTest["MeskovaPaletteContrastTest - garde mecanique, gradlew :core:test"]
     end
 
     subgraph app[":app - Jetpack Compose, Material 3, DI manuel"]
@@ -82,6 +85,10 @@ flowchart TD
     Billing -.->|"BuildConfig.BILLING_ENABLED = cle RevenueCat presente"| RC
     Analytics -.->|"BuildConfig.ANALYTICS_ENABLED = cle PostHog presente ET consentement accorde"| PH
     Tokens -.->|"source des couleurs Compose, clair + sombre"| Theme
+    Palette -->|"Color.kt construit Color depuis PaletteColor, jamais un hex recopie"| Theme
+    Palette --> Wcag
+    Wcag --> ContrastTest
+    Palette --> ContrastTest
 
     app -->|":app depend de :core, jamais l'inverse"| core
 ```
@@ -95,8 +102,17 @@ flowchart TD
   (`ContentPack`, `GameMode`), le mapping des offres (`PremiumPlan`) et
   `Targeting.kt` qui resout `Targets.GENDER_M/GENDER_F/SINGLE/COUPLE/PAIR`
   vers un ou deux `Player` a partir de leurs attributs optionnels
-  `gender`/`relationship`, avec repli aleatoire gracieux. Tourne avec
-  `./gradlew :core:test` sans SDK Android.
+  `gender`/`relationship`, avec repli aleatoire gracieux. Il porte aussi
+  `theme/MeskovaPalette` (source unique des tokens couleur, clair + sombre,
+  memes roles que `src/styles/tokens.css` sur le web) et `theme/WcagContrast`
+  (luminance relative, ratio WCAG 2.1, pur Kotlin) : `app/.../ui/theme/Color.kt`
+  construit chaque `Color` Compose depuis ces memes objets plutot que de
+  recopier un hex, et `MeskovaPaletteContrastTest` verifie mecaniquement
+  que chaque paire encre/fond reellement utilisee dans l'UI clear 4.5:1
+  (texte normal) ou 3:1 (texte large) dans les deux themes - garde
+  permanente contre la regression 0.14.1 (texte `Ink` pose sur un aplat
+  `Pop*`/`Neon*`, qui reste clair dans les deux themes alors qu'`Ink`
+  s'inverse). Tourne avec `./gradlew :core:test` sans SDK Android.
 - **`:app` (Jetpack Compose, Material 3).** L'UI : `WelcomeScreen` (genre et
   statut facultatifs par joueur, panneau replie par defaut), `HubScreen`
   (bento grid qui route vers chaque ecran de mode, toggle clair/sombre
@@ -141,7 +157,7 @@ deterministe dans `:core` (un `Random` injectable pour les tests), et son
 contenu embarque a cote sous forme de constantes Kotlin. Ce contenu natif est
 tenu a parite avec la version web (`la-taverne`), ce qui garantit qu'un meme
 mode se joue identiquement sur mobile et sur le web. La logique etant separee
-de Compose, elle se teste sans SDK Android (113 tests JUnit dans `:core`).
+de Compose, elle se teste sans SDK Android (136 tests JUnit dans `:core`).
 
 ## Principe gated
 
