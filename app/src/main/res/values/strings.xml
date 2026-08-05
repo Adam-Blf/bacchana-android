@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Meskova</string>
+    <string name="app_name">La Tournée</string>
 
     <!-- Welcome -->
     <string name="welcome_slogan">52 cartes. 4 règles. 0 pitié.</string>
@@ -186,7 +186,7 @@
 
     <!-- Paywall -->
     <string name="paywall_close">Fermer</string>
-    <string name="paywall_title">Meskova Premium</string>
+    <string name="paywall_title">La Tournée Premium</string>
     <string name="paywall_subtitle">Débloque tous les packs premium de la collection, directement dans l\'app.</string>
     <string name="paywall_included_title">Contenu inclus</string>
     <string name="paywall_item_count">%1$d cartes</string>
