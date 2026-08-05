@@ -22,15 +22,15 @@ val revenueCatApiKey = secret("REVENUECAT_API_KEY")
 val postHogApiKey = secret("POSTHOG_API_KEY")
 
 android {
-    namespace = "com.beloucif.latournee"
+    namespace = "com.beloucif.bacchus"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.beloucif.latournee"
+        applicationId = "com.beloucif.bacchus"
         minSdk = 26
         targetSdk = 35
-        versionCode = 18
-        versionName = "0.15.1"
+        versionCode = 19
+        versionName = "0.16.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

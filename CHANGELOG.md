@@ -1,5 +1,48 @@
 # Changelog
 
+## [0.16.0] - 2026-08-05
+
+- Rebranding produit : "La Tournée" devient "Bacchus", nom commercial
+  **definitif** valide par Adam Beloucif (sixieme et dernier nom du produit
+  apres BlackOut, La Taverne, Meskova, La Tournee) - `app_name`, titre du
+  paywall "Bacchus Premium", texte au dos des cartes du Coupe-Gorge (qui
+  affichait encore "MESKOVA", jamais corrige lors du rebrand La Tournee -
+  dette corrigee au passage), README, docs, ProGuard rules.
+  `applicationId`/`namespace` passent de `com.beloucif.latournee` à
+  `com.beloucif.bacchus` (arborescence de packages Kotlin et imports
+  renommés en consequence, `LaTourneeApplication`/`LaTourneeApp`/
+  `LaTourneeRoutes`/`LaTourneeColors`/`LaTourneeTheme`/`LaTourneePalette`/
+  `LaTourneePaletteContrastTest` -> équivalents `Bacchus*`) - l'app n'étant
+  toujours pas publiée sur le Play Store, ce changement ne casse aucun
+  utilisateur existant.
+  Contrairement aux quatre rebrands precedents, les fichiers DataStore
+  locaux (`latournee_players`/`latournee_theme`/`latournee_consent`) sont
+  cette fois renommés **avec une migration reelle**
+  (`data/LegacyDataStoreMigration.kt`) plutot que sans script comme avant :
+  Bacchus etant le nom definitif, la chaine de migration complete est
+  parcourue a la premiere ouverture (le nom le plus recent d'abord) -
+  `latournee_*` -> `meskova_*` -> `lataverne_*` -> `blackout_*` pour les
+  joueurs (le seul store existant depuis l'origine du projet), `latournee_*`
+  -> `meskova_*` -> `lataverne_*` pour le theme et le consentement (crees
+  apres le rebrand BlackOut -> La Taverne). Les cles internes n'ayant jamais
+  change de nom d'un rebrand a l'autre, la migration copie tel quel le
+  premier fichier legacy trouve avec des donnees - idempotente, sans effet
+  si aucun fichier legacy n'existe.
+  L'identifiant d'entitlement RevenueCat `core/PremiumPlan.kt` est
+  **renommé** (`"La Tournee Pro"` -> `"Bacchus Pro"`, id technique a
+  recreer cote dashboard RevenueCat) - toujours aucun abonné existant a
+  migrer, projet RevenueCat sans aucun produit ni achat a ce jour.
+  `PRIVACY_POLICY_URL`/`LEGAL_URL` de `SettingsScreen.kt` pointent
+  desormais vers `bacchus.beloucif.com` (provisioning DNS/hebergement du
+  sous-domaine hors perimetre de ce depot). Garde de contraste renommée
+  `LaTourneePaletteContrastTest` -> `BacchusPaletteContrastTest`, toujours
+  verte (136 tests `:core:test`).
+  Restent inchanges pour l'instant, hors perimetre de ce lot : le nom du
+  repo GitHub (`Adam-Blf/la-tournee-android`, badges et liens du README
+  toujours pointes dessus), `rootProject.name` (`settings.gradle.kts`,
+  suit la meme logique que le repo GitHub - les deux seront alignes
+  ensemble lors du renommage du depot).
+
 ## [0.15.1] - 2026-08-05
 
 - Durcissement securite de la chaine d'integration, suite d'audit. Les 15
