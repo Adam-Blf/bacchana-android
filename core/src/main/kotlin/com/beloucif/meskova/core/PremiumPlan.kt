@@ -8,7 +8,7 @@ package com.beloucif.meskova.core
  * (app_name, paywall title, store listing); only this internal identifier keeps its
  * original value. Mirrors PREMIUM_ENTITLEMENT_ID in la-taverne/src/lib/billing.ts.
  */
-const val PREMIUM_ENTITLEMENT_ID = "La Taverne Pro"
+const val PREMIUM_ENTITLEMENT_ID = "Meskova Pro"
 
 /** True once one of the active entitlement ids reported by RevenueCat is the premium one. */
 fun isPremiumEntitlementActive(activeEntitlementIds: Set<String>): Boolean =

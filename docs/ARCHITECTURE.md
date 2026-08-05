@@ -58,7 +58,7 @@ flowchart TD
     end
 
     subgraph external["Services externes (gated par cle API absente en CI)"]
-        RC["RevenueCat - entitlement La Taverne Pro"]
+        RC["RevenueCat - entitlement Meskova Pro"]
         PH["PostHog EU - eu.i.posthog.com"]
     end
 

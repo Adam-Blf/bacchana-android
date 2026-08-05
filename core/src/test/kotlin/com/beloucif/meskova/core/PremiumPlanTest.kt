@@ -10,7 +10,7 @@ class PremiumPlanTest {
 
     @Test
     fun `isPremiumEntitlementActive is true only when the exact entitlement id is present`() {
-        assertTrue(isPremiumEntitlementActive(setOf("La Taverne Pro")))
+        assertTrue(isPremiumEntitlementActive(setOf("Meskova Pro")))
         assertFalse(isPremiumEntitlementActive(emptySet()))
         assertFalse(isPremiumEntitlementActive(setOf("some_other_entitlement")))
     }

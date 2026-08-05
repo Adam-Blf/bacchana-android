@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.StateFlow
  * [StubEntitlementRepository] for the guest-mode fallback used everywhere else, including CI.
  */
 interface EntitlementRepository {
-    /** True once the user owns the "La Taverne Pro" entitlement. */
+    /** True once the user owns the "Meskova Pro" entitlement. */
     val isPremium: StateFlow<Boolean>
 
     /**

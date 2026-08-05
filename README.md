@@ -1,10 +1,10 @@
 <!-- adam-badges:start -->
-[![commits](https://img.shields.io/github/commit-activity/t/Adam-Blf/la-taverne-android?color=001329&label=commits&style=flat-square)](https://github.com/Adam-Blf/la-taverne-android/commits)
+[![commits](https://img.shields.io/github/commit-activity/t/Adam-Blf/meskova-android?color=001329&label=commits&style=flat-square)](https://github.com/Adam-Blf/meskova-android/commits)
 [![version](https://img.shields.io/badge/version-0.14.1-D4A437?style=flat-square)](CHANGELOG.md)
 [![platform](https://img.shields.io/badge/platform-Android%208.0%2B-001329?style=flat-square)](#)
 [![kotlin](https://img.shields.io/badge/kotlin-2.0.21-7F52FF?style=flat-square)](#)
-[![release](https://img.shields.io/github/actions/workflow/status/Adam-Blf/la-taverne-android/release.yml?label=release&style=flat-square)](RELEASING.md)
-[![license](https://img.shields.io/github/license/Adam-Blf/la-taverne-android?style=flat-square&color=D4A437)](LICENSE)
+[![release](https://img.shields.io/github/actions/workflow/status/Adam-Blf/meskova-android/release.yml?label=release&style=flat-square)](RELEASING.md)
+[![license](https://img.shields.io/github/license/Adam-Blf/meskova-android?style=flat-square&color=D4A437)](LICENSE)
 <!-- adam-badges:end -->
 
 # Meskova - Android
@@ -85,7 +85,7 @@ flowchart TD
     end
 
     subgraph external["Services externes (gated par cle API)"]
-        RC[RevenueCat - entitlement "La Taverne Pro"]
+        RC[RevenueCat - entitlement "Meskova Pro"]
         PH[PostHog EU - eu.i.posthog.com]
     end
 
@@ -193,7 +193,7 @@ mode invité sans elles (build, tests et CI ne les ont jamais).
 - **Disclaimer** "18 ans et plus. Jouez responsable." affiché dès l'écran
   d'accueil.
 - **Paiement in-app** : `RevenueCatEntitlementRepository` encapsule le SDK
-  Purchases (entitlement `La Taverne Pro`, 3 offres - mensuel 4,99 €, annuel
+  Purchases (entitlement `Meskova Pro`, 3 offres - mensuel 4,99 €, annuel
   19,99 €, à vie 34,99 € mis en avant - transparence tarifaire totale, aucun
   essai gratuit trompeur). Actif uniquement si `BuildConfig.BILLING_ENABLED`
   est vrai, c'est-à-dire si une clé RevenueCat (`REVENUECAT_API_KEY`) est
@@ -221,7 +221,7 @@ mode invité sans elles (build, tests et CI ne les ont jamais).
   de confidentialité publiée), signature de release (keystore, jamais commité
   - voir `.gitignore`), tests sur device physique, provisioning réel des
   produits RevenueCat (`premium_monthly`/`premium_yearly`/`premium_lifetime`)
-  et de l'entitlement `La Taverne Pro` côté dashboard.
+  et de l'entitlement `Meskova Pro` côté dashboard.
 
 ## Stack
 
@@ -247,7 +247,7 @@ asymétriques juge/groupe, rotation du juge avec wrap-around, déterminisme du
 pénalisé, égalité et unanimité neutres, cumul multi-manches, unicité du vote
 par joueur, fin de file, déterminisme du `Random` injecté), `PremiumPlan`
 (mapping id produit RevenueCat -> offre, y compris les suffixes de base plan
-Play Store, et l'activation de l'entitlement `La Taverne Pro`) et
+Play Store, et l'activation de l'entitlement `Meskova Pro`) et
 `Targeting.kt` (cibles résolvables reconnues, correspondance genre/statut/
 paire, repli aléatoire gracieux quand personne ne correspond ou que le
 roster est vide, joueurs inactifs ignorés, déterminisme par seed de tour) et
