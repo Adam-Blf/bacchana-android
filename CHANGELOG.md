@@ -1,27 +1,52 @@
 # Changelog
 
+## [0.15.0] - 2026-08-05
+
+- Rebranding produit : "Meskova" devient "La Tournée" (cinquième nom du
+  produit) - `app_name`, titre du paywall "La Tournée Premium", README,
+  docs, ProGuard rules. L'univers interne du jeu reste intact - Le
+  Taulier, Le Coupe-Gorge, Le Pilori, La Criée gardent leurs libellés.
+  `applicationId`/`namespace` passent de `com.beloucif.meskova` à
+  `com.beloucif.latournee` (arborescence de packages Kotlin et imports
+  renommés en conséquence, `MeskovaApplication`/`MeskovaApp`/
+  `MeskovaColors`/`MeskovaTheme`/`MeskovaPalette` -> équivalents
+  `LaTournee*`) - l'app n'étant pas encore publiée sur le Play Store, ce
+  changement ne casse aucun utilisateur existant. Les noms de fichiers
+  DataStore locaux (`meskova_players`/`meskova_theme`/`meskova_consent`)
+  sont renommés en `latournee_*` sans script de migration, pour la même
+  raison. Contrairement au rebrand précédent, l'identifiant d'entitlement
+  RevenueCat `core/PremiumPlan.kt` est cette fois **renommé**
+  (`"La Taverne Pro"` -> `"La Tournee Pro"`, sans accent, id technique
+  exact créé côté dashboard RevenueCat) - toujours aucun abonné existant
+  à migrer. `rootProject.name` (`settings.gradle.kts`) et les badges du
+  README passent de `la-taverne-android` à `la-tournee-android` (le repo
+  GitHub a été renommé en conséquence). `PRIVACY_POLICY_URL`/`LEGAL_URL`
+  de `SettingsScreen.kt` pointent désormais vers `latournee.beloucif.com`
+  (actif). Garde de contraste renommée `MeskovaPaletteContrastTest` ->
+  `LaTourneePaletteContrastTest`, toujours verte (136 tests `:core:test`).
+
 ## [0.14.1] - 2026-08-05
 
 - Fix contraste WCAG texte-sur-aplat (theme sombre) : signale deux fois par
   Adam en jouant ("du blanc sur du jaune c'est illisible, du blanc sur du
   vert clair c'est illisible"), jamais porte depuis le fix web du
-  2026-08-04. Cause racine : `MeskovaColors.Ink` s'inverse avec le theme
+  2026-08-04. Cause racine : `LaTourneeColors.Ink` s'inverse avec le theme
   (encre foncee en clair, quasi blanche en sombre) alors que les aplats
   `Pop*`/`Neon*` restent CLAIRS dans les deux themes - du texte `Ink` pose
   dessus tombait a ~1.2:1 en sombre (roue de la roulette, badges Quitte ou
   Trinque, cartes Le Tableau d'Honneur/Le Pilori, icone d'ajout de joueur).
   Deux nouveaux jetons theme-invariants portent la meme logique que sur le
   web (`docs/DESIGN_TOKENS.md` du repo `la-taverne`) :
-  - `MeskovaColors.TileInk` (`#111111` fixe) pour tout texte/icone pose
+  - `LaTourneeColors.TileInk` (`#111111` fixe) pour tout texte/icone pose
     sur `PopYellow`/`PopPink`/`PopBlue`/`PopLime`/`Neon`/`NeonDeep`/
     `NeonSoft` - remplace aussi `CardFace` (blanc) comme couleur de texte
     par defaut des boutons primaires (`Theme.kt` `onPrimary`), qui ne
     passait que 3.28:1 en clair et 2.60:1 en sombre sur un fond `Neon`.
-  - `MeskovaColors.OnStatus` pour le texte pose sur `Premium`/`Success`/
+  - `LaTourneeColors.OnStatus` pour le texte pose sur `Premium`/`Success`/
     `Warning`/`Danger` (direction inverse de `Bg` entre les deux themes :
     blanc en clair, `TileInk` en sombre) - corrige les icones des
     steppers de La Criee et le resultat d'enchere.
-  - `MeskovaColors.CardAccent` (`#C74300` fixe) pour le label orange de Tu
+  - `LaTourneeColors.CardAccent` (`#C74300` fixe) pour le label orange de Tu
     preferes, pose sur la face de carte blanche fixe (`Neon` y tombait a
     2.60:1 en sombre).
   Rampe d'elevation du theme sombre mise a jour vers la refonte 2026-08-04
@@ -29,14 +54,14 @@
   `InkMuted #958FA3`, alpha de bordure fine `0.20` -> `0.38`) - alignee
   avec `docs/DESIGN_TOKENS.md` du repo web.
   Nouveau module de tokens purs Kotlin dans `core` (`core/.../theme/`,
-  `PaletteColor`, `WcagContrast`, `MeskovaPalette`) : source de verite
+  `PaletteColor`, `WcagContrast`, `LaTourneePalette`) : source de verite
   unique consommee a la fois par le rendu Compose
   (`app/.../ui/theme/Color.kt`) et par la garde mecanique
-  `MeskovaPaletteContrastTest` (`./gradlew :core:test`, 136 tests), qui
+  `LaTourneePaletteContrastTest` (`./gradlew :core:test`, 136 tests), qui
   calcule le ratio de contraste WCAG 2.1 reel de chaque paire encre/fond
   utilisee dans le theme et echoue si une paire tombe sous 4.5:1 (texte
   normal) ou 3:1 (texte large/objets UI) - derive des memes objets
-  `MeskovaPalette.Light`/`MeskovaPalette.Dark` que le rendu, pas d'une
+  `LaTourneePalette.Light`/`LaTourneePalette.Dark` que le rendu, pas d'une
   liste de hex recopies a la main.
 
 ## [0.14.0] - 2026-08-04
@@ -81,7 +106,7 @@
   Zero duplication : chaque section delegue a un store ou repository
   existant, zero attribut perso ajoute a PostHog.
 - Paywall (`PaywallScreen.kt`) : titre "La Taverne Premium" repasse en
-  orange accent (`MeskovaColors.Neon`) au lieu de l'encre - en encre le
+  orange accent (`LaTourneeColors.Neon`) au lieu de l'encre - en encre le
   titre devenait noir sur bordure noire en clair et blanc sur fond
   quasi-blanc en sombre, illisible dans les deux cas. Notes et compteurs
   de la modale (libelle "Contenu inclus", nombre de cartes par pack,
@@ -97,10 +122,10 @@
   vibrants), corrections a11y du theme clair (orange-texte assombri
   #C74300, premium #855C12, card-red #C71F2D, tous >= AA 4.5:1). Palette
   Compose (`ui/theme/Color.kt`) alignee au token par token sur
-  `src/styles/tokens.css` du web (source unique). `MeskovaColors`
-  reste un `object` a l'usage identique (300+ sites d'appel `MeskovaColors.X`
+  `src/styles/tokens.css` du web (source unique). `LaTourneeColors`
+  reste un `object` a l'usage identique (300+ sites d'appel `LaTourneeColors.X`
   inchanges) mais lit desormais un `CompositionLocal` fourni par
-  `MeskovaTheme`, qui accepte une preference clair/sombre/systeme
+  `LaTourneeTheme`, qui accepte une preference clair/sombre/systeme
   persistee par le nouveau `ThemeStore` (DataStore) et exposee par un
   toggle discret dans le hub.
 - Genre et statut relationnel par joueur (feature #54, parite avec
@@ -147,7 +172,7 @@
 
 - Contenu des packs gratuits porte a 80 items chacun (sync depuis la-taverne-content 1.10.0), soirees plus longues sans repetition.
 
-All notable changes to Meskova Android are documented here.
+All notable changes to La Tournée Android are documented here.
 Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 versioning follows [SemVer](https://semver.org/).
 
@@ -159,7 +184,7 @@ versioning follows [SemVer](https://semver.org/).
   ce qui reste toujours le cas en CI. `RevenueCatEntitlementRepository`
   encapsule le SDK Purchases (entitlement `La Taverne Pro`, 3 offres
   mensuel/annuel/a vie mappees par `core/PremiumPlan.kt`), selectionne par
-  `MeskovaApplication` uniquement quand `BuildConfig.BILLING_ENABLED` est
+  `LaTourneeApplication` uniquement quand `BuildConfig.BILLING_ENABLED` est
   vrai (cle `REVENUECAT_API_KEY` presente dans `local.properties` ou en env),
   sinon `StubEntitlementRepository` (mode invite existant, inchange).
   `PostHogAnalyticsTracker` (instance EU, `eu.i.posthog.com`) n'initialise
