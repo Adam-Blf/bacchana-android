@@ -1,7 +1,7 @@
 package com.beloucif.bacchus.core
 
 /**
- * Kotlin mirror of the JSON schema in la-taverne-content/schema/content.schema.json.
+ * Kotlin mirror of the JSON schema in bacchus-content/schema/content.schema.json.
  * Kept dependency-free (no kotlinx.serialization) so :core stays pure JVM; the :app
  * module maps its @Serializable DTOs onto these types after decoding assets.
  */

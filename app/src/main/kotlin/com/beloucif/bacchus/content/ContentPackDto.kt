@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 /**
- * kotlinx.serialization mirror of la-taverne-content/schema/content.schema.json.
+ * kotlinx.serialization mirror of bacchus-content/schema/content.schema.json.
  * Lives in :app (not :core) because :core stays a pure-JVM module with zero
  * serialization/Android dependency. [toCore] maps every DTO onto its
  * com.beloucif.bacchus.core equivalent once decoded from assets/packs (*.json files).

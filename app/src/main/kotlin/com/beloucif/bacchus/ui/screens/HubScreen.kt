@@ -142,7 +142,7 @@ fun HubScreen(
                 )
             }
             item {
-                // La Roulette is embedded (no content pack in la-taverne-content), so it
+                // La Roulette is embedded (no content pack in bacchus-content), so it
                 // never appears in `freeModes` - wired here directly, like Le Coupe-Gorge.
                 ModeTile(
                     title = modeDisplayName(GameMode.ROULETTE),

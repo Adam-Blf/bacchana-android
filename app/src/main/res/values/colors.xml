@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Mirrors la-taverne-content/tokens/tokens.json (v2, light theme). Source of truth for Android colors. -->
+<!-- Mirrors bacchus-content/tokens/tokens.json (v2, light theme). Source of truth for Android colors. -->
 <resources>
     <color name="bg">#FFFFF9F0</color>
     <color name="surface">#FFFFFFFF</color>
