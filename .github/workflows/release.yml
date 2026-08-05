@@ -63,8 +63,13 @@ jobs:
 
       - name: Decode keystore from base64
         if: ${{ env.HAS_KEYSTORE == 'true' }}
+        # The secret is passed through the environment, never interpolated into
+        # the script body: ${{ }} expansion happens before the shell runs, so a
+        # crafted value would be executed as shell code.
+        env:
+          KEYSTORE_B64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
         run: |
-          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > keystore.jks
+          echo "$KEYSTORE_B64" | base64 -d > keystore.jks
 
       - name: Build signed release AAB
         if: ${{ env.HAS_KEYSTORE == 'true' }}
