@@ -3,6 +3,8 @@ package com.beloucif.meskova.ui.theme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
+import com.beloucif.meskova.core.theme.MeskovaPalette
+import com.beloucif.meskova.core.theme.PaletteColor
 
 /**
  * Tavern neobrutalist palette, mirrors src/styles/tokens.css on the web (source of truth) -
@@ -10,6 +12,11 @@ import androidx.compose.ui.graphics.Color
  * theme: cream paper background, ink text, orange accent, hard black shadows (no glow).
  * Dark is the "pop" candlelit variant: neutral ink background (never brown/wood), the same
  * festive pops and orange accent lightened to clear WCAG on a dark surface.
+ *
+ * Every field is built from [com.beloucif.meskova.core.theme.MeskovaPalette] (`:core`, pure
+ * JVM) via [Color], never re-typed as a hex literal here - the exact same numbers that render
+ * the UI are the ones `MeskovaPaletteContrastTest` (`:core:test`) verifies, so the two can
+ * never drift out of sync.
  */
 data class MeskovaColorScheme(
     val Bg: Color,
@@ -39,82 +46,80 @@ data class MeskovaColorScheme(
     val CardInk: Color,
     val CardRed: Color,
 
+    /**
+     * Fixed ink (#111111 in both themes) for any text/icon/border drawn on top of a
+     * [PopYellow]/[PopPink]/[PopBlue]/[PopLime]/[Neon]/[NeonDeep]/[NeonSoft] fill: those fills
+     * stay light in BOTH themes, so [Ink] (which inverts with the theme) must never be used on
+     * top of them - that inversion is exactly the bug reported twice by Adam while playing the
+     * app ("du blanc sur du jaune c'est illisible"). See docs/DESIGN_TOKENS.md section 2bis and
+     * `core`'s `MeskovaPaletteContrastTest`.
+     */
+    val TileInk: Color,
+
+    /** Fixed orange (#C74300) for text drawn on [CardFace] (always white): unlike [OrangeInk],
+     * which is recalculated per theme, this stays correct against a surface that never changes. */
+    val CardAccent: Color,
+
     val Premium: Color,
     val Success: Color,
     val Warning: Color,
+    val Danger: Color,
+
+    /**
+     * Ink for text/icons drawn on a solid [Premium]/[Success]/[Warning]/[Danger] fill. Unlike
+     * the pop/neon family, these semantic colors get DARKER in light theme and LIGHTER in dark
+     * theme - so the correct on-fill ink flips too, computed once per theme here rather than
+     * guessed at the call site.
+     */
+    val OnStatus: Color,
 
     val Border: Color,
     val BorderStrong: Color,
 )
 
-val LightMeskovaColors = MeskovaColorScheme(
-    Bg = Color(0xFFFFF9F0),
-    BgRaised = Color(0xFFFFF3E0),
-    Surface = Color(0xFFFFFFFF),
-    SurfaceElevated = Color(0xFFFFEFD6),
+private fun PaletteColor.toColor(): Color = Color(0xFF000000.toInt() or rgbInt)
 
-    Ink = Color(0xFF111111),
-    InkSecondary = Color(0xFF44444A),
-    InkMuted = Color(0xFF6B6B70),
+private fun MeskovaPalette.toColorScheme(borderAlphaByte: Int): MeskovaColorScheme = MeskovaColorScheme(
+    Bg = bg.toColor(),
+    BgRaised = bgRaised.toColor(),
+    Surface = surface.toColor(),
+    SurfaceElevated = surfaceElevated.toColor(),
 
-    Neon = Color(0xFFFA5600),
-    NeonDeep = Color(0xFFE24E00),
-    NeonSoft = Color(0xFFFF8A3D),
-    OrangeInk = Color(0xFFC74300),
+    Ink = ink.toColor(),
+    InkSecondary = inkSecondary.toColor(),
+    InkMuted = inkMuted.toColor(),
 
-    PopYellow = Color(0xFFFFD029),
-    PopPink = Color(0xFFFF6FB2),
-    PopBlue = Color(0xFF6E9BFF),
-    PopLime = Color(0xFF9BE94C),
+    Neon = neon.toColor(),
+    NeonDeep = neonDeep.toColor(),
+    NeonSoft = neonSoft.toColor(),
+    OrangeInk = orangeInk.toColor(),
 
-    CardFace = Color(0xFFFFFFFF),
-    CardInk = Color(0xFF111111),
-    CardRed = Color(0xFFC71F2D),
+    PopYellow = popYellow.toColor(),
+    PopPink = popPink.toColor(),
+    PopBlue = popBlue.toColor(),
+    PopLime = popLime.toColor(),
 
-    Premium = Color(0xFF855C12),
-    Success = Color(0xFF177C50),
-    Warning = Color(0xFFB45309),
+    CardFace = cardFace.toColor(),
+    CardInk = cardInk.toColor(),
+    CardRed = cardRed.toColor(),
 
-    Border = Color(0x26111111), // rgba(17, 17, 17, 0.15)
-    BorderStrong = Color(0xFF111111),
+    TileInk = tileInk.toColor(),
+    CardAccent = cardAccent.toColor(),
+
+    Premium = premium.toColor(),
+    Success = success.toColor(),
+    Warning = warning.toColor(),
+    Danger = danger.toColor(),
+    OnStatus = onStatus.toColor(),
+
+    Border = Color((borderAlphaByte shl 24) or border.rgbInt),
+    BorderStrong = borderStrong.toColor(),
 )
 
-/**
- * "La taverne pop" - neutral ink background (never brown/wood), pops and the orange accent
- * lightened to clear WCAG AA on the dark surface. Values mirror the `[data-theme='dark']`
- * block of tokens.css (ratios computed there against #141216, all >= 4.5:1).
- */
-val DarkMeskovaColors = MeskovaColorScheme(
-    Bg = Color(0xFF141216),
-    BgRaised = Color(0xFF1D1B20),
-    Surface = Color(0xFF1D1B20),
-    SurfaceElevated = Color(0xFF26232B),
-
-    Ink = Color(0xFFF4EFE6),
-    InkSecondary = Color(0xFFA39DB0),
-    InkMuted = Color(0xFF837D8F),
-
-    Neon = Color(0xFFFF7A2E),
-    NeonDeep = Color(0xFFE86014),
-    NeonSoft = Color(0xFFFF9E5C),
-    OrangeInk = Color(0xFFFF7A2E),
-
-    PopYellow = Color(0xFFFFD84D),
-    PopPink = Color(0xFFFF7FBE),
-    PopBlue = Color(0xFF7FB0FF),
-    PopLime = Color(0xFFA6F05A),
-
-    CardFace = Color(0xFFFFFFFF),
-    CardInk = Color(0xFF111111),
-    CardRed = Color(0xFFC71F2D),
-
-    Premium = Color(0xFFD9A441),
-    Success = Color(0xFF3EA876),
-    Warning = Color(0xFFD67428),
-
-    Border = Color(0x33F4EFE6), // rgba(244, 239, 230, 0.2)
-    BorderStrong = Color(0xFFF4EFE6),
-)
+// Border alpha bytes: light 0.15 * 255 = 38 (0x26), dark 0.38 * 255 = 97 (0x61) - matches
+// MeskovaPalette.borderAlpha exactly (docs/DESIGN_TOKENS.md section 3.4).
+val LightMeskovaColors: MeskovaColorScheme = MeskovaPalette.Light.toColorScheme(borderAlphaByte = 0x26)
+val DarkMeskovaColors: MeskovaColorScheme = MeskovaPalette.Dark.toColorScheme(borderAlphaByte = 0x61)
 
 val LocalMeskovaColors = staticCompositionLocalOf { LightMeskovaColors }
 
@@ -147,9 +152,14 @@ object MeskovaColors {
     val CardInk: Color @Composable get() = LocalMeskovaColors.current.CardInk
     val CardRed: Color @Composable get() = LocalMeskovaColors.current.CardRed
 
+    val TileInk: Color @Composable get() = LocalMeskovaColors.current.TileInk
+    val CardAccent: Color @Composable get() = LocalMeskovaColors.current.CardAccent
+
     val Premium: Color @Composable get() = LocalMeskovaColors.current.Premium
     val Success: Color @Composable get() = LocalMeskovaColors.current.Success
     val Warning: Color @Composable get() = LocalMeskovaColors.current.Warning
+    val Danger: Color @Composable get() = LocalMeskovaColors.current.Danger
+    val OnStatus: Color @Composable get() = LocalMeskovaColors.current.OnStatus
 
     val Border: Color @Composable get() = LocalMeskovaColors.current.Border
     val BorderStrong: Color @Composable get() = LocalMeskovaColors.current.BorderStrong

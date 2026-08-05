@@ -291,7 +291,12 @@ private fun WouldYouRatherOptionCard(
             Text(
                 text = label,
                 style = MaterialTheme.typography.labelMedium,
-                color = if (phase == WouldYouRatherPhase.REVEAL && minoritySide == side) textColor else MeskovaColors.Neon,
+                // CardAccent, not Neon: this label sits on the fixed white CardFace surface in
+                // both themes, but Neon is recalculated per theme against the themed Bg - its
+                // dark-theme value (a bright, light orange) drops to 2.60:1 on white, below AA.
+                // CardAccent is the fixed dark-orange equivalent for a surface that never
+                // changes, same logic as CardInk vs Ink.
+                color = if (phase == WouldYouRatherPhase.REVEAL && minoritySide == side) textColor else MeskovaColors.CardAccent,
                 fontWeight = FontWeight.Bold,
             )
             if (phase == WouldYouRatherPhase.REVEAL) {
@@ -318,10 +323,14 @@ private fun WouldYouRatherPrimaryButton(text: String, enabled: Boolean = true, o
     Button(
         onClick = onClick,
         enabled = enabled,
+        // TileInk, not CardFace: Neon/NeonSoft stay light in both themes, white text on them
+        // drops to 3.28:1 (light) / 2.60:1 (dark), below the 4.5:1 AA floor. See
+        // MeskovaColors.TileInk KDoc.
         colors = ButtonDefaults.buttonColors(
             containerColor = MeskovaColors.Neon,
-            contentColor = MeskovaColors.CardFace,
+            contentColor = MeskovaColors.TileInk,
             disabledContainerColor = MeskovaColors.NeonSoft,
+            disabledContentColor = MeskovaColors.TileInk,
         ),
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
@@ -399,7 +408,8 @@ private fun WouldYouRatherRecap(state: WouldYouRatherSessionState, onReplay: () 
 
         Button(
             onClick = onReplay,
-            colors = ButtonDefaults.buttonColors(containerColor = MeskovaColors.Neon, contentColor = MeskovaColors.CardFace),
+            // TileInk, not CardFace: see MeskovaColors.TileInk KDoc.
+            colors = ButtonDefaults.buttonColors(containerColor = MeskovaColors.Neon, contentColor = MeskovaColors.TileInk),
             modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
         ) {
             Text(stringResource(R.string.recap_replay))

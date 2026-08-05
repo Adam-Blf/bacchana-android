@@ -304,6 +304,8 @@ private fun TribunalIntro(onWriteOwn: () -> Unit, onAppCharges: () -> Unit) {
 
 @Composable
 private fun TribunalHandoff(writerName: String, progress: Int, total: Int) {
+    // TileInk, not Ink: this card sits on a NeonSoft fill, which stays light in both themes.
+    // See MeskovaColors.TileInk KDoc.
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -316,12 +318,12 @@ private fun TribunalHandoff(writerName: String, progress: Int, total: Int) {
             Text(
                 text = stringResource(R.string.tribunal_handoff_progress, progress, total),
                 style = MaterialTheme.typography.labelMedium,
-                color = MeskovaColors.Ink,
+                color = MeskovaColors.TileInk,
             )
             Text(
                 text = stringResource(R.string.tribunal_handoff_pass, writerName),
                 style = MaterialTheme.typography.headlineSmall,
-                color = MeskovaColors.Ink,
+                color = MeskovaColors.TileInk,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(top = 8.dp),
@@ -497,10 +499,14 @@ private fun TribunalPrimaryButton(text: String, enabled: Boolean = true, onClick
     Button(
         onClick = onClick,
         enabled = enabled,
+        // TileInk, not CardFace: Neon/NeonSoft stay light in both themes, white text on them
+        // drops to 3.28:1 (light) / 2.60:1 (dark), below the 4.5:1 AA floor. See
+        // MeskovaColors.TileInk KDoc.
         colors = ButtonDefaults.buttonColors(
             containerColor = MeskovaColors.Neon,
-            contentColor = MeskovaColors.CardFace,
+            contentColor = MeskovaColors.TileInk,
             disabledContainerColor = MeskovaColors.NeonSoft,
+            disabledContentColor = MeskovaColors.TileInk,
         ),
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
@@ -577,7 +583,8 @@ private fun TribunalRecap(state: TribunalState, onReplay: () -> Unit, onBackToHu
 
         Button(
             onClick = onReplay,
-            colors = ButtonDefaults.buttonColors(containerColor = MeskovaColors.Neon, contentColor = MeskovaColors.CardFace),
+            // TileInk, not CardFace: see MeskovaColors.TileInk KDoc.
+            colors = ButtonDefaults.buttonColors(containerColor = MeskovaColors.Neon, contentColor = MeskovaColors.TileInk),
             modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
         ) {
             Text(stringResource(R.string.recap_replay))

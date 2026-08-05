@@ -122,7 +122,10 @@ fun WelcomeScreen(
                     .size(48.dp)
                     .background(MeskovaColors.NeonDeep, RoundedCornerShape(12.dp)),
             ) {
-                Icon(Icons.Filled.Add, contentDescription = stringResource(R.string.welcome_add_player), tint = MeskovaColors.Ink)
+                // TileInk, not Ink: icon sits on a NeonDeep fill, which stays light in both
+                // themes (see MeskovaColors.TileInk KDoc) - Ink inverted to near-white in dark
+                // theme made this icon disappear against NeonDeep.
+                Icon(Icons.Filled.Add, contentDescription = stringResource(R.string.welcome_add_player), tint = MeskovaColors.TileInk)
             }
         }
 
