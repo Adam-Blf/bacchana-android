@@ -17,6 +17,7 @@
         android:supportsRtl="false"
         android:theme="@style/Theme.LaTournee"
         android:hardwareAccelerated="true"
+        android:usesCleartextTraffic="false"
         android:fullBackupContent="false">
 
         <activity

@@ -1,5 +1,31 @@
 # Changelog
 
+## [0.15.1] - 2026-08-05
+
+- Durcissement securite de la chaine d'integration, suite d'audit. Les 15
+  references d'actions tierces des deux workflows passent de tags mutables
+  (`@v4`, `@v3`, `@v2`, `@v1`) a des SHA de commit complets, tag d'origine
+  garde en commentaire. Le point dur etait `release.yml` : le job qui decode
+  le keystore de signature et pousse sur le Play Store appelait
+  `r0adkll/upload-google-play@v1` et `softprops/action-gh-release@v2`, deux
+  tags que leurs mainteneurs peuvent redeplacer a tout moment sur du code
+  qui lit `ANDROID_KEYSTORE_BASE64` et `PLAY_SERVICE_ACCOUNT_JSON`.
+- Jeton d'integration au moindre privilege : `permissions: contents: read`
+  au niveau des deux workflows, eleve a `contents: write` sur le seul job
+  `build-and-upload`, qui publie la release GitHub.
+- Le secret du keystore ne transite plus par une interpolation
+  `${{ secrets.* }}` dans un corps de `run:` (l'expansion a lieu avant que
+  le shell ne parse le script, donc une valeur forgee s'executerait comme du
+  code) mais par un bloc `env:` d'etape lu en `$KEYSTORE_B64`. Verification :
+  plus aucune reference `secrets.` dans un `run:` du depot.
+- Nouveau job `secrets` dans `ci.yml` : `gitleaks` sur l'historique complet
+  (`fetch-depth: 0`), aligne sur le modele du repo web `la-taverne`.
+- `.github/dependabot.yml` ajoute (`github-actions` + `gradle`, hebdomadaire),
+  qui est le mecanisme de rafraichissement des nouveaux pins SHA.
+- `android:usesCleartextTraffic="false"` declare explicitement dans le
+  manifeste : deja le defaut avec targetSdk 35, mais l'invariant devient
+  lisible et survit a un futur changement de targetSdk.
+
 ## [0.15.0] - 2026-08-05
 
 - Rebranding produit : "Meskova" devient "La Tournée" (cinquième nom du
