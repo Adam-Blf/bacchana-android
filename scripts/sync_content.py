@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Syncs Bacchus content packs from ../bacchus-content into the Android app.
+"""Syncs Bacchana content packs from ../bacchana-content into the Android app.
 
 Free packs (premium=false) are copied verbatim into app/src/main/assets/packs/
 so the app works fully offline with zero network calls. Premium packs never
@@ -8,7 +8,7 @@ item count) lands in app/src/main/assets/premium-catalog.json, used to render
 locked tiles until Play Billing / RevenueCat is wired up.
 
 Usage: python scripts/sync_content.py
-Reproducible and idempotent - safe to re-run any time bacchus-content changes.
+Reproducible and idempotent - safe to re-run any time bacchana-content changes.
 """
 from __future__ import annotations
 
@@ -18,7 +18,7 @@ import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-CONTENT_ROOT = REPO_ROOT.parent / "bacchus-content"
+CONTENT_ROOT = REPO_ROOT.parent / "bacchana-content"
 PACKS_SRC = CONTENT_ROOT / "content" / "fr" / "packs"
 ASSETS_DIR = REPO_ROOT / "app" / "src" / "main" / "assets"
 PACKS_DEST = ASSETS_DIR / "packs"

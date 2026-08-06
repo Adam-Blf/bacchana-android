@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Release automation for bacchus-android.
+"""Release automation for bacchana-android.
 
 Bumps versionCode and versionName in app/build.gradle.kts, commits,
 creates an annotated tag, and pushes to origin.
@@ -109,7 +109,7 @@ def git_push(dry_run=False):
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Release automation for bacchus-android"
+        description="Release automation for bacchana-android"
     )
     parser.add_argument(
         "--version",

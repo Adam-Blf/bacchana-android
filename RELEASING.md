@@ -1,4 +1,4 @@
-# Publication Bacchus Android
+# Publication Bacchana Android
 
 Ce document décrit le processus de publication sur Google Play Store.
 
@@ -10,7 +10,7 @@ Avant la première publication, exécuter ces étapes une seule fois.
 
 - Aller sur https://play.google.com/console
 - Payer les 25 dollars de frais d'inscription
-- Créer l'application avec le bundle ID `com.beloucif.bacchus`
+- Créer l'application avec le bundle ID `com.beloucif.bacchana`
 - Remplir la fiche produit (captures d'écran, description, catégorie, classification d'âge 18+)
 
 ### 2. Générer une clé de signature (keystore)
@@ -19,9 +19,9 @@ Sur ta machine Windows, générer un keystore de production et le stocker de man
 
 ```bash
 # Créer le keystore (valide 50 ans)
-keytool -genkey -v -keystore bacchus-release.jks ^
+keytool -genkey -v -keystore bacchana-release.jks ^
   -keyalg RSA -keysize 4096 -validity 18250 ^
-  -alias bacchus ^
+  -alias bacchana ^
   -storepass <MOT_DE_PASSE_LONG> ^
   -keypass <MOT_DE_PASSE_LONG>
 ```
@@ -46,19 +46,19 @@ Une fois le keystore et le compte de service générés en local, créer les sec
 ```bash
 # Encoder le keystore en base64
 # Sur Windows PowerShell :
-$keystore = Get-Content -Path "chemin/vers/bacchus-release.jks" -Encoding Byte
+$keystore = Get-Content -Path "chemin/vers/bacchana-release.jks" -Encoding Byte
 $base64 = [Convert]::ToBase64String($keystore)
 $base64 | Set-Content -Path "keystore-base64.txt"
 
 # Ou sur Git Bash :
-cat chemin/vers/bacchus-release.jks | base64 > keystore-base64.txt
+cat chemin/vers/bacchana-release.jks | base64 > keystore-base64.txt
 
 # Lire le contenu et créer le secret GitHub
 gh secret set ANDROID_KEYSTORE_BASE64 < keystore-base64.txt
 
 # Créer les autres secrets (remplacer les valeurs)
 gh secret set ANDROID_KEYSTORE_PASSWORD --body "MOT_DE_PASSE_LONG"
-gh secret set ANDROID_KEY_ALIAS --body "bacchus"
+gh secret set ANDROID_KEY_ALIAS --body "bacchana"
 gh secret set ANDROID_KEY_PASSWORD --body "MOT_DE_PASSE_LONG"
 
 # Créer le secret Play Service Account (remplacer chemin)
@@ -136,7 +136,7 @@ Le base64 du keystore a possiblement été corrompu en transit. Regénérer depu
 gh secret view ANDROID_KEYSTORE_BASE64
 
 # Si elle semble tronquée ou malformée, la regénérer
-cat chemin/vers/bacchus-release.jks | base64 > keystore-base64.txt
+cat chemin/vers/bacchana-release.jks | base64 > keystore-base64.txt
 gh secret set ANDROID_KEYSTORE_BASE64 < keystore-base64.txt
 ```
 
