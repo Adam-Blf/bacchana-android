@@ -22,11 +22,11 @@ val revenueCatApiKey = secret("REVENUECAT_API_KEY")
 val postHogApiKey = secret("POSTHOG_API_KEY")
 
 android {
-    namespace = "com.beloucif.bacchus"
+    namespace = "com.beloucif.bacchana"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.beloucif.bacchus"
+        applicationId = "com.beloucif.bacchana"
         minSdk = 26
         targetSdk = 35
         versionCode = 20

@@ -14,7 +14,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "bacchus-android"
+rootProject.name = "bacchana-android"
 
 include(":core")
 include(":app")

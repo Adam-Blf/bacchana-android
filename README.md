@@ -1,13 +1,13 @@
 <!-- adam-badges:start -->
-[![commits](https://img.shields.io/github/commit-activity/t/Adam-Blf/bacchus-android?color=001329&label=commits&style=flat-square)](https://github.com/Adam-Blf/bacchus-android/commits)
+[![commits](https://img.shields.io/github/commit-activity/t/Adam-Blf/bacchana-android?color=001329&label=commits&style=flat-square)](https://github.com/Adam-Blf/bacchana-android/commits)
 [![version](https://img.shields.io/badge/version-0.16.1-D4A437?style=flat-square)](CHANGELOG.md)
 [![platform](https://img.shields.io/badge/platform-Android%208.0%2B-001329?style=flat-square)](#)
 [![kotlin](https://img.shields.io/badge/kotlin-2.0.21-7F52FF?style=flat-square)](#)
-[![release](https://img.shields.io/github/actions/workflow/status/Adam-Blf/bacchus-android/release.yml?label=release&style=flat-square)](RELEASING.md)
-[![license](https://img.shields.io/github/license/Adam-Blf/bacchus-android?style=flat-square&color=D4A437)](LICENSE)
+[![release](https://img.shields.io/github/actions/workflow/status/Adam-Blf/bacchana-android/release.yml?label=release&style=flat-square)](RELEASING.md)
+[![license](https://img.shields.io/github/license/Adam-Blf/bacchana-android?style=flat-square&color=D4A437)](LICENSE)
 <!-- adam-badges:end -->
 
-# Bacchus - Android
+# Bacchana - Android
 
 Jeu de soirée entre potes, natif Android, DA néobrutaliste taverne : papier
 crème, encre, accent orange #FA5600, ombres dures noires, thème clair par
@@ -56,12 +56,12 @@ flowchart TD
         Ranking[RankingSession - reducer pur, 40 questions embarquees]
         WYR[WouldYouRatherSession - reducer pur, vote, 84 dilemmes embarques]
         Targeting[Targeting.kt - resolveTarget genre/statut/paire, Random injectable]
-        Palette[theme/BacchusPalette - tokens couleur purs, source unique clair+sombre]
+        Palette[theme/BacchanaPalette - tokens couleur purs, source unique clair+sombre]
         Wcag[theme/WcagContrast - luminance relative, ratio WCAG 2.1]
-        ContrastTest[BacchusPaletteContrastTest - garde mecanique, gradlew :core:test]
+        ContrastTest[BacchanaPaletteContrastTest - garde mecanique, gradlew :core:test]
     end
 
-    subgraph content["bacchus-content (repo separe, source de verite)"]
+    subgraph content["bacchana-content (repo separe, source de verite)"]
         Packs[content/fr/packs/*.json]
         Tokens[tokens/tokens.json]
     end
@@ -85,7 +85,7 @@ flowchart TD
     end
 
     subgraph external["Services externes (gated par cle API)"]
-        RC[RevenueCat - entitlement "Bacchus Pro"]
+        RC[RevenueCat - entitlement "Bacchana Pro"]
         PH[PostHog EU - eu.i.posthog.com]
     end
 
@@ -130,12 +130,12 @@ flowchart TD
   `relationship` optionnels, avec repli aléatoire gracieux si personne ne
   correspond (`Random` injectable, déterministe par tour via `seededRandom`).
   Testable avec `./gradlew :core:test`, sans SDK Android.
-  Le module porte aussi `theme/BacchusPalette` (source unique des tokens
+  Le module porte aussi `theme/BacchanaPalette` (source unique des tokens
   couleur, clair + sombre, mêmes rôles que `src/styles/tokens.css` sur le
   web) et `theme/WcagContrast` (luminance relative, ratio WCAG 2.1, pur
   Kotlin) : `app/.../ui/theme/Color.kt` construit chaque `Color` Compose
   depuis ces mêmes objets plutôt que de recopier un hex, et
-  `BacchusPaletteContrastTest` (136 tests, `./gradlew :core:test`) vérifie
+  `BacchanaPaletteContrastTest` (136 tests, `./gradlew :core:test`) vérifie
   mécaniquement que chaque paire encre/fond réellement utilisée dans l'UI
   clear 4.5:1 (texte normal) ou 3:1 (texte large) dans les deux thèmes -
   garde permanente contre la régression corrigée en 0.14.1 (texte `Ink`
@@ -147,10 +147,10 @@ flowchart TD
   #FA5600, ombres dures) avec une variante sombre "pop" sur encre neutre
   #141216 (jamais de brun/bois), bascule clair/sombre/système persistée par
   `ThemeStore` et exposée par un toggle discret dans le hub. Chaque écran lit
-  `BacchusColors.*` (propriétés `@Composable`, mêmes 300+ sites d'appel
+  `BacchanaColors.*` (propriétés `@Composable`, mêmes 300+ sites d'appel
   qu'avant, aucun refactor visuel nécessaire) qui résout la palette courante
-  via un `CompositionLocal` fourni par `BacchusTheme`.
-- Le contenu (packs de prompts FR) vit dans le repo séparé `bacchus-content`
+  via un `CompositionLocal` fourni par `BacchanaTheme`.
+- Le contenu (packs de prompts FR) vit dans le repo séparé `bacchana-content`
   et est synchronisé par `scripts/sync_content.py` : les packs gratuits sont
   copiés tels quels dans `assets/packs/`, les packs premium ne livrent que
   leurs métadonnées (`assets/premium-catalog.json`), jamais le texte des
@@ -164,7 +164,7 @@ Détail complet des couches, du flux de contenu et du principe gated dans
 Prérequis : JDK 21, Android SDK (platform 35, build-tools 35.0.0).
 
 ```bash
-# Resynchroniser le contenu depuis ../bacchus-content (idempotent)
+# Resynchroniser le contenu depuis ../bacchana-content (idempotent)
 python scripts/sync_content.py
 
 # Tests du moteur de jeu (JVM pur, pas de SDK Android nécessaire)
@@ -193,7 +193,7 @@ mode invité sans elles (build, tests et CI ne les ont jamais).
 - **Disclaimer** "18 ans et plus. Jouez responsable." affiché dès l'écran
   d'accueil.
 - **Paiement in-app** : `RevenueCatEntitlementRepository` encapsule le SDK
-  Purchases (entitlement `Bacchus Pro`, 3 offres - mensuel 4,99 €, annuel
+  Purchases (entitlement `Bacchana Pro`, 3 offres - mensuel 4,99 €, annuel
   19,99 €, à vie 34,99 € mis en avant - transparence tarifaire totale, aucun
   essai gratuit trompeur). Actif uniquement si `BuildConfig.BILLING_ENABLED`
   est vrai, c'est-à-dire si une clé RevenueCat (`REVENUECAT_API_KEY`) est
@@ -221,7 +221,7 @@ mode invité sans elles (build, tests et CI ne les ont jamais).
   de confidentialité publiée), signature de release (keystore, jamais commité
   - voir `.gitignore`), tests sur device physique, provisioning réel des
   produits RevenueCat (`premium_monthly`/`premium_yearly`/`premium_lifetime`)
-  et de l'entitlement `Bacchus Pro` côté dashboard.
+  et de l'entitlement `Bacchana Pro` côté dashboard.
 
 ## Stack
 
@@ -247,11 +247,11 @@ asymétriques juge/groupe, rotation du juge avec wrap-around, déterminisme du
 pénalisé, égalité et unanimité neutres, cumul multi-manches, unicité du vote
 par joueur, fin de file, déterminisme du `Random` injecté), `PremiumPlan`
 (mapping id produit RevenueCat -> offre, y compris les suffixes de base plan
-Play Store, et l'activation de l'entitlement `Bacchus Pro`) et
+Play Store, et l'activation de l'entitlement `Bacchana Pro`) et
 `Targeting.kt` (cibles résolvables reconnues, correspondance genre/statut/
 paire, repli aléatoire gracieux quand personne ne correspond ou que le
 roster est vide, joueurs inactifs ignorés, déterminisme par seed de tour) et
-`BacchusPaletteContrastTest` (garde de contraste WCAG 2.1 mécanique : chaque
+`BacchanaPaletteContrastTest` (garde de contraste WCAG 2.1 mécanique : chaque
 paire encre/fond réellement utilisée dans le thème, calculée depuis
-`BacchusPalette.Light`/`BacchusPalette.Dark`, doit clear 4.5:1 en texte
+`BacchanaPalette.Light`/`BacchanaPalette.Dark`, doit clear 4.5:1 en texte
 normal ou 3:1 en texte large/objet UI, dans les deux thèmes).

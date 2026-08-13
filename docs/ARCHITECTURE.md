@@ -1,15 +1,15 @@
-# Architecture - Bacchus Android
+# Architecture - Bacchana Android
 
-Ce document decrit l'architecture reelle de l'application Android Bacchus :
+Ce document decrit l'architecture reelle de l'application Android Bacchana :
 les deux modules Gradle, les couches transverses de monetisation et
-d'analytics, et le flux de contenu depuis le repo `bacchus-content`. Le
+d'analytics, et le flux de contenu depuis le repo `bacchana-content`. Le
 diagramme est tenu a jour avec le code, ce n'est pas une decoration.
 
 ## Diagramme
 
 ```mermaid
 flowchart TD
-    subgraph content["bacchus-content (repo separe, source de verite du contenu a prompts)"]
+    subgraph content["bacchana-content (repo separe, source de verite du contenu a prompts)"]
         Packs["content/fr/packs/*.json"]
         Tokens["tokens/tokens.json"]
     end
@@ -34,16 +34,16 @@ flowchart TD
         Plan["PremiumPlan - mapping produit RevenueCat vers offre"]
         Model["ContentPack / GameMode - modele de contenu, sans serialisation"]
         Targeting["Targeting.kt - resolveTarget genre/statut/paire, Random injectable"]
-        Palette["theme/BacchusPalette - tokens couleur purs, source unique clair+sombre"]
+        Palette["theme/BacchanaPalette - tokens couleur purs, source unique clair+sombre"]
         Wcag["theme/WcagContrast - luminance relative, ratio WCAG 2.1"]
-        ContrastTest["BacchusPaletteContrastTest - garde mecanique, gradlew :core:test"]
+        ContrastTest["BacchanaPaletteContrastTest - garde mecanique, gradlew :core:test"]
     end
 
     subgraph app[":app - Jetpack Compose, Material 3, DI manuel"]
         Assets["assets/packs/*.json"]
         PremiumCatalog["assets/premium-catalog.json (metadonnees)"]
         Repo["PackRepository - lit les assets, mappe DTO vers :core"]
-        AppRoot["BacchusApplication - conteneur DI manuel"]
+        AppRoot["BacchanaApplication - conteneur DI manuel"]
         VM["ViewModels : Borderland / Prompt / PlayerSession"]
         Hub["HubScreen - bento grid des modes"]
         Modes["Ecrans de mode : Borderland / Prompt / Roulette / Tribunal / Auction / Quiz / Ranking / WouldYouRather / Recap"]
@@ -58,7 +58,7 @@ flowchart TD
     end
 
     subgraph external["Services externes (gated par cle API absente en CI)"]
-        RC["RevenueCat - entitlement Bacchus Pro"]
+        RC["RevenueCat - entitlement Bacchana Pro"]
         PH["PostHog EU - eu.i.posthog.com"]
     end
 
@@ -103,11 +103,11 @@ flowchart TD
   `Targeting.kt` qui resout `Targets.GENDER_M/GENDER_F/SINGLE/COUPLE/PAIR`
   vers un ou deux `Player` a partir de leurs attributs optionnels
   `gender`/`relationship`, avec repli aleatoire gracieux. Il porte aussi
-  `theme/BacchusPalette` (source unique des tokens couleur, clair + sombre,
+  `theme/BacchanaPalette` (source unique des tokens couleur, clair + sombre,
   memes roles que `src/styles/tokens.css` sur le web) et `theme/WcagContrast`
   (luminance relative, ratio WCAG 2.1, pur Kotlin) : `app/.../ui/theme/Color.kt`
   construit chaque `Color` Compose depuis ces memes objets plutot que de
-  recopier un hex, et `BacchusPaletteContrastTest` verifie mecaniquement
+  recopier un hex, et `BacchanaPaletteContrastTest` verifie mecaniquement
   que chaque paire encre/fond reellement utilisee dans l'UI clear 4.5:1
   (texte normal) ou 3:1 (texte large) dans les deux themes - garde
   permanente contre la regression 0.14.1 (texte `Ink` pose sur un aplat
@@ -118,7 +118,7 @@ flowchart TD
   (bento grid qui route vers chaque ecran de mode, toggle clair/sombre
   discret), les ecrans de mode, `PaywallScreen`, et le theme neobrutaliste
   taverne (`ui/theme`) : clair par defaut, variante sombre "pop" sur encre
-  neutre, preference persistee par `ThemeStore`. `BacchusApplication` sert
+  neutre, preference persistee par `ThemeStore`. `BacchanaApplication` sert
   de conteneur de DI manuel et cable chaque dependance comme une interface.
   La dependance va toujours de `:app` vers `:core`, jamais l'inverse.
 - **Billing (transverse, gated).** `EntitlementRepository` est une interface :
@@ -137,7 +137,7 @@ flowchart TD
 Deux sources coexistent :
 
 1. **Contenu a prompts synchronise.** Les packs FR vivent dans le repo separe
-   `bacchus-content`. `scripts/sync_content.py` copie les packs gratuits
+   `bacchana-content`. `scripts/sync_content.py` copie les packs gratuits
    tels quels dans `assets/packs/*.json` et n'ecrit que les metadonnees des
    packs premium dans `assets/premium-catalog.json` (jamais le texte des
    prompts). `PackRepository` lit ces assets, decode les DTO
