@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.firstOrNull
 /**
  * Migrates a DataStore Preferences file created under a previous product name into the
  * current one. The product has been renamed five times (BlackOut -> La Taverne -> Meskova ->
- * La Tournee -> Bacchana) and every rename so far skipped this step on the assumption the app
+ * La Tournee -> Bacchus -> Bacchana) and every rename so far skipped this step on the assumption the app
  * had no installs yet - true at the time, but never guaranteed for whoever has an internal
  * test build on their device. Bacchana is the definitive name, so this migration walks the
  * *entire* historical chain of file names (newest first, since that is the most likely to hold
