@@ -2,7 +2,7 @@ package com.beloucif.bacchana.core
 
 /**
  * La Roulette ("La Roue du Destin") - embedded game mode, no content pack (mirrors
- * la-taverne/src/content/roulette.ts).
+ * bacchana/src/content/roulette.ts).
  * 40 segments, store-safe by construction: abstract penalties, ambiance dares, mimes,
  * votes and soft challenges. Never a named alcohol, never a dangerous instruction.
  */

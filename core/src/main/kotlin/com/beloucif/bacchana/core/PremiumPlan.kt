@@ -5,7 +5,7 @@ package com.beloucif.bacchana.core
  * Renamed to "Bacchana Pro" (no accent, exact RevenueCat dashboard id) for the product's
  * fifth name, Bacchana (display: "Bacchana"). The app is not yet published, so there are
  * no existing subscribers to migrate - unlike a normal rename, the entitlement id itself moves
- * this time. Mirrors PREMIUM_ENTITLEMENT_ID in la-taverne/src/lib/billing.ts.
+ * this time. Mirrors PREMIUM_ENTITLEMENT_ID in bacchana/src/lib/billing.ts.
  */
 const val PREMIUM_ENTITLEMENT_ID = "Bacchana Pro"
 
@@ -15,7 +15,7 @@ fun isPremiumEntitlementActive(activeEntitlementIds: Set<String>): Boolean =
 
 /**
  * The three purchasable premium plans, mirroring the RevenueCat product ids and prices
- * used by the web app (la-taverne/src/lib/billing.ts). Lifetime is highlighted as the
+ * used by the web app (bacchana/src/lib/billing.ts). Lifetime is highlighted as the
  * default choice - a single payment, no subscription, the differentiator against
  * subscription-only competitors.
  */

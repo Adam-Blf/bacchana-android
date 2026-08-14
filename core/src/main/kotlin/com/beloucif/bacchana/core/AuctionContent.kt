@@ -1,7 +1,7 @@
 package com.beloucif.bacchana.core
 
 /**
- * La Criée - embedded game mode, no content pack (mirrors la-taverne/src/content/auction.ts).
+ * La Criée - embedded game mode, no content pack (mirrors bacchana/src/content/auction.ts).
  * Surenchère themes only, 100% original, store-safe by construction: never a named alcohol.
  */
 data class AuctionTheme(

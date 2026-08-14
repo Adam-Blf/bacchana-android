@@ -240,7 +240,7 @@ private fun RouletteWheel(
     modifier: Modifier = Modifier,
 ) {
     // Aplats orange / jaune alternés, texte encre - palette néobrutaliste (mirrors
-    // WHEEL_COLORS in la-taverne/src/components/screens/RouletteScreen.tsx). Recomputed
+    // WHEEL_COLORS in bacchana/src/components/screens/RouletteScreen.tsx). Recomputed
     // here (not a top-level val) since BacchanaColors reads the current clair/sombre theme.
     val wheelColors = listOf(BacchanaColors.NeonSoft, BacchanaColors.PopYellow)
     Box(

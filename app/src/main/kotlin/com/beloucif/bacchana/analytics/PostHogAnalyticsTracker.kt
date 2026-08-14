@@ -60,7 +60,7 @@ class PostHogAnalyticsTracker(
 
     private companion object {
         // EU instance - required for our RGPD data residency (CLAUDE.md section 18),
-        // mirrors la-taverne/src/lib/analytics.ts on the web side.
+        // mirrors bacchana/src/lib/analytics.ts on the web side.
         const val POSTHOG_EU_HOST = "https://eu.i.posthog.com"
     }
 }
