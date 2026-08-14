@@ -2,7 +2,7 @@ package com.beloucif.bacchana.core
 
 /**
  * Le Tribunal ("Le Pilori") - embedded game mode, no content pack (mirrors
- * la-taverne/src/content/tribunal.ts). Charges are store-safe by construction:
+ * bacchana/src/content/tribunal.ts). Charges are store-safe by construction:
  * never a named alcohol, only abstract grievances of the evening.
  */
 data class TribunalCharge(

@@ -345,7 +345,7 @@ private fun SettingsSection(title: String, content: @Composable () -> Unit) {
 
 /**
  * Pas d'ecrans legaux natifs sur Android (contrairement au web, voir MentionsLegalesScreen /
- * CguScreen / ConfidentialiteScreen dans le repo la-taverne) : on renvoie vers les pages du
+ * CguScreen / ConfidentialiteScreen dans le repo bacchana) : on renvoie vers les pages du
  * site plutot que de dupliquer un contenu juridique qui doit rester une seule source de verite.
  */
 private const val PRIVACY_POLICY_URL = "https://bacchana.beloucif.com"

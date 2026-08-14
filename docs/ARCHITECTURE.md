@@ -155,7 +155,7 @@ Deux sources coexistent :
 Chaque mode a moteur propre suit le meme pattern : une session reducer pure et
 deterministe dans `:core` (un `Random` injectable pour les tests), et son
 contenu embarque a cote sous forme de constantes Kotlin. Ce contenu natif est
-tenu a parite avec la version web (`la-taverne`), ce qui garantit qu'un meme
+tenu a parite avec la version web (`bacchana`), ce qui garantit qu'un meme
 mode se joue identiquement sur mobile et sur le web. La logique etant separee
 de Compose, elle se teste sans SDK Android (136 tests JUnit dans `:core`).
 

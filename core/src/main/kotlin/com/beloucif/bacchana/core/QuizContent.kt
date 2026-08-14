@@ -2,7 +2,7 @@ package com.beloucif.bacchana.core
 
 /**
  * Quitte ou Trinque - embedded mode, no content pack (mirrors
- * la-taverne/src/content/quiz.ts). Culture-generale questions, checked orally
+ * bacchana/src/content/quiz.ts). Culture-generale questions, checked orally
  * by the table. Store-safe by construction: never a named alcohol.
  */
 enum class QuizCategory {

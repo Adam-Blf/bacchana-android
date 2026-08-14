@@ -1,7 +1,7 @@
 package com.beloucif.bacchana.core
 
 /**
- * Tu preferes - embedded mode, no content pack (mirrors la-taverne's dilemma
+ * Tu preferes - embedded mode, no content pack (mirrors bacchana's dilemma
  * bank). 84 dilemmas A or B, store-safe by construction: never a named alcohol.
  */
 data class WouldYouRatherQuestion(

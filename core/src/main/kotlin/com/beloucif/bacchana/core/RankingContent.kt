@@ -2,7 +2,7 @@ package com.beloucif.bacchana.core
 
 /**
  * Le Tableau d'Honneur - embedded mode, no content pack (mirrors
- * la-taverne/src/content/ranking.ts). Secret ranking questions, 100 % original.
+ * bacchana/src/content/ranking.ts). Secret ranking questions, 100 % original.
  * The judge ranks their friends against one of them, the table has to guess
  * the real question among 4. Store-safe: never a named alcohol.
  */
