@@ -1,0 +1,31 @@
+# Android / Gradle
+*.iml
+.gradle/
+build/
+/captures
+.externalNativeBuild/
+.cxx/
+local.properties
+.idea/
+*.hprof
+.DS_Store
+
+# Signing (never commit a real keystore)
+*.jks
+*.keystore
+keystore.properties
+
+# Secrets and env
+.env
+.env.*
+*secret*
+*.token
+sbp_*
+ghp_*
+github_pat_*
+*.pem
+google-services.json
+release.properties
+
+# Play Console service account (if ever downloaded locally)
+play-store-credentials.json

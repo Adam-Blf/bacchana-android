@@ -190,8 +190,8 @@
     <string name="paywall_subtitle">Débloque tous les packs premium de la collection, directement dans l\'app.</string>
     <string name="paywall_included_title">Contenu inclus</string>
     <string name="paywall_item_count">%1$d cartes</string>
-    <string name="paywall_best_value_badge">Meilleure offre</string>
-    <string name="paywall_transparency">Abonnements : renouvellement automatique, résiliable à tout moment. À vie : paiement unique, sans abonnement, sans essai gratuit.</string>
+    <string name="paywall_only_offer_badge">Seule offre</string>
+    <string name="paywall_transparency">Paiement unique. Aucun abonnement, aucun renouvellement, aucun essai gratuit. Tu paies une fois, c’est à toi.</string>
     <string name="paywall_purchase_cta">Débloquer - %1$s</string>
     <string name="paywall_restore">Restaurer mes achats</string>
     <string name="paywall_restoring">Restauration…</string>

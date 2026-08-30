@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Silhouette monochrome Bacchana, pour les themes dynamiques d'Android 13+.
+     Android teinte ce calque d'une seule couleur : tout detail interne
+     disparait. La bande claire, les bulles et l'ombre portee fusionneraient
+     avec le corps et rendraient une masse illisible, donc on ne garde que
+     l'eclat et les deux corps de verre, pleins et sans cerne, retires de 6
+     unites - la demi-epaisseur du cerne de la version couleur - pour que les
+     12 unites de noir qui separaient les deux verres redeviennent un vide.
+     Sans ce retrait les deux corps fusionnent en une seule masse. Le geste de
+     trinquer reste lisible a petite taille.
+     Meme geometrie, memes rotations et meme echelle que le calque de premier
+     plan, pour que la silhouette se superpose exactement au sujet couleur. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="512"
+    android:viewportHeight="512">
+    <group
+        android:pivotX="258.4"
+        android:pivotY="253.0"
+        android:scaleX="0.803"
+        android:scaleY="0.803"
+        android:translateX="-2.4"
+        android:translateY="3.0">
+        <path
+            android:fillColor="#FFFFFFFF"
+            android:pathData="M256 74L272 130 328 146 272 162 256 218 240 162 184 146 240 130Z" />
+        <group
+            android:rotation="-14"
+            android:pivotX="190"
+            android:pivotY="300">
+            <path
+                android:fillColor="#FFFFFFFF"
+                android:pathData="M162,228 h76 a10,10 0 0 1 10,10 v132 a10,10 0 0 1 -10,10 h-76 a10,10 0 0 1 -10,-10 v-132 a10,10 0 0 1 10,-10 z" />
+        </group>
+        <group
+            android:rotation="14"
+            android:pivotX="322"
+            android:pivotY="300">
+            <path
+                android:fillColor="#FFFFFFFF"
+                android:pathData="M284,228 h76 a10,10 0 0 1 10,10 v132 a10,10 0 0 1 -10,10 h-76 a10,10 0 0 1 -10,-10 v-132 a10,10 0 0 1 10,-10 z" />
+        </group>
+    </group>
+</vector>
