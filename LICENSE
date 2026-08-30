@@ -1,7 +1,48 @@
-Copyright (c) 2026 Adam Beloucif
+Copyright (c) 2026 Adam Beloucif (BLF Lab's). Tous droits réservés.
 
-All rights reserved.
+CE DÉPÔT EST PUBLIC EN LECTURE, IL N'EST PAS LIBRE D'USAGE
+----------------------------------------------------------
 
-This source code is proprietary and confidential. No part of this repository
-may be reproduced, distributed, or transmitted in any form or by any means
-without the prior written permission of the copyright holder.
+Le code source, les ressources et le contenu textuel des paquets de jeu sont la
+propriété exclusive d'Adam Beloucif. Ils sont publiés pour être LUS : pour
+examiner le travail, s'en inspirer intellectuellement, en discuter, ou signaler
+un défaut.
+
+Aucune licence n'est accordée pour utiliser, copier, modifier, fusionner,
+publier, distribuer, sous-licencier ou vendre tout ou partie de ce dépôt, ni
+pour en tirer une oeuvre dérivée, sans autorisation écrite préalable.
+
+Bacchana est un produit commercial destiné au Play Store. Les cartes de contenu
+sont une oeuvre de l'esprit écrite à la main, protégée à ce titre
+indépendamment du code qui les affiche.
+
+
+POLICES DE CARACTÈRES
+---------------------
+
+Les fontes embarquées dans `app/src/main/res/font/` - Anton, Space Grotesk
+et Space Mono - restent sous SIL Open Font License 1.1, qui est leur licence et
+non la nôtre. Son texte complet accompagne désormais les fichiers, dans
+`app/src/main/res/font/LICENSE-OFL.txt`, parce que l'OFL exige que sa notice
+voyage avec les fontes qu'elle couvre. Ce fichier manquait jusqu'au
+2026-08-31.
+
+Aucune police n'est la propriété d'Adam Beloucif, et rien dans le présent
+fichier ne restreint les droits que l'OFL accorde sur elles.
+
+Note pour qui reprend ce dépôt : ces trois familles sont celles de l'identité
+PRÉCÉDENTE. Le web est passé à Big Shoulders et Chivo, ce port ne l'a pas
+encore suivi. Le jour où il le fera, cette section et le fichier OFL doivent
+suivre le même mouvement.
+
+
+MARQUES
+-------
+
+« Bacchana » et « BLF Lab's » sont des noms commerciaux d'Adam Beloucif. Rien
+ici n'accorde de droit sur eux, ni sur le logotype, ni sur l'identité visuelle.
+
+
+CONTACT
+
+adam.beloucif@efrei.net
