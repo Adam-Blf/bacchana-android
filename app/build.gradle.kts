@@ -23,14 +23,25 @@ val postHogApiKey = secret("POSTHOG_API_KEY")
 
 android {
     namespace = "com.beloucif.bacchana"
-    compileSdk = 35
+    // API 36 (Android 16). Play exige la cible 36 pour toute nouvelle application
+    // ou mise a jour depuis le 31/08/2026 - un AAB en 35 est refuse a l'ENVOI, pas
+    // en revue, ce qui est le pire moment pour l'apprendre.
+    //
+    // AGP 8.10 est le minimum qui sache compiler l'API 36 : la 8.9 plafonne a 35.
+    // Il exige Gradle 8.11.1, d'ou la mise a jour du wrapper dans le meme lot.
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.beloucif.bacchana"
         minSdk = 26
-        targetSdk = 35
-        versionCode = 21
-        versionName = "0.17.0"
+        // Cibler 36 active les comportements d'Android 16. Verifie avant de monter :
+        // le bord a bord impose est deja gere (enableEdgeToEdge dans MainActivity,
+        // windowInsetsPadding(safeDrawing) sur les ecrans), aucune orientation n'est
+        // verrouillee dans le manifeste, et l'app n'intercepte pas le retour - donc
+        // le retour predictif, actif par defaut a partir de 36, ne casse rien.
+        targetSdk = 36
+        versionCode = 22
+        versionName = "0.18.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

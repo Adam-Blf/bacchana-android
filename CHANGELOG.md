@@ -1,5 +1,63 @@
 # Changelog
 
+## [0.18.0] - 2026-08-31
+
+### API 36, parce que la date est passee
+
+Play exige la cible **Android 16 (API 36)** pour toute nouvelle application ou
+mise a jour depuis le **31 aout 2026**, c'est-a-dire aujourd'hui. Un AAB en 35
+est refuse **a l'envoi**, pas en revue : on ne l'apprend pas dans un rapport de
+reviewer, on l'apprend quand le televersement echoue.
+
+La montee n'est pas une ligne, c'est une chaine :
+
+- **AGP 8.6.1 vers 8.10.1.** La 8.9 plafonne a l'API 35, verifie dans ses notes
+  de version ; la 8.10 est la premiere qui compile la 36. Saut minimal assume :
+  AGP est en 9.3 aujourd'hui, mais une migration majeure n'a rien a faire dans
+  un lot impose par une echeance.
+- **Gradle 8.10 vers 8.11.1**, minimum exige par AGP 8.10. Wrapper regenere par
+  la tache `wrapper`, pas a la main.
+- **`compileSdk` et `targetSdk` a 36.**
+
+### Ce qui aurait pu casser, et qui ne casse pas
+
+Verifie avant de monter, pas apres :
+
+- **Le bord a bord impose.** Android 16 retire l'option de retrait pour une
+  cible 36. `MainActivity` appelle deja `enableEdgeToEdge()` et les ecrans
+  posent `windowInsetsPadding(WindowInsets.safeDrawing)`.
+- **Les dispositions adaptatives.** Une cible 36 interdit de verrouiller
+  l'orientation sur grand ecran. Le manifeste ne declare aucun
+  `screenOrientation`.
+- **Le retour predictif**, actif par defaut a partir de 36. L'application
+  n'intercepte le retour nulle part - aucun `BackHandler`, aucun
+  `onBackPressed`.
+- **Le compilateur Compose** passe deja par le plugin Kotlin et non par
+  l'ancien `kotlinCompilerExtensionVersion`.
+
+Quatre facons de casser, quatre deja couvertes. Ca vaut d'etre dit : sur une
+montee de version, ce qui est interessant est ce qu'elle ne touche PAS.
+
+### Le jar du wrapper est desormais valide en integration continue
+
+Ce lot change le jar du wrapper, ce qui est le bon moment pour poser la garde
+qui manquait. `gradle-wrapper.jar` est un BINAIRE commite : son diff n'est pas
+lisible dans l'interface de GitHub. Sur un depot devenu public ce matin, une PR
+d'un inconnu qui le remplace passe la revue humaine sans que personne ne voie
+rien, puis s'execute a la prochaine etiquette **dans le job qui decode le
+keystore de signature**. Une cle de signature Android ne se change pas sans
+casser la mise a jour de tous les installes.
+
+`gradle/actions/wrapper-validation` est ajoute avant chacun des trois
+`setup-gradle` des deux workflows.
+
+### Preuve
+
+Chaine d'outils prouvee en local avec un JDK 21 portable : Gradle 8.11.1 et AGP
+8.10.1 se resolvent, `:core:test` compile et passe. Le module `app` demande le
+SDK Android, absent de la machine : il est prouve par l'integration continue,
+qui tourne de nouveau depuis que le depot est public.
+
 ## [0.17.0] - 2026-08-30
 
 ### Le paywall vendait un catalogue qui n'existe plus

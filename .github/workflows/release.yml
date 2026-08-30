@@ -30,6 +30,17 @@ jobs:
           distribution: temurin
           java-version: '21'
 
+      # Le jar du wrapper est un BINAIRE commite. Son diff n'est pas lisible dans
+      # l'interface de GitHub, donc une PR qui le remplace passe la revue humaine
+      # sans que personne ne voie rien, puis s'execute a la prochaine etiquette
+      # dans le job qui decode le keystore de signature. Une cle de signature
+      # Android ne se change pas sans casser la mise a jour de tous les installes.
+      #
+      # `validate-wrappers` compare l'empreinte du jar a la liste des versions
+      # publiees par Gradle. Ajoute le 2026-08-31, le jour ou ce jar a change.
+      - name: Valider le wrapper Gradle
+        uses: gradle/actions/wrapper-validation@ed408507eac070d1f99cc633dbcf757c94c7933a # v4.4.3
+
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@ed408507eac070d1f99cc633dbcf757c94c7933a # v4.4.3
 
@@ -57,6 +68,17 @@ jobs:
 
       - name: Set up Android SDK
         uses: android-actions/setup-android@9fc6c4e9069bf8d3d10b2204b1fb8f6ef7065407 # v3.2.2
+
+      # Le jar du wrapper est un BINAIRE commite. Son diff n'est pas lisible dans
+      # l'interface de GitHub, donc une PR qui le remplace passe la revue humaine
+      # sans que personne ne voie rien, puis s'execute a la prochaine etiquette
+      # dans le job qui decode le keystore de signature. Une cle de signature
+      # Android ne se change pas sans casser la mise a jour de tous les installes.
+      #
+      # `validate-wrappers` compare l'empreinte du jar a la liste des versions
+      # publiees par Gradle. Ajoute le 2026-08-31, le jour ou ce jar a change.
+      - name: Valider le wrapper Gradle
+        uses: gradle/actions/wrapper-validation@ed408507eac070d1f99cc633dbcf757c94c7933a # v4.4.3
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@ed408507eac070d1f99cc633dbcf757c94c7933a # v4.4.3
