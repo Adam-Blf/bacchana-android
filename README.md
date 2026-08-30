@@ -193,9 +193,11 @@ mode invité sans elles (build, tests et CI ne les ont jamais).
 - **Disclaimer** "18 ans et plus. Jouez responsable." affiché dès l'écran
   d'accueil.
 - **Paiement in-app** : `RevenueCatEntitlementRepository` encapsule le SDK
-  Purchases (entitlement `Bacchana Pro`, 3 offres - mensuel 4,99 €, annuel
-  19,99 €, à vie 34,99 € mis en avant - transparence tarifaire totale, aucun
-  essai gratuit trompeur). Actif uniquement si `BuildConfig.BILLING_ENABLED`
+  Purchases (entitlement `Bacchana Pro`, **une seule offre** - `premium_lifetime`
+  à 12,99 €, paiement unique, aucun abonnement et aucun essai gratuit). Le
+  catalogue a porté trois offres jusqu'au 2026-08-30, dont deux abonnements et
+  un à vie à 34,99 € : c'était une dérive par rapport au prix arrêté, verrouillée
+  depuis par `PremiumPlanTest`. Actif uniquement si `BuildConfig.BILLING_ENABLED`
   est vrai, c'est-à-dire si une clé RevenueCat (`REVENUECAT_API_KEY`) est
   configurée dans `local.properties` ou en variable d'env - sinon
   `StubEntitlementRepository` prend le relais (mode invité, bouton d'achat
@@ -220,8 +222,11 @@ mode invité sans elles (build, tests et CI ne les ont jamais).
   fiche Play Console (captures d'écran, description longue/courte, politique
   de confidentialité publiée), signature de release (keystore, jamais commité
   - voir `.gitignore`), tests sur device physique, provisioning réel des
-  produits RevenueCat (`premium_monthly`/`premium_yearly`/`premium_lifetime`)
-  et de l'entitlement `Bacchana Pro` côté dashboard.
+  produit RevenueCat `premium_lifetime` et de l'entitlement `Bacchana Pro`
+  côté dashboard. **Le produit doit être déclaré NON CONSOMMABLE** : mal
+  déclaré, Play le consomme automatiquement, le joueur peut le racheter et son
+  achat à vie ne le suit plus. Le SDK est en `8.+`, au-dessus des 7.11.0
+  requis, donc la contrainte est entièrement côté tableau de bord.
 
 ## Stack
 

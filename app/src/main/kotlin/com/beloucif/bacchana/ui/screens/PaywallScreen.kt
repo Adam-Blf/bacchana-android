@@ -1,7 +1,6 @@
 package com.beloucif.bacchana.ui.screens
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -47,11 +46,14 @@ import com.beloucif.bacchana.ui.theme.BacchanaColors
 import kotlinx.coroutines.launch
 
 /**
- * "Bacchana Premium" paywall: 3 plans (lifetime highlighted as the default, our
- * differentiator against subscription-only competitors), restore purchases, and full price
- * transparency - no misleading free trial mention. Without a RevenueCat key
- * (BuildConfig.BILLING_ENABLED == false), the purchase button is disabled and shows
- * "Bientot disponible", exactly like the web paywall.
+ * "Bacchana Premium" paywall: ONE plan - a single payment, kept for good - plus restore
+ * purchases and full price transparency, with no misleading free trial mention. Without a
+ * RevenueCat key (BuildConfig.BILLING_ENABLED == false), the purchase button is disabled
+ * and shows "Bientot disponible", exactly like the web paywall.
+ *
+ * There is no plan selector, and that absence is the argument: the screen has nothing to
+ * arbitrate because there is nothing to arbitrate. It used to offer three plans, two of
+ * them subscriptions, which contradicted the one thing the product promises.
  */
 @Composable
 fun PaywallScreen(
@@ -62,7 +64,9 @@ fun PaywallScreen(
     onRestore: suspend () -> Boolean,
     onClose: () -> Unit,
 ) {
-    var selectedPlan by remember { mutableStateOf(PremiumPlan.LIFETIME) }
+    // Aucun etat de selection : le catalogue ne porte qu'une offre, et un selecteur a un
+    // seul choix est un ecran qui pose une question dont il connait la reponse.
+    val plan = PremiumPlan.LIFETIME
     var purchasing by remember { mutableStateOf(false) }
     var restoring by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
@@ -143,14 +147,8 @@ fun PaywallScreen(
                 }
             }
             item {
-                Column(modifier = Modifier.padding(top = 12.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                    PremiumPlan.entries.forEach { plan ->
-                        PlanRow(
-                            plan = plan,
-                            selected = selectedPlan == plan,
-                            onSelect = { selectedPlan = plan },
-                        )
-                    }
+                Column(modifier = Modifier.padding(top = 12.dp)) {
+                    PlanRow(plan = plan)
                 }
             }
             item {
@@ -166,13 +164,13 @@ fun PaywallScreen(
         Button(
             onClick = {
                 if (!billingEnabled || purchasing) return@Button
-                analyticsTracker.trackEvent("purchase_started", mapOf("plan" to selectedPlan.productId))
+                analyticsTracker.trackEvent("purchase_started", mapOf("plan" to plan.productId))
                 purchasing = true
                 scope.launch {
-                    val success = onPurchase(selectedPlan)
+                    val success = onPurchase(plan)
                     purchasing = false
                     if (success) {
-                        analyticsTracker.trackEvent("purchase_completed", mapOf("plan" to selectedPlan.productId))
+                        analyticsTracker.trackEvent("purchase_completed", mapOf("plan" to plan.productId))
                         onClose()
                     }
                 }
@@ -186,7 +184,7 @@ fun PaywallScreen(
             } else {
                 Text(
                     text = if (billingEnabled) {
-                        stringResource(R.string.paywall_purchase_cta, selectedPlan.priceLabel)
+                        stringResource(R.string.paywall_purchase_cta, plan.priceLabel)
                     } else {
                         stringResource(R.string.premium_coming_soon)
                     },
@@ -218,33 +216,28 @@ fun PaywallScreen(
     }
 }
 
+/**
+ * L'offre, affichee et non proposee au choix. Pas de `clickable` : un element qui reagit au
+ * doigt promet une alternative, et il n'y en a pas.
+ */
 @Composable
-private fun PlanRow(plan: PremiumPlan, selected: Boolean, onSelect: () -> Unit) {
-    val isBestValue = plan == PremiumPlan.LIFETIME
+private fun PlanRow(plan: PremiumPlan) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(
-                if (selected) BacchanaColors.Premium.copy(alpha = 0.10f) else BacchanaColors.Surface,
-                RoundedCornerShape(16.dp),
-            )
-            .clickable(onClick = onSelect)
+            .background(BacchanaColors.Premium.copy(alpha = 0.10f), RoundedCornerShape(16.dp))
             .padding(horizontal = 16.dp, vertical = 14.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Column {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(plan.label, style = MaterialTheme.typography.titleMedium, color = BacchanaColors.Ink, fontWeight = FontWeight.Bold)
-                if (isBestValue) {
-                    Text(
-                        text = stringResource(R.string.paywall_best_value_badge),
-                        style = MaterialTheme.typography.labelSmall,
-                        color = BacchanaColors.Premium,
-                        modifier = Modifier.padding(start = 8.dp),
-                    )
-                }
-            }
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(plan.label, style = MaterialTheme.typography.titleMedium, color = BacchanaColors.Ink, fontWeight = FontWeight.Bold)
+            Text(
+                text = stringResource(R.string.paywall_only_offer_badge),
+                style = MaterialTheme.typography.labelSmall,
+                color = BacchanaColors.Premium,
+                modifier = Modifier.padding(start = 8.dp),
+            )
         }
         Text(plan.priceLabel, style = MaterialTheme.typography.titleLarge, color = BacchanaColors.Ink)
     }

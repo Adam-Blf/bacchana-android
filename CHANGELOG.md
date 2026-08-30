@@ -1,5 +1,39 @@
 # Changelog
 
+## [0.17.0] - 2026-08-30
+
+### Le paywall vendait un catalogue qui n'existe plus
+
+Le prix a ete arrete le 30/08/2026 : un achat UNIQUE a 12,99 EUR, sans
+abonnement. Le web a suivi, ce port non. `PremiumPlan` portait encore
+`premium_monthly` a 4,99, `premium_yearly` a 19,99 et un a vie a **34,99** -
+soit deux abonnements qui n'existeront dans aucun magasin, et un prix a vie faux
+de 22 euros.
+
+Rien ne pouvait l'attraper : des plans et des prix sont des chaines de
+caracteres, et un paywall qui s'affiche est un paywall qui a l'air correct. Il a
+fallu comparer les trois plateformes a la main pour le voir.
+
+- **`PremiumPlan` ne porte plus qu'une valeur**, `premium_lifetime` a 12,99 EUR.
+  Il reste une enumeration plutot qu'une constante pour garder l'identifiant
+  produit type en un seul endroit et laisser `purchasePremium(activity, plan)`
+  intact le jour ou un pack optionnel arrive.
+- **Le selecteur de plan disparait**, et cette absence est l'argument : l'ecran
+  n'a plus rien a arbitrer. La ligne d'offre n'est plus `clickable` - un element
+  qui reagit au doigt promet une alternative, et il n'y en a pas.
+- **La pastille passe de « Meilleure offre » a « Seule offre »**. « Meilleure »
+  n'a pas de sens quand il n'y a rien d'autre.
+- **La ligne de transparence tarifaire ne parle plus d'abonnements.** Elle
+  annoncait « renouvellement automatique, resiliable a tout moment » sur un
+  produit qui ne se renouvelle pas.
+- **Deux tests verrouillent le catalogue** : une seule offre, a 12,99, et aucun
+  identifiant produit contenant `monthly` ou `yearly`. Le prix affiche a
+  l'acheteur vient toujours du magasin ; `priceLabel` n'est que le repli en mode
+  invite ou hors ligne.
+- **README remis d'aplomb**, et complete d'un rappel qui n'y etait pas : le
+  produit a vie doit etre declare NON CONSOMMABLE cote Play. Mal declare, Play
+  le consomme, le joueur peut le racheter, et son achat a vie ne le suit plus.
+
 ## [0.16.1] - 2026-08-05
 
 - Residus de renommage : les depots GitHub ayant ete renommes, les references
