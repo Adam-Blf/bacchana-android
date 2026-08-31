@@ -40,7 +40,7 @@ val ROULETTE_SEGMENTS: List<RouletteSegment> = listOf(
     RouletteSegment("rou-25", "Vérité ou double", "Réponds vrai ou prends deux pénalités à la place."),
     RouletteSegment("rou-26", "Ovation", "Lève-toi et salue, la table t'offre une ovation."),
     RouletteSegment("rou-27", "Roulement", "Tape la table en rythme, tout le monde doit suivre."),
-    RouletteSegment("rou-28", "Pause fraîcheur", "Rapporte un verre d'eau à la personne de ton choix."),
+    RouletteSegment("rou-28", "Pause fraîcheur", "Va chercher de l'eau pour la personne de ton choix."),
     RouletteSegment("rou-29", "Question piège", "Pose une colle à la table, le premier bloqué prend une pénalité."),
     RouletteSegment("rou-30", "Photo souvenir", "Prends la pose, la table improvise une photo de groupe."),
     RouletteSegment("rou-31", "Deux pas", "Improvise deux pas de danse au choix de la table."),

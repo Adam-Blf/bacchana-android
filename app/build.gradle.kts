@@ -40,8 +40,8 @@ android {
         // verrouillee dans le manifeste, et l'app n'intercepte pas le retour - donc
         // le retour predictif, actif par defaut a partir de 36, ne casse rien.
         targetSdk = 36
-        versionCode = 22
-        versionName = "0.18.0"
+        versionCode = 23
+        versionName = "0.19.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
