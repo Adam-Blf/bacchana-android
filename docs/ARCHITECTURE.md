@@ -145,7 +145,7 @@ Deux sources coexistent :
    prompts classiques (Le Taulier, Action ou Verite, Je n'ai jamais, etc.)
    consomment ce contenu.
 2. **Contenu embarque natif.** Les modes a moteur propre (Le Pilori, La Criee,
-   Quitte ou Trinque, Le Tableau d'Honneur, Tu preferes, La Roue du Destin)
+   Quitte ou Double, Le Tableau d'Honneur, Tu preferes, La Roue du Destin)
    portent leur contenu directement dans `:core` (`TribunalContent`,
    `AuctionContent`, `QuizContent`, `RankingContent`, `WouldYouRatherContent`,
    `RouletteContent`), hors JSON.

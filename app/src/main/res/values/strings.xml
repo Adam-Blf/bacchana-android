@@ -116,8 +116,8 @@
     <string name="auction_finish">Terminer la partie</string>
     <string name="auction_quit_description">Quitter la Criée et revenir à l\'accueil</string>
 
-    <!-- Quiz (Quitte ou Trinque) -->
-    <string name="quiz_title">Quitte ou Trinque</string>
+    <!-- Quiz (Quitte ou Double) -->
+    <string name="quiz_title">Quitte ou Double</string>
     <string name="quiz_cagnotte">Cagnotte : %1$d</string>
     <string name="quiz_progress">%1$d/%2$d</string>
     <string name="quiz_points_at_stake">%1$d point(s) en jeu</string>
@@ -127,7 +127,7 @@
     <string name="quiz_wrong">Raté</string>
     <string name="quiz_correct">Bonne réponse</string>
     <string name="quiz_distribute">Je distribue mes %1$d point(s)</string>
-    <string name="quiz_keep">Je cumule (quitte ou trinque)</string>
+    <string name="quiz_keep">Je cumule (quitte ou double)</string>
     <string name="quiz_outcome_busted">%1$s a craqué : %2$d pénalité(s) !</string>
     <string name="quiz_outcome_banked">%1$s distribue %2$d pénalité(s) à la table !</string>
     <string name="quiz_quit_description">Quitter le quiz et revenir à l\'accueil</string>
@@ -162,10 +162,10 @@
     <string name="wyr_option_b_label">Option B</string>
     <string name="wyr_current_voter">Au tour de %1$s de voter</string>
     <string name="wyr_votes_progress">%1$d/%2$d ont voté</string>
-    <string name="wyr_reveal_button">Voir qui trinque</string>
+    <string name="wyr_reveal_button">Voir le camp minoritaire</string>
     <string name="wyr_next_round">Dilemme suivant</string>
-    <string name="wyr_outcome_no_penalty">Égalité ou vote unanime : personne ne trinque !</string>
-    <string name="wyr_outcome_minority">%1$s trinque(nt) : %2$d pénalité(s) chacun !</string>
+    <string name="wyr_outcome_no_penalty">Personne n’est pénalisé : égalité ou unanimité.</string>
+    <string name="wyr_outcome_minority">%1$s : %2$d pénalité(s) chacun, le camp minoritaire paie !</string>
     <string name="wyr_quit_description">Quitter Tu préfères et revenir à l\'accueil</string>
     <string name="wyr_recap_title">L\'addition de Tu préfères</string>
     <string name="wyr_recap_none">Personne n\'a pris de pénalité ce soir.</string>

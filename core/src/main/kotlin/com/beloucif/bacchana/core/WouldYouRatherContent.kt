@@ -60,7 +60,7 @@ val WOULD_YOU_RATHER_QUESTIONS: List<WouldYouRatherQuestion> = listOf(
     WouldYouRatherQuestion("wyr-047", "Avoir des tics nerveux visibles quand tu stresses", "Bafouiller complètement en parlant"),
     WouldYouRatherQuestion("wyr-048", "Te sentir observé par quelqu'un qui te plaît", "Te sentir observé par quelqu'un pas ton type"),
     WouldYouRatherQuestion("wyr-049", "Voir ton crush avec quelqu'un d'autre", "Que ton crush te voie avec quelqu'un d'autre"),
-    WouldYouRatherQuestion("wyr-050", "Trébucher devant la personne qui te plaît", "Renverser ton verre sur elle"),
+    WouldYouRatherQuestion("wyr-050", "Trébucher devant la personne qui te plaît", "Renverser ton assiette sur elle"),
     WouldYouRatherQuestion("wyr-051", "Transpirer beaucoup à un premier rendez-vous", "Bafouiller et rougir sans t'arrêter"),
     WouldYouRatherQuestion("wyr-052", "Avoir un vieux post cringe qui refait surface", "Avoir une photo de classe humiliante qui circule"),
     WouldYouRatherQuestion("wyr-053", "Que ton crush voie une vidéo embarrassante de toi", "Que ton crush lise tes vieux messages cringes"),

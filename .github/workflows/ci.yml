@@ -42,6 +42,16 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@ed408507eac070d1f99cc633dbcf757c94c7933a # v4.4.3
 
+
+      # Ajoutee le 2026-08-31. Le depot web porte cette garde depuis le 5 aout,
+      # mais sa portee s'arrete a `bacchana/src` : ce depot n'etait couvert par
+      # rien, et le mode quiz s'y appelait encore « Quitte ou Trinque » trois
+      # semaines apres son renommage. Une garde qui ne couvre qu'un depot
+      # protege le fichier qu'on a corrige, pas le produit.
+      - name: Aucun lexique d'alcool a l'ecran
+        # `python3` et non `python` : garanti sur ubuntu-latest sans ajouter
+        # une action a epingler de plus. Meme convention que scripts/release.py.
+        run: python3 scripts/check_alcohol_lexicon.py
       - name: Run core unit tests (pure JVM, no Android SDK needed)
         run: ./gradlew :core:test --console=plain
 

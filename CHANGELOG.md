@@ -1,5 +1,68 @@
 # Changelog
 
+## [0.19.0] - 2026-08-31
+
+### « Quitte ou Trinque » vivait encore ici, trois semaines apres son renommage
+
+Le depot web porte une garde anti-lexique depuis le 5 aout, et le mode quiz y a
+ete renomme « Quitte ou Double » le meme jour. La portee de cette garde est
+`bacchana/src` : ce depot n'etait couvert par rien. Le renommage n'a jamais
+franchi la frontiere du depot, et personne ne s'en est avise pendant trois
+semaines. La garde protegeait le fichier qu'on avait corrige, pas le produit.
+
+Ce n'est pas un detail de style. Apple 1.4.3 interdit ce qui « encourage » la
+consommation excessive d'alcool, Play interdit d'en donner une image favorable
+et cite nommement le jeu a gages. Le critere n'est pas le mot isole, c'est ce
+que l'ecran donne a lire - et une tuile « QUITTE OU TRINQUE » en premiere page
+se lit sans ambiguite.
+
+Seize emplacements corriges, dont six chaines VISIBLES : le titre du quiz, le
+bouton « Je cumule », et les trois libelles de resultat de « Tu preferes » qui
+annoncaient qui trinque. Deux cartes de contenu reformulees, « rapporte un verre
+d'eau » et « renverser ton verre ».
+
+### La garde vit desormais dans CE depot
+
+Elle balaie `.kt`, `.kts`, `.xml` et `.md`. Trois calibrages ont ete necessaires
+avant qu'elle ne soit juste, et chacun apprend quelque chose :
+
+- **Le CHANGELOG est hors de portee.** Il raconte les faits au moment ou ils ont
+  eu lieu ; reecrire « mode Quitte ou Trinque ajoute » effacerait l'histoire du
+  renommage au lieu de la documenter.
+- **Une affirmation d'ABSENCE n'est pas une violation.** « Zero reference
+  alcool » est le positionnement recherche. Et la negation se lit sur un
+  VOISINAGE de quelques lignes, pas sur la seule ligne : un paragraphe de README
+  ecrit sa negation en tete et sa mention quatre lignes plus bas. Sans cette
+  fenetre, la garde exigeait de tordre la prose pour la satisfaire.
+- **« bois » est le verbe ET le materiau.** Le motif repris du web accusait « un
+  fond brun bois ». On ne retient plus que les formes non ambigues.
+
+L'icone est exemptee NOMMEMENT, et c'est deliberé : ses deux fichiers decrivent
+un dessin de deux verres qui trinquent. Le commentaire est exact, et le reecrire
+ne changerait pas le dessin. C'est l'icone qui pose question, pas sa
+description ; la masquer ferait perdre la trace de ce qu'il faut redessiner.
+
+### La garde verifie qu'elle marche avant de s'en servir
+
+Trois fois dans la meme journee, un motif ecrit a travers deux couches
+d'echappement a recu un antislash-b transforme en CARACTERE DE CONTROLE
+backspace au lieu d'une echappement de regex. Le fichier se lit normalement, la
+ligne parait juste, et le motif ne correspond plus jamais a rien. C'est arrive a
+`git_guard`, puis a `check_tile_ink`, puis a la regle de negation d'ici - qui ne
+reconnaissait plus « jamais » ni « zero ».
+
+Se fier a l'attention a echoue trois fois, donc on mesure. `autocontrole()`
+refuse de rendre un verdict si le fichier porte un caractere de controle, si un
+motif n'attrape pas ce qu'il annonce, ou si une phrase anodine en declenche un.
+Il a immediatement trouve le faux positif sur « bois », avant livraison.
+
+Une garde cassee ne rend plus « vert » : elle sort en code 2 et le dit.
+
+### Preuve
+
+87 fichiers verifies, zero occurrence. Garde vue rouge en remettant « Quitte ou
+Trinque » dans une chaine visible. `:core:test` compile et passe.
+
 ## [0.18.0] - 2026-08-31
 
 ### API 36, parce que la date est passee

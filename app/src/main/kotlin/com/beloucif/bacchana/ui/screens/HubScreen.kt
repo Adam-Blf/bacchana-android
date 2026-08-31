@@ -175,7 +175,7 @@ fun HubScreen(
                 )
             }
             item {
-                // Quitte ou Trinque (Quiz) is embedded too - a solo cagnotte/turn loop, same
+                // Quitte ou Double (Quiz) is embedded too - a solo cagnotte/turn loop, same
                 // 2-player floor as most turn-based modes.
                 ModeTile(
                     title = modeDisplayName(GameMode.QUIZ),
@@ -311,6 +311,6 @@ private fun modeDisplayName(mode: GameMode): String = when (mode) {
     GameMode.TRIBUNAL -> "Le Pilori"
     GameMode.ROULETTE -> "La Roue du Destin"
     GameMode.AUCTION -> "La Criée"
-    GameMode.QUIZ -> "Quitte ou Trinque"
+    GameMode.QUIZ -> "Quitte ou Double"
     GameMode.RANKING -> "Le Tableau d'Honneur"
 }

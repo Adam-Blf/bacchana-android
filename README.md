@@ -25,7 +25,7 @@ La Roue du Destin (roulette à 40 segments, sans joueur nommé, sans récap),
 Le Pilori (tribunal à 40 chefs d'accusation : écrits par la table ou tirés
 de l'app, procès aléatoire, verdict à la majorité, récap interne au mode), La Criée
 (enchère à voix haute, défi chronométré 60s, sans joueur nommé, sans récap)
-Quitte ou Trinque (quiz de 60 questions, cagnotte à 1-3 points, choix
+Quitte ou Double (quiz de 60 questions, cagnotte à 1-3 points, choix
 cumuler/distribuer après chaque bonne réponse, récap interne au mode),
 Le Tableau d'Honneur (un juge classe la table sur une question secrète de
 40, la table devine la question parmi 4 propositions sans jamais la voir,
@@ -118,7 +118,7 @@ flowchart TD
   règles persistantes/rôles, interpolation `{player}`/`{player2}`), et le
   reducer immuable `TribunalEngine`/`TribunalState` du Pilori (accusations,
   tirage de l'accusé en excluant l'auteur, verdict à la majorité), et les
-  fonctions réductrices `QuizSession` de Quitte ou Trinque (cagnotte à 1-3
+  fonctions réductrices `QuizSession` de Quitte ou Double (cagnotte à 1-3
   points, choix cumuler/distribuer, `Random` injectable), le reducer
   `RankingSession` du Tableau d'Honneur (rotation du juge, classement en
   secret, pénalités asymétriques juge/groupe, `Random` injectable), et le
