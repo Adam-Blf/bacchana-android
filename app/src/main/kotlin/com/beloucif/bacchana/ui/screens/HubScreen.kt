@@ -328,7 +328,11 @@ private fun ThemeToggle(themePreference: ThemePreference, onToggle: () -> Unit) 
             modifier = Modifier
                 .size(16.dp)
                 .background(
-                    if (isDark) BacchanaColors.PopBlue else BacchanaColors.PopYellow,
+                    // Deux ambres de la rotation, l'un plus clair que l'autre : la pastille
+                    // dit le theme par sa CLARTE, pas par sa teinte. Elle alternait bleu et
+                    // jaune tant que les quatre aplats etaient de quatre teintes ; ils sont
+                    // desormais quatre ambres, donc c'est la clarte qui porte la distinction.
+                    if (isDark) BacchanaColors.Aplat3 else BacchanaColors.Aplat4,
                     RoundedCornerShape(percent = 50),
                 ),
         )

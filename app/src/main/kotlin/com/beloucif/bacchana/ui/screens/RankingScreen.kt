@@ -222,8 +222,8 @@ fun RankingScreen(players: List<Player>, onQuit: (roundsPlayed: Int) -> Unit) {
 
 @Composable
 private fun RankingHandoff(judgeName: String) {
-    // TileInk everywhere on this card, not Ink/InkSecondary: it sits on a NeonSoft fill, which
-    // stays light in both themes. See BacchanaColors.TileInk KDoc.
+    // OnAccent everywhere on this card, not Ink/InkSecondary: it sits on a NeonSoft fill, and
+    // the accent no longer stays light in both themes. See BacchanaColors.OnAccent KDoc.
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -235,13 +235,13 @@ private fun RankingHandoff(judgeName: String) {
         Text(
             text = stringResource(R.string.ranking_handoff_hint),
             style = MaterialTheme.typography.bodyMedium,
-            color = BacchanaColors.TileInk,
+            color = BacchanaColors.OnAccent,
             textAlign = TextAlign.Center,
         )
         Text(
             text = stringResource(R.string.ranking_handoff_pass, judgeName),
             style = MaterialTheme.typography.headlineMedium,
-            color = BacchanaColors.TileInk,
+            color = BacchanaColors.OnAccent,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(top = 8.dp),
@@ -249,7 +249,7 @@ private fun RankingHandoff(judgeName: String) {
         Text(
             text = stringResource(R.string.ranking_handoff_body, judgeName),
             style = MaterialTheme.typography.bodySmall,
-            color = BacchanaColors.TileInk,
+            color = BacchanaColors.OnAccent,
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(top = 12.dp),
         )
@@ -326,10 +326,10 @@ private fun RankingJudging(
                     Text(
                         text = player.name,
                         style = MaterialTheme.typography.titleSmall,
-                        // TileInk when picked (row background flips to NeonSoft, which stays
+                        // OnAccent when picked (row background flips to NeonSoft, an accent
                         // light in both themes), Ink otherwise (row stays on Surface, the
-                        // normal themed pair). See BacchanaColors.TileInk KDoc.
-                        color = if (picked) BacchanaColors.TileInk else BacchanaColors.Ink,
+                        // normal themed pair). See BacchanaColors.OnAccent KDoc.
+                        color = if (picked) BacchanaColors.OnAccent else BacchanaColors.Ink,
                         fontWeight = FontWeight.Bold,
                     )
                 }
@@ -348,19 +348,19 @@ private fun RankingReturn(judgeName: String) {
             .padding(32.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        // TileInk, not CardFace: Neon stays light in both themes, white text on it drops to
-        // 3.28:1 (light) / 2.60:1 (dark), below AA. See BacchanaColors.TileInk KDoc.
+        // OnAccent, not CardFace: the accent follows the theme since the 2026-09-14 alignment
+        // on the web, and a fixed white on it drops below AA. See BacchanaColors.OnAccent KDoc.
         Text(
             text = stringResource(R.string.ranking_return_title),
             style = MaterialTheme.typography.headlineMedium,
-            color = BacchanaColors.TileInk,
+            color = BacchanaColors.OnAccent,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center,
         )
         Text(
             text = stringResource(R.string.ranking_return_body, judgeName),
             style = MaterialTheme.typography.bodyMedium,
-            color = BacchanaColors.TileInk,
+            color = BacchanaColors.OnAccent,
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(top = 12.dp),
         )
@@ -476,14 +476,14 @@ private fun RankingPrimaryButton(text: String, enabled: Boolean = true, onClick:
     Button(
         onClick = onClick,
         enabled = enabled,
-        // TileInk, not CardFace: Neon/NeonSoft stay light in both themes, white text on them
+        // OnAccent, not CardFace: since the 2026-09-14 alignment on the web the accent is
         // drops to 3.28:1 (light) / 2.60:1 (dark), below the 4.5:1 AA floor. See
-        // BacchanaColors.TileInk KDoc.
+        // BacchanaColors.OnAccent KDoc.
         colors = ButtonDefaults.buttonColors(
             containerColor = BacchanaColors.Neon,
-            contentColor = BacchanaColors.TileInk,
+            contentColor = BacchanaColors.OnAccent,
             disabledContainerColor = BacchanaColors.NeonSoft,
-            disabledContentColor = BacchanaColors.TileInk,
+            disabledContentColor = BacchanaColors.OnAccent,
         ),
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
@@ -560,8 +560,8 @@ private fun RankingRecap(state: RankingSessionState, onReplay: () -> Unit, onBac
 
         Button(
             onClick = onReplay,
-            // TileInk, not CardFace: see BacchanaColors.TileInk KDoc.
-            colors = ButtonDefaults.buttonColors(containerColor = BacchanaColors.Neon, contentColor = BacchanaColors.TileInk),
+            // OnAccent, not CardFace: see BacchanaColors.OnAccent KDoc.
+            colors = ButtonDefaults.buttonColors(containerColor = BacchanaColors.Neon, contentColor = BacchanaColors.OnAccent),
             modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
         ) {
             Text(stringResource(R.string.recap_replay))

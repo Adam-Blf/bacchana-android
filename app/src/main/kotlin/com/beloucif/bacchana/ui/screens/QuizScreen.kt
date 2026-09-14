@@ -148,7 +148,7 @@ fun QuizScreen(players: List<Player>, onQuit: (turnsPlayed: Int) -> Unit) {
                 horizontalArrangement = Arrangement.spacedBy(10.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                QuizBadge(text = stringResource(R.string.quiz_cagnotte, pot), background = BacchanaColors.NeonSoft, contentColor = BacchanaColors.TileInk)
+                QuizBadge(text = stringResource(R.string.quiz_cagnotte, pot), background = BacchanaColors.NeonSoft, contentColor = BacchanaColors.OnAccent)
                 Text(
                     text = stringResource(R.string.quiz_progress, state.turnNumber, total),
                     style = MaterialTheme.typography.labelSmall,
@@ -247,9 +247,9 @@ fun QuizScreen(players: List<Player>, onQuit: (turnsPlayed: Int) -> Unit) {
 
 /**
  * [contentColor] defaults to [BacchanaColors.Ink] (correct for the `Surface` background used by
- * the category badge) but must be passed explicitly as [BacchanaColors.TileInk] wherever the
+ * the category badge) but must be passed explicitly as [BacchanaColors.OnAccent] wherever the
  * background is `NeonSoft` (cagnotte/points badges) - that fill stays light in both themes, so
- * the themed `Ink` would invert to near-white in dark theme. See BacchanaColors.TileInk KDoc.
+ * the themed `Ink` would invert to near-white in dark theme. See BacchanaColors.OnAccent KDoc.
  */
 @Composable
 private fun QuizBadge(
@@ -291,7 +291,7 @@ private fun QuizQuestionCard(
     ) {
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             QuizBadge(text = categoryLabel, background = BacchanaColors.Surface)
-            QuizBadge(text = pointsLabel, background = BacchanaColors.NeonSoft, contentColor = BacchanaColors.TileInk)
+            QuizBadge(text = pointsLabel, background = BacchanaColors.NeonSoft, contentColor = BacchanaColors.OnAccent)
         }
         Text(
             text = questionText,
@@ -327,8 +327,8 @@ private fun QuizQuestionCard(
 
 @Composable
 private fun QuizChoiceCard(pot: Int) {
-    // TileInk everywhere on this card, not Ink/InkSecondary: it sits on a NeonSoft fill, which
-    // stays light in both themes. See BacchanaColors.TileInk KDoc.
+    // OnAccent everywhere on this card, not Ink/InkSecondary: it sits on a NeonSoft fill, and
+    // the accent no longer stays light in both themes. See BacchanaColors.OnAccent KDoc.
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -340,14 +340,14 @@ private fun QuizChoiceCard(pot: Int) {
         Text(
             text = stringResource(R.string.quiz_choice_title),
             style = MaterialTheme.typography.headlineSmall,
-            color = BacchanaColors.TileInk,
+            color = BacchanaColors.OnAccent,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center,
         )
         Text(
             text = stringResource(R.string.quiz_choice_body, pot),
             style = MaterialTheme.typography.bodyMedium,
-            color = BacchanaColors.TileInk,
+            color = BacchanaColors.OnAccent,
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(top = 8.dp),
         )
@@ -358,10 +358,10 @@ private fun QuizChoiceCard(pot: Int) {
 private fun QuizPrimaryButton(text: String, modifier: Modifier = Modifier, onClick: () -> Unit) {
     Button(
         onClick = onClick,
-        // TileInk, not CardFace: see BacchanaColors.TileInk KDoc.
+        // OnAccent, not CardFace: see BacchanaColors.OnAccent KDoc.
         colors = ButtonDefaults.buttonColors(
             containerColor = BacchanaColors.Neon,
-            contentColor = BacchanaColors.TileInk,
+            contentColor = BacchanaColors.OnAccent,
         ),
         shape = RoundedCornerShape(16.dp),
         modifier = modifier
@@ -448,8 +448,8 @@ private fun QuizRecap(state: QuizSessionState, onReplay: () -> Unit, onBackToHub
 
         Button(
             onClick = onReplay,
-            // TileInk, not CardFace: see BacchanaColors.TileInk KDoc.
-            colors = ButtonDefaults.buttonColors(containerColor = BacchanaColors.Neon, contentColor = BacchanaColors.TileInk),
+            // OnAccent, not CardFace: see BacchanaColors.OnAccent KDoc.
+            colors = ButtonDefaults.buttonColors(containerColor = BacchanaColors.Neon, contentColor = BacchanaColors.OnAccent),
             modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
         ) {
             Text(stringResource(R.string.recap_replay))

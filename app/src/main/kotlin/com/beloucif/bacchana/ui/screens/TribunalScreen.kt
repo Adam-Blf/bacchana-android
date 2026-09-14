@@ -304,8 +304,8 @@ private fun TribunalIntro(onWriteOwn: () -> Unit, onAppCharges: () -> Unit) {
 
 @Composable
 private fun TribunalHandoff(writerName: String, progress: Int, total: Int) {
-    // TileInk, not Ink: this card sits on a NeonSoft fill, which stays light in both themes.
-    // See BacchanaColors.TileInk KDoc.
+    // OnAccent, not Ink: this card sits on a NeonSoft fill, and the accent no longer stays
+    // light in both themes. See BacchanaColors.OnAccent KDoc.
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -318,12 +318,12 @@ private fun TribunalHandoff(writerName: String, progress: Int, total: Int) {
             Text(
                 text = stringResource(R.string.tribunal_handoff_progress, progress, total),
                 style = MaterialTheme.typography.labelMedium,
-                color = BacchanaColors.TileInk,
+                color = BacchanaColors.OnAccent,
             )
             Text(
                 text = stringResource(R.string.tribunal_handoff_pass, writerName),
                 style = MaterialTheme.typography.headlineSmall,
-                color = BacchanaColors.TileInk,
+                color = BacchanaColors.OnAccent,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(top = 8.dp),
@@ -499,14 +499,14 @@ private fun TribunalPrimaryButton(text: String, enabled: Boolean = true, onClick
     Button(
         onClick = onClick,
         enabled = enabled,
-        // TileInk, not CardFace: Neon/NeonSoft stay light in both themes, white text on them
+        // OnAccent, not CardFace: since the 2026-09-14 alignment on the web the accent is
         // drops to 3.28:1 (light) / 2.60:1 (dark), below the 4.5:1 AA floor. See
-        // BacchanaColors.TileInk KDoc.
+        // BacchanaColors.OnAccent KDoc.
         colors = ButtonDefaults.buttonColors(
             containerColor = BacchanaColors.Neon,
-            contentColor = BacchanaColors.TileInk,
+            contentColor = BacchanaColors.OnAccent,
             disabledContainerColor = BacchanaColors.NeonSoft,
-            disabledContentColor = BacchanaColors.TileInk,
+            disabledContentColor = BacchanaColors.OnAccent,
         ),
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
@@ -583,8 +583,8 @@ private fun TribunalRecap(state: TribunalState, onReplay: () -> Unit, onBackToHu
 
         Button(
             onClick = onReplay,
-            // TileInk, not CardFace: see BacchanaColors.TileInk KDoc.
-            colors = ButtonDefaults.buttonColors(containerColor = BacchanaColors.Neon, contentColor = BacchanaColors.TileInk),
+            // OnAccent, not CardFace: see BacchanaColors.OnAccent KDoc.
+            colors = ButtonDefaults.buttonColors(containerColor = BacchanaColors.Neon, contentColor = BacchanaColors.OnAccent),
             modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
         ) {
             Text(stringResource(R.string.recap_replay))

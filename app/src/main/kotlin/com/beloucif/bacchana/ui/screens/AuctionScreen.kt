@@ -413,14 +413,14 @@ private fun AuctionPrimaryButton(text: String, enabled: Boolean = true, onClick:
     Button(
         onClick = onClick,
         enabled = enabled,
-        // TileInk, not CardFace: Neon/NeonSoft stay light in both themes, white text on them
+        // OnAccent, not CardFace: since the 2026-09-14 alignment on the web the accent is
         // drops to 3.28:1 (light) / 2.60:1 (dark), below the 4.5:1 AA floor. See
-        // BacchanaColors.TileInk KDoc.
+        // BacchanaColors.OnAccent KDoc.
         colors = ButtonDefaults.buttonColors(
             containerColor = BacchanaColors.Neon,
-            contentColor = BacchanaColors.TileInk,
+            contentColor = BacchanaColors.OnAccent,
             disabledContainerColor = BacchanaColors.NeonSoft,
-            disabledContentColor = BacchanaColors.TileInk,
+            disabledContentColor = BacchanaColors.OnAccent,
         ),
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
