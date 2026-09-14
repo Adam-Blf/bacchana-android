@@ -1,7 +1,7 @@
 package com.beloucif.bacchana.core
 
 /**
- * Quitte ou Trinque - embedded mode, no content pack (mirrors
+ * Quitte ou Double - embedded mode, no content pack (mirrors
  * bacchana/src/content/quiz.ts). Culture-generale questions, checked orally
  * by the table. Store-safe by construction: never a named alcohol.
  */

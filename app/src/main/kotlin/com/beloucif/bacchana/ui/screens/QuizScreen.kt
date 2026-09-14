@@ -60,7 +60,7 @@ import com.beloucif.bacchana.core.keepPot
 import com.beloucif.bacchana.ui.theme.BacchanaColors
 
 /**
- * Quitte ou Trinque - culture-generale quiz with a cagnotte. Correct answer: the points
+ * Quitte ou Double - culture-generale quiz with a cagnotte. Correct answer: the points
  * join the current player's cagnotte, then they choose - keep it (quitte ou double at the
  * next turn) or distribute it (glory to the table, resets to zero). Wrong answer: they take
  * their cagnotte + the question's points as penalties. No shared engine.penaltyCounts recap
@@ -383,7 +383,7 @@ private fun categoryDisplayName(category: QuizCategory): String = when (category
 }
 
 /**
- * Internal recap for Quitte ou Trinque: no shared [com.beloucif.bacchana.core.Player.penaltiesStandard]
+ * Internal recap for Quitte ou Double: no shared [com.beloucif.bacchana.core.Player.penaltiesStandard]
  * is touched, this only ever reads [QuizSessionState.penaltyCounts] for the lifetime of the session.
  * [QuizSessionState.distributedCounts] is glory, never shown as a penalty here.
  */
