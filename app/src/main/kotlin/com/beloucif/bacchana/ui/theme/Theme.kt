@@ -22,17 +22,17 @@ fun ThemePreference.resolve(): Boolean = when (this) {
     ThemePreference.DARK -> true
 }
 
-// onPrimary/onPrimaryContainer/onSecondary use TileInk, never CardFace: Neon/NeonDeep/Premium
-// are accent fills that stay readable-with-dark-text in both themes (see BacchanaColors.TileInk
+// onPrimary/onPrimaryContainer/onSecondary use OnAccent, never CardFace: Neon/NeonDeep/Premium
+// are accent fills whose lightness follows the theme since 2026-09-14 (see BacchanaColors.OnAccent
 // and BacchanaColors.OnStatus KDoc) - CardFace (white) on Neon measured only 3.28:1 in light
 // theme and 2.60:1 in dark theme, both below the 4.5:1 AA floor. This is the Material default
 // every plain `Button(onClick = ...)` call site relies on (WelcomeScreen, SettingsScreen,
 // PaywallScreen, RecapScreen, ConsentBanner, BorderlandScreen).
 private val BacchanaLightMaterialColors = lightColorScheme(
     primary = LightBacchanaColors.Neon,
-    onPrimary = LightBacchanaColors.TileInk,
+    onPrimary = LightBacchanaColors.OnAccent,
     primaryContainer = LightBacchanaColors.NeonDeep,
-    onPrimaryContainer = LightBacchanaColors.TileInk,
+    onPrimaryContainer = LightBacchanaColors.OnAccent,
     secondary = LightBacchanaColors.Premium,
     onSecondary = LightBacchanaColors.OnStatus,
     background = LightBacchanaColors.Bg,
@@ -49,9 +49,9 @@ private val BacchanaLightMaterialColors = lightColorScheme(
 
 private val BacchanaDarkMaterialColors = darkColorScheme(
     primary = DarkBacchanaColors.Neon,
-    onPrimary = DarkBacchanaColors.TileInk,
+    onPrimary = DarkBacchanaColors.OnAccent,
     primaryContainer = DarkBacchanaColors.NeonDeep,
-    onPrimaryContainer = DarkBacchanaColors.TileInk,
+    onPrimaryContainer = DarkBacchanaColors.OnAccent,
     secondary = DarkBacchanaColors.Premium,
     onSecondary = DarkBacchanaColors.OnStatus,
     background = DarkBacchanaColors.Bg,

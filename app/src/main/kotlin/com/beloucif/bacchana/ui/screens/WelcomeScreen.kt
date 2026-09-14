@@ -122,10 +122,10 @@ fun WelcomeScreen(
                     .size(48.dp)
                     .background(BacchanaColors.NeonDeep, RoundedCornerShape(12.dp)),
             ) {
-                // TileInk, not Ink: icon sits on a NeonDeep fill, which stays light in both
-                // themes (see BacchanaColors.TileInk KDoc) - Ink inverted to near-white in dark
+                // OnAccent, not Ink: icon sits on a NeonDeep fill, an accent whose lightness
+                // follows the theme (see BacchanaColors.OnAccent KDoc) - Ink inverted in dark
                 // theme made this icon disappear against NeonDeep.
-                Icon(Icons.Filled.Add, contentDescription = stringResource(R.string.welcome_add_player), tint = BacchanaColors.TileInk)
+                Icon(Icons.Filled.Add, contentDescription = stringResource(R.string.welcome_add_player), tint = BacchanaColors.OnAccent)
             }
         }
 

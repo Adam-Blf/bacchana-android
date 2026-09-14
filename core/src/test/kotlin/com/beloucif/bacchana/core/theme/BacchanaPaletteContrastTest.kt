@@ -10,8 +10,8 @@ import org.junit.Test
  * hand-typed hex list to drift out of sync with the real palette. Run with `./gradlew :core:test`.
  *
  * Real bug this guards against (reported twice by Adam while playing the app): [BacchanaPalette.ink]
- * inverts with the theme (dark ink in light theme, cream in dark theme) while the `pop-*`/`neon*`
- * accent fills stay light in BOTH themes. Text painted with `ink` on top of one of those fills
+ * inverts with the theme (dark ink in light theme, cream in dark theme) while the four AMBRES
+ * stay light in BOTH themes. Text painted with `ink` on top of one of those fills
  * fell to ~1.2:1 in dark theme - nowhere near the 4.5:1 AA floor. Fixed on web 2026-08-04
  * (`docs/DESIGN_TOKENS.md` section 2bis, `scripts/check_contrast.mjs`), ported here 2026-08-05.
  *
@@ -51,14 +51,23 @@ class BacchanaPaletteContrastTest {
         Pair("cardRed / cardFace", { it.cardRed }, { it.cardFace }, WcagContrast.AA_NORMAL_TEXT, "pips rouges des cartes, RouletteResultCard"),
         Pair("cardAccent / cardFace", { it.cardAccent }, { it.cardFace }, WcagContrast.AA_NORMAL_TEXT, "WouldYouRatherOptionCard label A/B"),
 
-        // --- Texte pose sur un aplat pop/neon plein (le bug corrige) ---
-        Pair("tileInk / popYellow", { it.tileInk }, { it.popYellow }, WcagContrast.AA_NORMAL_TEXT, "RouletteWheel segments, HubScreen theme toggle"),
-        Pair("tileInk / popPink", { it.tileInk }, { it.popPink }, WcagContrast.AA_NORMAL_TEXT, "invariant du design system (docs section 2bis)"),
-        Pair("tileInk / popBlue", { it.tileInk }, { it.popBlue }, WcagContrast.AA_NORMAL_TEXT, "HubScreen theme toggle"),
-        Pair("tileInk / popLime", { it.tileInk }, { it.popLime }, WcagContrast.AA_NORMAL_TEXT, "invariant du design system (docs section 2bis)"),
-        Pair("tileInk / neon", { it.tileInk }, { it.neon }, WcagContrast.AA_NORMAL_TEXT, "RankingReturn, boutons CTA primaires (Quiz/Ranking/Tribunal/Auction/WYR)"),
-        Pair("tileInk / neonDeep", { it.tileInk }, { it.neonDeep }, WcagContrast.AA_NORMAL_TEXT, "WelcomeScreen icone ajout joueur, PromptScreen bouton suivant"),
-        Pair("tileInk / neonSoft", { it.tileInk }, { it.neonSoft }, WcagContrast.AA_NORMAL_TEXT, "RankingHandoff, RankingJudging (ligne selectionnee), TribunalHandoff, QuizBadge, QuizChoiceCard"),
+        // --- Encre de tuile sur un des quatre AMBRES (le bug corrige) ---
+        Pair("tileInk / aplat1", { it.tileInk }, { it.aplat1 }, WcagContrast.AA_NORMAL_TEXT, "RouletteWheel segments, HubScreen theme toggle"),
+        Pair("tileInk / aplat2", { it.tileInk }, { it.aplat2 }, WcagContrast.AA_NORMAL_TEXT, "RouletteWheel segments"),
+        Pair("tileInk / aplat3", { it.tileInk }, { it.aplat3 }, WcagContrast.AA_NORMAL_TEXT, "RouletteWheel segments, HubScreen theme toggle"),
+        Pair("tileInk / aplat4", { it.tileInk }, { it.aplat4 }, WcagContrast.AA_NORMAL_TEXT, "RouletteWheel segments"),
+
+        // --- Encre d'accent sur un aplat d'accent ---
+        //
+        // Ces trois paires valaient `tileInk / neon*`, et c'etait juste tant que l'accent etait
+        // un ORANGE : clair dans les deux themes, comme les ambres, donc la meme encre allait
+        // sur les deux familles. Depuis l'alignement du 2026-09-14 l'accent vaut pourpre sur
+        // fond clair et jaune sur fond pourpre - il change de clarte avec le theme. Mesure en
+        // gardant `tileInk` : 1,72:1 sur neon, 1,43:1 sur neonDeep, 2,76:1 sur neonSoft. C'est
+        // ce calcul-la qui a impose le role [BacchanaPalette.onAccent], et non un gout.
+        Pair("onAccent / neon", { it.onAccent }, { it.neon }, WcagContrast.AA_NORMAL_TEXT, "RankingReturn, boutons CTA primaires (Quiz/Ranking/Tribunal/Auction/WYR)"),
+        Pair("onAccent / neonDeep", { it.onAccent }, { it.neonDeep }, WcagContrast.AA_NORMAL_TEXT, "WelcomeScreen icone ajout joueur, PromptScreen bouton suivant"),
+        Pair("onAccent / neonSoft", { it.onAccent }, { it.neonSoft }, WcagContrast.AA_NORMAL_TEXT, "RankingHandoff, RankingJudging (ligne selectionnee), TribunalHandoff, QuizBadge, QuizChoiceCard"),
 
         // --- Ink adapte aux fonds semantiques (direction inverse de bg entre les 2 themes) ---
         Pair("onStatus / premium", { it.onStatus }, { it.premium }, WcagContrast.AA_NORMAL_TEXT, "AuctionScreen stepper mise (icone +)"),
@@ -91,36 +100,42 @@ class BacchanaPaletteContrastTest {
 
     /**
      * Locks the original bug in place as a documented, permanently-red combination: `ink`
-     * painted directly on `popYellow` in dark theme must never pass AA. If this assertion ever
-     * starts failing, it means `ink`'s dark value stopped inverting - which is exactly the
-     * property the rest of this file relies on to justify [BacchanaPalette.tileInk]/[BacchanaPalette.onStatus]
-     * existing as separate, non-thematic roles. Matches the ~1.2:1 measured on web before the fix.
+     * painted directly on [BacchanaPalette.aplat1] in dark theme must never pass AA. If this
+     * assertion ever starts failing, it means `ink`'s dark value stopped inverting - which is
+     * exactly the property the rest of this file relies on to justify
+     * [BacchanaPalette.tileInk]/[BacchanaPalette.onAccent]/[BacchanaPalette.onStatus] existing
+     * as separate, non-thematic roles. Matches the ~1.2:1 measured on web before the fix;
+     * 1,40:1 since the 2026-09-14 alignment, toujours tres en dessous du plancher.
      */
     @Test
-    fun `regression fixture - ink on popYellow in dark theme stays below AA`() {
-        val ratio = WcagContrast.ratio(BacchanaPalette.Dark.ink, BacchanaPalette.Dark.popYellow)
+    fun `regression fixture - ink on aplat1 in dark theme stays below AA`() {
+        val ratio = WcagContrast.ratio(BacchanaPalette.Dark.ink, BacchanaPalette.Dark.aplat1)
         assertTrue(
-            "ink on popYellow in dark theme should stay under the AA floor (got $ratio:1) - " +
+            "ink on aplat1 in dark theme should stay under the AA floor (got $ratio:1) - " +
                 "this pairing must never be used in the UI, see tileInk",
             ratio < WcagContrast.AA_NORMAL_TEXT,
         )
     }
 
     /**
-     * Dark-theme border alpha check (WCAG 1.4.11, non-text UI objects, 3:1 floor): the fine
-     * divider/border blended over [BacchanaPalette.bg] at [BacchanaPalette.borderAlpha]. Docs
-     * section 3.4: this is the actual value that changed as part of this refonte, from 0.20
-     * (1.76:1, below floor) to 0.38 (>= 3:1) - light theme's thin border (0.15 alpha, unchanged,
-     * pre-existing) is intentionally left out here: [BacchanaPalette.borderStrong] (opaque,
-     * >= 16:1 in both themes) is the documented primary elevation cue in both themes, the thin
-     * border is a secondary reinforcement, not something this task's bug touches.
+     * Border alpha check (WCAG 1.4.11, non-text UI objects, 3:1 floor): the fine divider/border
+     * blended over [BacchanaPalette.bg] at [BacchanaPalette.borderAlpha].
+     *
+     * Ce controle ne portait que sur le theme SOMBRE, et l'exclusion du theme clair etait
+     * documentee : son filet valait 0,15 d'opacite, soit 1,76:1, sous le plancher - on s'en
+     * remettait a `borderStrong`, opaque, comme repere d'elevation principal. L'alignement du
+     * 2026-09-14 porte les deux themes a 0,48, la valeur du web : 3,14:1 en clair, 3,37:1 en
+     * sombre. Le controle peut donc couvrir les deux, et il le fait - une exclusion qui n'a
+     * plus de raison d'etre est une exclusion qu'on oublie de lever.
      */
     @Test
-    fun `dark theme border alpha clears the 3-to-1 non-text UI floor`() {
-        val ratio = WcagContrast.blendedRatio(BacchanaPalette.Dark.border, BacchanaPalette.Dark.borderAlpha, BacchanaPalette.Dark.bg)
-        assertTrue(
-            "dark border blended over bg should clear ${WcagContrast.AA_LARGE_TEXT}:1 (got $ratio:1)",
-            ratio >= WcagContrast.AA_LARGE_TEXT,
-        )
+    fun `border alpha clears the 3-to-1 non-text UI floor in both themes`() {
+        for ((nom, palette) in listOf("clair" to BacchanaPalette.Light, "sombre" to BacchanaPalette.Dark)) {
+            val ratio = WcagContrast.blendedRatio(palette.border, palette.borderAlpha, palette.bg)
+            assertTrue(
+                "$nom: border blended over bg should clear ${WcagContrast.AA_LARGE_TEXT}:1 (got $ratio:1)",
+                ratio >= WcagContrast.AA_LARGE_TEXT,
+            )
+        }
     }
 }

@@ -36,10 +36,10 @@ data class BacchanaColorScheme(
     val OrangeInk: Color,
 
     /** Festive flat pops used on mode tiles / accents. */
-    val PopYellow: Color,
-    val PopPink: Color,
-    val PopBlue: Color,
-    val PopLime: Color,
+    val Aplat1: Color,
+    val Aplat2: Color,
+    val Aplat3: Color,
+    val Aplat4: Color,
 
     /** Fixed in both themes: real playing cards do not invert with the room's lighting. */
     val CardFace: Color,
@@ -47,14 +47,25 @@ data class BacchanaColorScheme(
     val CardRed: Color,
 
     /**
-     * Fixed ink (#111111 in both themes) for any text/icon/border drawn on top of a
-     * [PopYellow]/[PopPink]/[PopBlue]/[PopLime]/[Neon]/[NeonDeep]/[NeonSoft] fill: those fills
-     * stay light in BOTH themes, so [Ink] (which inverts with the theme) must never be used on
-     * top of them - that inversion is exactly the bug reported twice by Adam while playing the
-     * app ("du blanc sur du jaune c'est illisible"). See docs/DESIGN_TOKENS.md section 2bis and
-     * `core`'s `BacchanaPaletteContrastTest`.
+     * Fixed ink (#2A1140 in both themes) for any text/icon/border drawn on top of one of the
+     * four AMBRES, [Aplat1] to [Aplat4]: those fills stay light in BOTH themes, so [Ink]
+     * (which inverts with the theme) must never be used on top of them - that inversion is
+     * exactly the bug reported twice by Adam while playing the app ("du blanc sur du jaune
+     * c'est illisible"). See docs/DESIGN_TOKENS.md section 2bis and `core`'s
+     * `BacchanaPaletteContrastTest`.
      */
     val TileInk: Color,
+
+    /**
+     * Ink for anything drawn on an ACCENT fill ([Neon], [NeonDeep], [NeonSoft], [Premium], and
+     * the Material `primary` colors built from them).
+     *
+     * It used to be [TileInk], and that was correct while the accent was an ORANGE - light in
+     * both themes, like the ambres. Since the 2026-09-14 alignment on the web the accent is
+     * purple on a light ground and yellow on a purple one: it changes lightness with the
+     * theme, so the ink on it has to as well. [TileInk] on [Neon] measured 1.72:1.
+     */
+    val OnAccent: Color,
 
     /** Fixed orange (#C74300) for text drawn on [CardFace] (always white): unlike [OrangeInk],
      * which is recalculated per theme, this stays correct against a surface that never changes. */
@@ -94,16 +105,17 @@ private fun BacchanaPalette.toColorScheme(borderAlphaByte: Int): BacchanaColorSc
     NeonSoft = neonSoft.toColor(),
     OrangeInk = orangeInk.toColor(),
 
-    PopYellow = popYellow.toColor(),
-    PopPink = popPink.toColor(),
-    PopBlue = popBlue.toColor(),
-    PopLime = popLime.toColor(),
+    Aplat1 = aplat1.toColor(),
+    Aplat2 = aplat2.toColor(),
+    Aplat3 = aplat3.toColor(),
+    Aplat4 = aplat4.toColor(),
 
     CardFace = cardFace.toColor(),
     CardInk = cardInk.toColor(),
     CardRed = cardRed.toColor(),
 
     TileInk = tileInk.toColor(),
+    OnAccent = onAccent.toColor(),
     CardAccent = cardAccent.toColor(),
 
     Premium = premium.toColor(),
@@ -143,16 +155,17 @@ object BacchanaColors {
     val NeonSoft: Color @Composable get() = LocalBacchanaColors.current.NeonSoft
     val OrangeInk: Color @Composable get() = LocalBacchanaColors.current.OrangeInk
 
-    val PopYellow: Color @Composable get() = LocalBacchanaColors.current.PopYellow
-    val PopPink: Color @Composable get() = LocalBacchanaColors.current.PopPink
-    val PopBlue: Color @Composable get() = LocalBacchanaColors.current.PopBlue
-    val PopLime: Color @Composable get() = LocalBacchanaColors.current.PopLime
+    val Aplat1: Color @Composable get() = LocalBacchanaColors.current.Aplat1
+    val Aplat2: Color @Composable get() = LocalBacchanaColors.current.Aplat2
+    val Aplat3: Color @Composable get() = LocalBacchanaColors.current.Aplat3
+    val Aplat4: Color @Composable get() = LocalBacchanaColors.current.Aplat4
 
     val CardFace: Color @Composable get() = LocalBacchanaColors.current.CardFace
     val CardInk: Color @Composable get() = LocalBacchanaColors.current.CardInk
     val CardRed: Color @Composable get() = LocalBacchanaColors.current.CardRed
 
     val TileInk: Color @Composable get() = LocalBacchanaColors.current.TileInk
+    val OnAccent: Color @Composable get() = LocalBacchanaColors.current.OnAccent
     val CardAccent: Color @Composable get() = LocalBacchanaColors.current.CardAccent
 
     val Premium: Color @Composable get() = LocalBacchanaColors.current.Premium

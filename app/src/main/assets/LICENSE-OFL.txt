@@ -1,4 +1,15 @@
-Les fontes de ce répertoire sont sous SIL Open Font License, Version 1.1.
+Ce fichier vivait dans app/src/main/res/font/ jusqu'au 2026-09-14. Il ne
+pouvait pas y rester : le fusionneur de ressources d'Android n'accepte dans
+res/font/ que des .xml, .ttf, .ttc et .otf, et refusait la compilation avec
+« The file name must end with .xml, .ttf, .ttc or .otf ». L'application ne
+construisait plus depuis que ce fichier y avait ete depose, le 2026-08-31.
+
+Il est desormais dans assets/, qui accepte n'importe quel nom et part dans
+l'APK : la licence continue donc d'accompagner les fontes, ce que l'OFL exige,
+sans passer par le fusionneur de ressources.
+
+Les fontes de app/src/main/res/font/ sont sous SIL Open Font License,
+Version 1.1.
 Elles ne sont PAS couvertes par le LICENSE du dépôt, qui ne porte que sur le
 code et le contenu d'Adam Beloucif.
 

@@ -3,7 +3,7 @@ package com.beloucif.bacchana.core
 import kotlin.random.Random
 
 /**
- * Quitte ou Trinque - pure, side-effect-free engine (mirrors
+ * Quitte ou Double - pure, side-effect-free engine (mirrors
  * src/core/engine/quizSession.ts). Each player answers a question worth 1 to 3
  * points (rolled at random). Correct answer: the points join their cagnotte,
  * then they choose - keep it (the cagnotte grows, so does the risk) or
@@ -21,7 +21,7 @@ sealed interface QuizOutcome {
 }
 
 /**
- * Immutable snapshot of a Quitte ou Trinque session. [pots] is the cagnotte in
+ * Immutable snapshot of a Quitte ou Double session. [pots] is the cagnotte in
  * play per player id, not yet banked nor distributed. [penaltyCounts] is what
  * a player actually took (busted); [distributedCounts] is glory only, never a
  * penalty - mirrors the TS engine's split between the two maps.

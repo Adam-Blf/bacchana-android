@@ -56,6 +56,25 @@ import com.beloucif.bacchana.ui.theme.resolve
  * tiles that open the paywall; unlocking is entitlement-based (one purchase unlocks the whole
  * catalog), not a per-tile in-app purchase.
  */
+/**
+ * Un mode a paquet et le plancher de joueurs qu'il DECLARE.
+ *
+ * Le hub ne retenait que le [GameMode] des paquets charges, et posait 2 sur chaque tuile.
+ * Le plancher voyageait pourtant avec le paquet, dans [com.beloucif.bacchana.core.PackMeta.minPlayers] :
+ * il etait simplement jete en chemin. Ce couple existe pour qu'il arrive jusqu'a la tuile.
+ */
+private data class ModeLibre(val mode: GameMode, val minPlayers: Int)
+
+/**
+ * Plancher retenu pour un paquet qui n'en declare aucun.
+ *
+ * Deux joueurs, comme le web pour un mode sans contrainte propre : un jeu de cartes a lire
+ * a besoin d'au moins quelqu'un a qui lire. Ce n'est PAS le seuil au-dela duquel tous les
+ * jeux s'ouvrent - celui-la vaut 4, et il se deduit du plus haut plancher declare, jamais
+ * ne s'ecrit.
+ */
+private const val SEUIL_PAR_DEFAUT = 2
+
 @Composable
 fun HubScreen(
     playerCount: Int,
@@ -75,14 +94,31 @@ fun HubScreen(
     themePreference: ThemePreference,
     onToggleTheme: () -> Unit,
 ) {
-    var freeModes by remember { mutableStateOf<List<GameMode>>(emptyList()) }
+    var freeModes by remember { mutableStateOf<List<ModeLibre>>(emptyList()) }
 
     LaunchedEffect(Unit) {
         val ids = packRepository.listFreePackIds()
-        val modes = ids.mapNotNull { id -> packRepository.loadPack(id).getOrNull()?.pack?.mode }.distinct()
-        // Tu preferes is embedded (voting engine, no content pack) - never rendered through the
-        // prompt route even if a stale pack still ships it, wired here directly instead.
-        freeModes = modes.filterNot { it == GameMode.WOULD_YOU_RATHER }
+        val metas = ids.mapNotNull { id -> packRepository.loadPack(id).getOrNull()?.pack }
+        // Le plancher de joueurs vient du PAQUET, il n'est plus suppose.
+        //
+        // Il valait 2 pour tous les modes a paquet, ecrit en dur sur la tuile, alors que
+        // `PackMeta.minPlayers` le declare pack par pack : Le Taulier et Qui de nous en
+        // demandent 3, et une tablee de deux les ouvrait quand meme. Le web les refuse
+        // (`modeRegistry.ts`), les modes EMBARQUES ci-dessous les refusaient deja - seuls
+        // les modes a paquet passaient au travers, parce qu'eux seuls perdaient la valeur
+        // en chemin : seul `mode` etait retenu, `minPlayers` tombait avec le reste du meta.
+        //
+        // Un mode peut avoir plusieurs paquets : on garde le plancher le PLUS HAUT, celui
+        // qui rend le mode entierement jouable. Dans le contenu reel, tous les paquets d'un
+        // meme mode declarent la meme valeur, donc ce maximum vaut la valeur du web ; il ne
+        // se distingue que si le contenu se met un jour a diverger, et il se trompe alors
+        // du bon cote.
+        freeModes = metas
+            .groupBy { it.mode }
+            .map { (mode, packs) -> ModeLibre(mode, packs.maxOf { it.minPlayers ?: SEUIL_PAR_DEFAUT }) }
+            // Tu preferes is embedded (voting engine, no content pack) - never rendered through the
+            // prompt route even if a stale pack still ships it, wired here directly instead.
+            .filterNot { it.mode == GameMode.WOULD_YOU_RATHER }
     }
 
     Column(
@@ -132,13 +168,13 @@ fun HubScreen(
                     onClick = onSelectBorderland,
                 )
             }
-            items(freeModes) { mode ->
+            items(freeModes) { libre ->
                 ModeTile(
-                    title = modeDisplayName(mode),
+                    title = modeDisplayName(libre.mode),
                     locked = false,
-                    minPlayers = 2,
+                    minPlayers = libre.minPlayers,
                     playerCount = playerCount,
-                    onClick = { onSelectPromptMode(mode) },
+                    onClick = { onSelectPromptMode(libre.mode) },
                 )
             }
             item {
@@ -175,7 +211,7 @@ fun HubScreen(
                 )
             }
             item {
-                // Quitte ou Trinque (Quiz) is embedded too - a solo cagnotte/turn loop, same
+                // Quitte ou Double (Quiz) is embedded too - a solo cagnotte/turn loop, same
                 // 2-player floor as most turn-based modes.
                 ModeTile(
                     title = modeDisplayName(GameMode.QUIZ),
@@ -292,7 +328,11 @@ private fun ThemeToggle(themePreference: ThemePreference, onToggle: () -> Unit) 
             modifier = Modifier
                 .size(16.dp)
                 .background(
-                    if (isDark) BacchanaColors.PopBlue else BacchanaColors.PopYellow,
+                    // Deux ambres de la rotation, l'un plus clair que l'autre : la pastille
+                    // dit le theme par sa CLARTE, pas par sa teinte. Elle alternait bleu et
+                    // jaune tant que les quatre aplats etaient de quatre teintes ; ils sont
+                    // desormais quatre ambres, donc c'est la clarte qui porte la distinction.
+                    if (isDark) BacchanaColors.Aplat3 else BacchanaColors.Aplat4,
                     RoundedCornerShape(percent = 50),
                 ),
         )
@@ -311,6 +351,6 @@ private fun modeDisplayName(mode: GameMode): String = when (mode) {
     GameMode.TRIBUNAL -> "Le Pilori"
     GameMode.ROULETTE -> "La Roue du Destin"
     GameMode.AUCTION -> "La Criée"
-    GameMode.QUIZ -> "Quitte ou Trinque"
+    GameMode.QUIZ -> "Quitte ou Double"
     GameMode.RANKING -> "Le Tableau d'Honneur"
 }

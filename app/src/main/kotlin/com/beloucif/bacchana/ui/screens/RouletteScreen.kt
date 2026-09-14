@@ -42,7 +42,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
@@ -162,7 +161,11 @@ fun RouletteScreen(onQuit: (spinsPlayed: Int) -> Unit) {
                 modifier = Modifier.fillMaxWidth(0.85f).aspectRatio(1f),
                 contentAlignment = Alignment.Center,
             ) {
-                // Fixed pointer at the top - never rotates.
+                // Fixed pointer at the top - never rotates. Sa couleur est lue ici, dans le
+                // @Composable : elle valait 0xFF111111 en dur, l'ancienne valeur de TileInk
+                // recopiee faute de pouvoir lire le theme dans un DrawScope. Une valeur
+                // recopiee derive, et celle-ci avait derive.
+                val couleurRepere = BacchanaColors.TileInk
                 Canvas(
                     modifier = Modifier
                         .align(Alignment.TopCenter)
@@ -175,7 +178,7 @@ fun RouletteScreen(onQuit: (spinsPlayed: Int) -> Unit) {
                         lineTo(size.width / 2f, size.height)
                         close()
                     }
-                    drawPath(path, color = Color(0xFF111111))
+                    drawPath(path, color = couleurRepere)
                 }
 
                 RouletteWheel(
@@ -208,14 +211,14 @@ fun RouletteScreen(onQuit: (spinsPlayed: Int) -> Unit) {
         Button(
             onClick = ::spin,
             enabled = !spinning,
-            // TileInk, not CardFace: Neon/NeonSoft stay light in both themes, white text on
+            // OnAccent, not CardFace: since the 2026-09-14 alignment on the web the accent is
             // them drops to 3.28:1 (light) / 2.60:1 (dark), below the 4.5:1 AA floor. See
-            // BacchanaColors.TileInk KDoc.
+            // BacchanaColors.OnAccent KDoc.
             colors = ButtonDefaults.buttonColors(
                 containerColor = BacchanaColors.Neon,
-                contentColor = BacchanaColors.TileInk,
+                contentColor = BacchanaColors.OnAccent,
                 disabledContainerColor = BacchanaColors.NeonSoft,
-                disabledContentColor = BacchanaColors.TileInk,
+                disabledContentColor = BacchanaColors.OnAccent,
             ),
             shape = RoundedCornerShape(16.dp),
             modifier = Modifier
@@ -239,10 +242,27 @@ private fun RouletteWheel(
     segmentAngle: Float,
     modifier: Modifier = Modifier,
 ) {
-    // Aplats orange / jaune alternés, texte encre - palette néobrutaliste (mirrors
-    // WHEEL_COLORS in bacchana/src/components/screens/RouletteScreen.tsx). Recomputed
-    // here (not a top-level val) since BacchanaColors reads the current clair/sombre theme.
-    val wheelColors = listOf(BacchanaColors.NeonSoft, BacchanaColors.PopYellow)
+    // La rotation des QUATRE AMBRES, comme WHEEL_COLORS dans
+    // bacchana/src/components/screens/RouletteScreen.tsx. Recalculee ici (pas un val de
+    // premier niveau) parce que BacchanaColors lit le theme clair/sombre courant.
+    //
+    // Elle valait `listOf(NeonSoft, PopYellow)` : un accent et un ambre alternes. Tant que
+    // l'accent etait un orange, les deux etaient clairs et une seule encre allait sur les
+    // deux. Depuis l'alignement du 2026-09-14 l'accent vaut pourpre en theme clair : aucune
+    // encre ne tient a la fois sur un pourpre et sur un ambre au-dessus de 4,5:1. La roue
+    // repasse donc sur les quatre ambres, qui restent clairs dans les deux themes - et
+    // [BacchanaColors.TileInk] redevient la bonne encre, celle qu'elle a toujours ete pour
+    // un aplat de tuile.
+    val wheelColors = listOf(
+        BacchanaColors.Aplat1,
+        BacchanaColors.Aplat2,
+        BacchanaColors.Aplat3,
+        BacchanaColors.Aplat4,
+    )
+
+    // Lu ICI, dans le @Composable, et passe au Canvas : `BacchanaColors` est un accesseur
+    // @Composable, un `DrawScope` ne l'est pas.
+    val filetSegments = BacchanaColors.TileInk
     Box(
         modifier = modifier
             .graphicsLayer { rotationZ = rotationDegrees }
@@ -267,7 +287,11 @@ private fun RouletteWheel(
                     size = androidx.compose.ui.geometry.Size(radius * 2f, radius * 2f),
                 )
                 drawArc(
-                    color = Color(0xFF111111),
+                    // Le filet entre les segments. Il valait 0xFF111111 en dur - l'ancienne
+                    // valeur de TileInk, recopiee ici parce qu'un DrawScope n'est pas
+                    // @Composable. On passe la couleur depuis l'exterieur plutot que de la
+                    // reecrire : une valeur recopiee derive, celle-ci avait deja derive.
+                    color = filetSegments,
                     startAngle = startAngle,
                     sweepAngle = segmentAngle,
                     useCenter = true,
@@ -289,8 +313,8 @@ private fun RouletteWheel(
                 Text(
                     text = segment.label,
                     style = MaterialTheme.typography.labelSmall,
-                    // TileInk, not Ink: this text sits on a wheelColors[] wedge (NeonSoft or
-                    // PopYellow), which stays light in both themes - Ink inverts to near-white
+                    // TileInk, not Ink: this text sits on a wheelColors[] wedge, one of the
+                    // four ambres, which stay light in BOTH themes - Ink inverts to near-white
                     // in dark theme and becomes illegible. Real bug reported by Adam ("la
                     // roulette est illisible"), see BacchanaColors.TileInk KDoc.
                     color = BacchanaColors.TileInk,

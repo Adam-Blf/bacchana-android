@@ -323,14 +323,14 @@ private fun WouldYouRatherPrimaryButton(text: String, enabled: Boolean = true, o
     Button(
         onClick = onClick,
         enabled = enabled,
-        // TileInk, not CardFace: Neon/NeonSoft stay light in both themes, white text on them
+        // OnAccent, not CardFace: since the 2026-09-14 alignment on the web the accent is
         // drops to 3.28:1 (light) / 2.60:1 (dark), below the 4.5:1 AA floor. See
-        // BacchanaColors.TileInk KDoc.
+        // BacchanaColors.OnAccent KDoc.
         colors = ButtonDefaults.buttonColors(
             containerColor = BacchanaColors.Neon,
-            contentColor = BacchanaColors.TileInk,
+            contentColor = BacchanaColors.OnAccent,
             disabledContainerColor = BacchanaColors.NeonSoft,
-            disabledContentColor = BacchanaColors.TileInk,
+            disabledContentColor = BacchanaColors.OnAccent,
         ),
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
@@ -408,8 +408,8 @@ private fun WouldYouRatherRecap(state: WouldYouRatherSessionState, onReplay: () 
 
         Button(
             onClick = onReplay,
-            // TileInk, not CardFace: see BacchanaColors.TileInk KDoc.
-            colors = ButtonDefaults.buttonColors(containerColor = BacchanaColors.Neon, contentColor = BacchanaColors.TileInk),
+            // OnAccent, not CardFace: see BacchanaColors.OnAccent KDoc.
+            colors = ButtonDefaults.buttonColors(containerColor = BacchanaColors.Neon, contentColor = BacchanaColors.OnAccent),
             modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
         ) {
             Text(stringResource(R.string.recap_replay))
