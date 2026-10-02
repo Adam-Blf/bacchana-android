@@ -91,6 +91,19 @@ flowchart TD
     Palette --> ContrastTest
 
     app -->|":app depend de :core, jamais l'inverse"| core
+
+    classDef c0 fill:#2563eb,stroke:#1e3a8a,stroke-width:2px,color:#ffffff
+    classDef c1 fill:#7c3aed,stroke:#4c1d95,stroke-width:2px,color:#ffffff
+    classDef c2 fill:#0891b2,stroke:#164e63,stroke-width:2px,color:#ffffff
+    classDef c3 fill:#16a34a,stroke:#14532d,stroke-width:2px,color:#ffffff
+    class Packs,Tokens c0
+    class Sync,Assets,PremiumCatalog,Deck,Engine,Prompt,Tribunal,Auction,Quiz,Ranking,WYR,Roulette,Plan,Model,Targeting,Palette,Wcag,ContrastTest c1
+    class Repo,AppRoot,VM,Hub,Modes,Welcome,Paywall,Theme,Store,ThemeStore,Consent,Billing,Analytics c2
+    class RC,PH c3
+    style content fill:#2563eb14,stroke:#1e3a8a,stroke-width:1px,stroke-dasharray:4 3
+    style core fill:#7c3aed14,stroke:#4c1d95,stroke-width:1px,stroke-dasharray:4 3
+    style app fill:#0891b214,stroke:#164e63,stroke-width:1px,stroke-dasharray:4 3
+    style external fill:#16a34a14,stroke:#14532d,stroke-width:1px,stroke-dasharray:4 3
 ```
 
 ## Les couches

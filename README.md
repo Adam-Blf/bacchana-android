@@ -85,7 +85,7 @@ flowchart TD
     end
 
     subgraph external["Services externes (gated par cle API)"]
-        RC[RevenueCat - entitlement "Bacchana Pro"]
+        RC["RevenueCat - entitlement #quot;Bacchana Pro#quot;"]
         PH[PostHog EU - eu.i.posthog.com]
     end
 
@@ -103,13 +103,26 @@ flowchart TD
     Settings --> Consent
     Settings --> ThemeStoreNode
     Paywall --> Billing
-    Billing -.BuildConfig.BILLING_ENABLED = cle RevenueCat presente.-> RC
-    Analytics -.BuildConfig.ANALYTICS_ENABLED = cle PostHog presente ET consentement.-> PH
-    Tokens -.source des couleurs Compose, clair + sombre.-> UI
+    Billing -.->|"BuildConfig.BILLING_ENABLED = cle RevenueCat presente"| RC
+    Analytics -.->|"BuildConfig.ANALYTICS_ENABLED = cle PostHog presente ET consentement"| PH
+    Tokens -.->|"source des couleurs Compose, clair + sombre"| UI
     Palette -->|Color.kt construit Color depuis PaletteColor, jamais un hex recopie| UI
     Palette --> Wcag
     Wcag --> ContrastTest
     Palette --> ContrastTest
+
+    classDef c0 fill:#2563eb,stroke:#1e3a8a,stroke-width:2px,color:#ffffff
+    classDef c1 fill:#7c3aed,stroke:#4c1d95,stroke-width:2px,color:#ffffff
+    classDef c2 fill:#0891b2,stroke:#164e63,stroke-width:2px,color:#ffffff
+    classDef c3 fill:#16a34a,stroke:#14532d,stroke-width:2px,color:#ffffff
+    class Deck,Contest,Engine,Prompt,Interp,Tribunal,Auction,Quiz,Ranking,WYR,Targeting,Palette,Wcag,ContrastTest c0
+    class Packs,Tokens,Sync c1
+    class Assets,PremiumCatalog,Repo,VM,UI,Settings,Store,Consent,ThemeStoreNode,Billing,Analytics,Paywall c2
+    class RC,PH c3
+    style core fill:#2563eb14,stroke:#1e3a8a,stroke-width:1px,stroke-dasharray:4 3
+    style content fill:#7c3aed14,stroke:#4c1d95,stroke-width:1px,stroke-dasharray:4 3
+    style app fill:#0891b214,stroke:#164e63,stroke-width:1px,stroke-dasharray:4 3
+    style external fill:#16a34a14,stroke:#14532d,stroke-width:1px,stroke-dasharray:4 3
 ```
 
 - **`:core`** est un module Kotlin JVM pur (aucune dépendance Android) : le
