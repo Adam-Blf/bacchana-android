@@ -27,6 +27,9 @@ jobs:
 
       - name: Set up Android SDK
         uses: android-actions/setup-android@9fc6c4e9069bf8d3d10b2204b1fb8f6ef7065407 # v3.2.2
+        with:
+          # the default 'tools' package no longer exists on current runners
+          packages: platform-tools
 
       # Le jar du wrapper est un BINAIRE commite. Son diff n'est pas lisible dans
       # l'interface de GitHub, donc une PR qui le remplace passe la revue humaine

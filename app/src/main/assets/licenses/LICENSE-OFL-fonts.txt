@@ -1,4 +1,4 @@
-Les fontes de ce répertoire sont sous SIL Open Font License, Version 1.1.
+Les fontes de app/src/main/res/font/ sont sous SIL Open Font License, Version 1.1.
 Elles ne sont PAS couvertes par le LICENSE du dépôt, qui ne porte que sur le
 code et le contenu d'Adam Beloucif.
 

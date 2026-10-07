@@ -22,10 +22,10 @@ POLICES DE CARACTÈRES
 
 Les fontes embarquées dans `app/src/main/res/font/` - Anton, Space Grotesk
 et Space Mono - restent sous SIL Open Font License 1.1, qui est leur licence et
-non la nôtre. Son texte complet accompagne désormais les fichiers, dans
-`app/src/main/res/font/LICENSE-OFL.txt`, parce que l'OFL exige que sa notice
-voyage avec les fontes qu'elle couvre. Ce fichier manquait jusqu'au
-2026-08-31.
+non la nôtre. Son texte complet voyage avec elles dans l'APK, dans
+`app/src/main/assets/licenses/LICENSE-OFL-fonts.txt`, parce que l'OFL exige que
+sa notice accompagne les fontes qu'elle couvre. Il ne peut pas vivre dans
+`res/font/`, où Android refuse tout fichier qui n'est pas une fonte ou un XML.
 
 Aucune police n'est la propriété d'Adam Beloucif, et rien dans le présent
 fichier ne restreint les droits que l'OFL accorde sur elles.
