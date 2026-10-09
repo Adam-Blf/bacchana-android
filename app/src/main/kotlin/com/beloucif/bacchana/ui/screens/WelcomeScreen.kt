@@ -22,9 +22,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -49,6 +46,7 @@ import com.beloucif.bacchana.R
 import com.beloucif.bacchana.core.Gender
 import com.beloucif.bacchana.core.Player
 import com.beloucif.bacchana.core.Relationship
+import com.beloucif.bacchana.ui.icons.ReiconIcons
 import com.beloucif.bacchana.ui.theme.BacchanaColors
 
 private val GENDER_OPTIONS = listOf(
@@ -125,7 +123,7 @@ fun WelcomeScreen(
                 // TileInk, not Ink: icon sits on a NeonDeep fill, which stays light in both
                 // themes (see BacchanaColors.TileInk KDoc) - Ink inverted to near-white in dark
                 // theme made this icon disappear against NeonDeep.
-                Icon(Icons.Filled.Add, contentDescription = stringResource(R.string.welcome_add_player), tint = BacchanaColors.TileInk)
+                Icon(ReiconIcons.Add, contentDescription = stringResource(R.string.welcome_add_player), tint = BacchanaColors.TileInk)
             }
         }
 
@@ -220,7 +218,7 @@ private fun PlayerRow(
             )
             IconButton(onClick = onRemove) {
                 Icon(
-                    Icons.Filled.Close,
+                    ReiconIcons.Close,
                     contentDescription = stringResource(R.string.welcome_remove_player, player.name),
                     tint = BacchanaColors.InkMuted,
                 )

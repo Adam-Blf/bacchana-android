@@ -16,9 +16,6 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -42,6 +39,7 @@ import com.beloucif.bacchana.R
 import com.beloucif.bacchana.analytics.AnalyticsTracker
 import com.beloucif.bacchana.content.PremiumCatalogEntry
 import com.beloucif.bacchana.core.PremiumPlan
+import com.beloucif.bacchana.ui.icons.ReiconIcons
 import com.beloucif.bacchana.ui.theme.BacchanaColors
 import kotlinx.coroutines.launch
 
@@ -96,10 +94,10 @@ fun PaywallScreen(
                     .background(BacchanaColors.Premium.copy(alpha = 0.12f), RoundedCornerShape(24.dp)),
                 contentAlignment = Alignment.Center,
             ) {
-                Icon(Icons.Filled.Lock, contentDescription = null, tint = BacchanaColors.Premium)
+                Icon(ReiconIcons.Lock, contentDescription = null, tint = BacchanaColors.Premium)
             }
             IconButton(onClick = ::close) {
-                Icon(Icons.Filled.Close, contentDescription = stringResource(R.string.paywall_close), tint = BacchanaColors.InkMuted)
+                Icon(ReiconIcons.Close, contentDescription = stringResource(R.string.paywall_close), tint = BacchanaColors.InkMuted)
             }
         }
 

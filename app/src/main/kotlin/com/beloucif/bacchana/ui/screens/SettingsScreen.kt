@@ -15,8 +15,6 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
@@ -38,6 +36,7 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.beloucif.bacchana.R
+import com.beloucif.bacchana.ui.icons.ReiconIcons
 import com.beloucif.bacchana.ui.theme.BacchanaColors
 import com.beloucif.bacchana.ui.theme.ThemePreference
 import com.beloucif.bacchana.ui.theme.resolve
@@ -109,7 +108,7 @@ fun SettingsScreen(
                 modifier = Modifier.defaultMinSize(minWidth = 44.dp, minHeight = 44.dp),
             ) {
                 Icon(
-                    Icons.Filled.ArrowBack,
+                    ReiconIcons.ArrowBack,
                     contentDescription = stringResource(R.string.settings_back_description),
                     tint = BacchanaColors.Ink,
                 )

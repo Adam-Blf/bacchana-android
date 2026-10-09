@@ -18,9 +18,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -49,6 +46,7 @@ import androidx.compose.ui.unit.dp
 import com.beloucif.bacchana.R
 import com.beloucif.bacchana.core.AUCTION_THEMES
 import com.beloucif.bacchana.core.AuctionTheme
+import com.beloucif.bacchana.ui.icons.ReiconIcons
 import com.beloucif.bacchana.ui.theme.BacchanaColors
 import kotlinx.coroutines.delay
 
@@ -152,7 +150,7 @@ fun AuctionScreen(onQuit: (roundsPlayed: Int) -> Unit) {
                     .border(2.dp, BacchanaColors.Ink, CircleShape)
                     .semantics { contentDescription = context.getString(R.string.auction_quit_description) },
             ) {
-                Icon(Icons.Filled.Close, contentDescription = null, tint = BacchanaColors.Ink)
+                Icon(ReiconIcons.Close, contentDescription = null, tint = BacchanaColors.Ink)
             }
         }
 
@@ -279,7 +277,7 @@ private fun AuctionBidding(bid: Int, onDecrease: () -> Unit, onIncrease: () -> U
                 textAlign = TextAlign.Center,
             )
             StepperIconButton(
-                icon = Icons.Filled.Add,
+                icon = ReiconIcons.Add,
                 description = stringResource(R.string.auction_increase_bid),
                 background = BacchanaColors.Premium,
                 onClick = onIncrease,
@@ -320,7 +318,7 @@ private fun AuctionChallenge(secondsLeft: Int, cited: Int, bid: Int, onDecrease:
                 textAlign = TextAlign.Center,
             )
             StepperIconButton(
-                icon = Icons.Filled.Add,
+                icon = ReiconIcons.Add,
                 description = stringResource(R.string.auction_increase_cited),
                 background = BacchanaColors.Success,
                 onClick = onCite,
