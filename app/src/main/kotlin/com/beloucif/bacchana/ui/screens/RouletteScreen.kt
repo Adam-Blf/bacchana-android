@@ -24,8 +24,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -57,6 +55,7 @@ import androidx.compose.ui.unit.dp
 import com.beloucif.bacchana.R
 import com.beloucif.bacchana.core.ROULETTE_SEGMENTS
 import com.beloucif.bacchana.core.RouletteSegment
+import com.beloucif.bacchana.ui.icons.ReiconIcons
 import com.beloucif.bacchana.ui.theme.BacchanaColors
 import kotlin.math.ceil
 import kotlin.random.Random
@@ -142,7 +141,7 @@ fun RouletteScreen(onQuit: (spinsPlayed: Int) -> Unit) {
                     .border(2.dp, BacchanaColors.Ink, CircleShape)
                     .semantics { contentDescription = context.getString(R.string.roulette_quit_description) },
             ) {
-                Icon(Icons.Filled.Close, contentDescription = null, tint = BacchanaColors.Ink)
+                Icon(ReiconIcons.Close, contentDescription = null, tint = BacchanaColors.Ink)
             }
         }
 

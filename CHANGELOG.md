@@ -1,5 +1,9 @@
 # Changelog
 
+## [Non publié]
+
+- icônes : migration des icônes vers Reicon (fermer, ajouter, réglages, cadenas, valider, retour), plus aucune dépendance aux icônes Material
+
 ## [0.18.0] - 2026-08-31
 
 ### API 36, parce que la date est passee

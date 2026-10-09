@@ -22,8 +22,6 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -46,6 +44,7 @@ import com.beloucif.bacchana.R
 import com.beloucif.bacchana.content.PackRepository
 import com.beloucif.bacchana.content.PremiumCatalogEntry
 import com.beloucif.bacchana.core.GameMode
+import com.beloucif.bacchana.ui.icons.ReiconIcons
 import com.beloucif.bacchana.ui.theme.BacchanaColors
 import com.beloucif.bacchana.ui.theme.ThemePreference
 import com.beloucif.bacchana.ui.theme.resolve
@@ -109,7 +108,7 @@ fun HubScreen(
                     modifier = Modifier.defaultMinSize(minWidth = 44.dp, minHeight = 44.dp),
                 ) {
                     Icon(
-                        Icons.Filled.Settings,
+                        ReiconIcons.Settings,
                         contentDescription = stringResource(R.string.hub_settings_description),
                         tint = BacchanaColors.Ink,
                     )

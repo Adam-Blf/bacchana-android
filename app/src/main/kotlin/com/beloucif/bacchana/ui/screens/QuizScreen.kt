@@ -19,8 +19,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -57,6 +55,7 @@ import com.beloucif.bacchana.core.createQuizSession
 import com.beloucif.bacchana.core.distributePot
 import com.beloucif.bacchana.core.getCurrentQuizPlayer
 import com.beloucif.bacchana.core.keepPot
+import com.beloucif.bacchana.ui.icons.ReiconIcons
 import com.beloucif.bacchana.ui.theme.BacchanaColors
 
 /**
@@ -121,7 +120,7 @@ fun QuizScreen(players: List<Player>, onQuit: (turnsPlayed: Int) -> Unit) {
                     .border(2.dp, BacchanaColors.Ink, CircleShape)
                     .semantics { contentDescription = context.getString(R.string.quiz_quit_description) },
             ) {
-                Icon(Icons.Filled.Close, contentDescription = null, tint = BacchanaColors.Ink)
+                Icon(ReiconIcons.Close, contentDescription = null, tint = BacchanaColors.Ink)
             }
         }
 

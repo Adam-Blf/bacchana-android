@@ -21,9 +21,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -63,6 +60,7 @@ import com.beloucif.bacchana.core.nextRound
 import com.beloucif.bacchana.core.startGuessing
 import com.beloucif.bacchana.core.startJudging
 import com.beloucif.bacchana.core.toggleRanked
+import com.beloucif.bacchana.ui.icons.ReiconIcons
 import com.beloucif.bacchana.ui.theme.BacchanaColors
 
 /**
@@ -116,7 +114,7 @@ fun RankingScreen(players: List<Player>, onQuit: (roundsPlayed: Int) -> Unit) {
                     .border(2.dp, BacchanaColors.Ink, CircleShape)
                     .semantics { contentDescription = context.getString(R.string.ranking_quit_description) },
             ) {
-                Icon(Icons.Filled.Close, contentDescription = null, tint = BacchanaColors.Ink)
+                Icon(ReiconIcons.Close, contentDescription = null, tint = BacchanaColors.Ink)
             }
         }
 
@@ -463,7 +461,7 @@ private fun RankingGuessing(
                         modifier = Modifier.weight(1f),
                     )
                     if (phase == RankingPhase.REVEAL && isReal) {
-                        Icon(Icons.Filled.Check, contentDescription = null, tint = BacchanaColors.OnStatus)
+                        Icon(ReiconIcons.Check, contentDescription = null, tint = BacchanaColors.OnStatus)
                     }
                 }
             }
